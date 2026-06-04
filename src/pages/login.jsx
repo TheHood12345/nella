@@ -30,7 +30,7 @@ function Login(){
         }).catch((err)=>{
             set_loading(false);
             console.log(`nope: ${err}`)
-            // navigate("/");
+            navigate("/nella");
         });
     }
 
