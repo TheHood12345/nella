@@ -3,6 +3,8 @@ import { FaArrowDown, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
 
 function Menu(){
 
+    const url="https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business"
+
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [x,set_x]=useState("Filter Enabled");
     const [q,set_q]=useState(false);
