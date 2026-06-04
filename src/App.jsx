@@ -5,6 +5,7 @@ import Email from "./pages/email"
 import Nella from './pages/nella'
 import Login from './pages/login'
 import Signup from "./pages/signup"
+import P_Home from './pharm/p_home'
 
 function App() {
 
@@ -14,6 +15,8 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/nella' element={<Nella/>}/>
+
+      <Route path='/p_home' element={<P_Home/>}/>
 
 
       {/* <Route path='/pvc/analyze' element={<Level1/>}/>

@@ -470,3 +470,20 @@ input:focus{
 /* .up:hover{
   box-shadow: "0px 0px 20px gray";
 } */
+
+@media screen and (max-width:600px) {
+  #p_phone{
+    display: flex;
+  }
+  #p_laptop{
+    display: none;
+  }
+}
+@media screen and (min-width:601px) {
+  #p_phone{
+    display: none;
+  }
+  #p_laptop{
+    display: flex;
+  }
+}
