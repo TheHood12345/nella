@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { FaCartPlus, FaHistory, FaHome, FaLeaf, FaList, FaMailBulk, FaPhone, FaProductHunt, FaStore } from "react-icons/fa";
 
-function Drawer({drawer_width,set_drawer_width,drawer,set_drawer}){
+function Drawer({drawer_width,set_drawer_width,drawer,set_drawer,day}){
 
     return (
-        <div style={{width:`${drawer_width}%`,height:"90%",overflow:"hidden",transition:"all 0.1s linear",position:"absolute",top:"10%",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"end",backgroundColor:"rgba(230,230,230,0.7)"}}>
-                <div style={{width:"40%",height:"100%"}} onClick={()=>{
+        <div style={{width:`${drawer_width}%`,height:"90%",overflow:"hidden",transition:"all 0.1s linear",position:"absolute",top:"10%",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"end"}}>
+                <div style={{width:"40%",height:"100%",backgroundColor:"rgba(200,200,200,0.6)"}} onClick={()=>{
                     set_drawer(false);
                     set_drawer_width(0);
-                    
                 }}></div>
-                <div style={{width:"60%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-between",backgroundColor:"white"}}>
-                    <div style={{width:"90%",height:"10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start",backgroundColor:"white"}}>
-                        <div style={{color:"orange",cursor:"pointer",width:"90%",border:"1px solid orange",textAlign:"center"}}>Create account</div>
+                <div style={{width:"60%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-between",backgroundColor:"white",color:"rgb(18,22,28)"}}>
+                    <div style={{width:"90%",height:"10%",marginTop:day==true?"0":"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start",backgroundColor:"white"}}>
+                        <div style={{color:"orange",cursor:"pointer",width:"90%",border:"1px solid orange",textAlign:"center"}} onClick={()=>{
+                            // navigate("/signup");
+                        }}>Create account</div>
                         <hr style={{width:"90%",border:"1px solid orange"}}/>
                     </div>
                     <div style={{width:"90%",fontSize:"12px",height:"80%",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"space-between",backgroundColor:"white"}}>
@@ -78,7 +79,9 @@ function Drawer({drawer_width,set_drawer_width,drawer,set_drawer}){
                      </div>
 
                     </div>
-                    <div style={{width:"100%",height:"10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white"}}>
+                    <div style={{width:"100%",height:"10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white"}} onClick={()=>{
+                        // navigate("/login");
+                    }}>
                         <div>Sign in</div>
                     </div>
                 </div>

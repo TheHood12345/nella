@@ -1,73 +1,85 @@
-import { FaArrowRight, FaCaretRight, FaCartPlus, FaLeaf, FaSearch } from "react-icons/fa";
+import { FaArrowRight, FaCaretRight, FaCartPlus, FaCertificate, FaImage, FaLeaf, FaPlus, FaSearch } from "react-icons/fa";
 
-function P_landing_1(){
+function P_landing_1({day}){
 
     return (
-        <div style={{width:"100%",height:"90%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center"}}>
-            {/* <div style={{width:"100%",height:"20%",paddingTop:"10px",paddingBottom:"10px",backgroundImage:"url(/im_b.svg)",color:"white",backgroundSize:"cover",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-between"}}>
-                <div style={{color:"orange",width:"100%",height:"10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                    <div>Announcements</div>
-                </div>
-                <div style={{color:"orange",width:"100%",height:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-                    <div style={{width:"100%",height:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"flex-start",overflowX:"scroll"}}>
-                    {
-                        [1,2,3,4,5,6,7,8,9].map((item,index)=>{
-                            return(
-                            <div key={index} style={{width:"100px",height:"100%",marginRight:"20%",backgroundColor:"transparent",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-between"}}>
-                                <img src={"/im_sand.svg"} style={{width:"auto",height:"80%"}}/>
-                                <div style={{width:"100%",height:"20%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-                                    <div style={{textDecoration:"underline",color:"rgb(18,22,28)"}}>Open{item}</div>
-                                </div>
-                            </div>)
-                        })
-                    }
-                    </div>
-                    <div style={{color:"orange",width:"97%",height:"10%",textAlign:"end"}}>See all <FaArrowRight/></div>
-                </div>
-            </div> */}
+        <div style={{width:"100%",height:"90%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>
 
-            <div style={{width:"100%",backgroundImage:"url(/im_b.svg)",backgroundPosition:"center",backgroundSize:"cover",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"6px"}}>
-                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",border:"1px solid orange",color:"orange",cursor:"pointer"}}>Make Order <FaCartPlus/></div>
-                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",border:"1px solid orange",color:"white",cursor:"pointer"}}><div>View Products</div> <FaCaretRight/></div>
-            </div>
-            <div style={{width:"100%",height:"10%",backgroundImage:"url(/im_b.svg)",backgroundPosition:"center",backgroundSize:"cover",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"6px"}}>
-                <div style={{width:"70%",height:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",border:"1px solid orange",color:"orange",cursor:"pointer"}}>
-                    <input type="text" placeholder="Search Available Drugs" style={{color:"orange",border:"0px",cursor:"pointer",width:"100%",height:"100%"}}/>
+            <div style={{width:"100%",backgroundColor:"rgb(240,240,240)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:"90%",backgroundColor:"rgb(240,240,240)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <FaSearch size={20} color="rgb(18,22,28)"/>
+                    <input type="text" style={{paddingTop:"10px",paddingBottom:"10px",width:"90%",paddingLeft:"6px",paddingRight:"6px",border:"0px",backgroundColor:"transparent"}} placeholder="Search for medicines, brands or symptoms..."/>
                 </div>
-                <div style={{width:"30%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",border:"1px solid orange",color:"white",cursor:"pointer"}}><div>Search</div> <FaSearch/></div>
             </div>
-            {/* <div style={{width:"100%",color:"rgb(18,22,28)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                    <div style={{color:"orange",cursor:"pointer",width:"80%",height:"100%"}}>
-                        <input type="text" placeholder="Search Available Drugs" style={{color:"orange",cursor:"pointer",width:"100%",height:"100%"}}/>
-                    </div>
-                    <div style={{color:"orange",height:"100%",cursor:"pointer",width:"20%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white"}}>
-                        <div>Search  </div>
-                        <FaSearch size={20}/>
-                    </div>
-            </div> */}
-            <div style={{width:"100%",marginTop:"20px",color:"rgb(18,22,28)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-                <div style={{width:"90%",color:"rgb(18,22,28)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                    <div>New arrivals</div>
+
+            <div style={{width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",color:"orange"}}>
+                <div style={{width:"70%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundImage:"linear-gradient(to right,red,orange)",color:"transparent",backgroundClip:"text",verflow:"scroll",borderBottom:"0.1px solid orange",fontSize:"10px"}}>Fast, Reliable & Secure Delivery!</div>
+            </div>
+
+            <div style={{width:"70%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",color:"orange",backgroundImage:"linear-gradient(to right,red,orange)",borderRadius:"4px",marginTop:"4px",color:"white"}}>
+                <div style={{width:"70%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}><FaCartPlus/>MAKE ORDER</div>
+            </div>
+
+            <div style={{width:"100%",marginTop:"1%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div style={{fontFamily:"arial,sans-serif",color:"black",fontWeight:"bold"}}>Browse Categories</div>
                     <div style={{color:"orange",cursor:"pointer"}}>See all <FaArrowRight/></div>
                 </div>
-                <div style={{width:"100%",color:"rgb(18,22,28)",display:"grid",flexDirection:"row",gridTemplateColumns:"repeat(2, 1fr)",gap:"3px"}}>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",overflowX:"auto",gap:"10px",scrollSnapType:"x mandatory"}}>
+                    {
+                        ["Prescriptions","OTC","Wellness","Vitamins","First Aid","Personal Care","Skin Care","Energy","Antibiotics"].map((item,index)=>{
+                            return (
+                                <div key={index} style={{height:"100%",flex:"0 0 10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",scrollSnapAlign:"center",cursor:"pointer"}}>  
+                                    <div style={{width:"100%",background:"rgb(240,240,240)",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                                        <div style={{width:"40%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                                            <FaLeaf size={60}/>
+                                        </div>
+                                    </div>
+                                    <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                        <div style={{fontSize:"10px"}}>{item}</div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+
+            {/* <div style={{width:"100%",backgroundPosition:"center",backgroundSize:"cover",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"6px"}}>
+                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",border:"1px solid orange",color:"orange",cursor:"pointer",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>Make Order <FaCartPlus/></div>
+                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",border:"1px solid orange",color:"white",cursor:"pointer"}}><div>View Products</div> <FaCaretRight/></div>
+            </div> */}
+
+            <hr style={{width:"80%"}}/>
+            
+            
+            <div style={{width:"100%",marginTop:"1%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div style={{fontFamily:"arial,sans-serif",color:"black",fontWeight:"bold"}}>Drugs & Health Products</div>
+                    <div style={{color:"orange",cursor:"pointer"}}>See all <FaArrowRight/></div>
+                </div>
+                <div style={{width:"100%",display:"flex",flexDirection:"row",gap:"10px",overflow:"scroll",scrollSnapType:"x mandatory"}}>
                     {
                         [1,2,3,4,5].map((item,index)=>{
                             return (
-                                <div key={index} style={{width:"100%",color:"rgb(18,22,28)",boxShadow:"0px 0px 10px rgb(200,200,200)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>  
-                                    <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",color:"rgb(18,22,28)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>{item}</div>
-                                    <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",color:"rgb(18,22,28)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                <div key={index} style={{height:"100%",flex:"0 0 50%",boxShadow:"0px 0px 10px rgb(240,240,240)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",fontSize:"10px",scrollSnapAlign:"center"}}>  
+                                    <div style={{width:"90%",position:"relative",background:"rgb(240,240,240)",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:"6px"}}>
+                                        <div style={{width:"40%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                                            <FaLeaf size={60}/>
+                                        </div>
+                                        <div style={{position:"absolute",right:"0%",top:"0%",backgroundImage:"linear-gradient(to right,rgba(18,22,28,0.9),rgba(30,30,30,0.9))",color:"white",width:"50%",textAlign:"center",borderRadius:"10px"}}>In Stock</div>
+                                    </div>
+                                    <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                                         
-                                        <div style={{width:"70%",color:"rgb(18,22,28)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                                            {/* <div>Name:</div> */}
-                                            <div>Paracetamol</div>
+                                        <div style={{width:"70%",fontFamily:"arial,sans-serif",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"center"}}>
+                                            <div style={{color:"black",fontWeight:"bold"}}>Paracetamol 500mg</div>
+                                            <div>Tablets (30s)</div>
+                                            <div>MediLab</div>
+                                            <div style={{color:"black",fontWeight:"bold",fontSize:"14px",width:"90%",textAlign:"center"}}>#200</div>
                                         </div>
-                                        <div style={{width:"70%",color:"rgb(18,22,28)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                                            {/* <div>Price:</div> */}
-                                            <div>#200</div>
-                                        </div>
-                                        <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
-                                            <div>Purchase<FaCartPlus/></div>
+                                        <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly",backgroundColor:"orange",cursor:"pointer",borderRadius:"6px",position:"relative"}}>
+                                            <div>ADD TO CART</div>
+                                            <FaPlus size={12}/>
                                         </div>
                                     </div>
                                 </div>
@@ -76,6 +88,90 @@ function P_landing_1(){
                     }
                 </div>
             </div>
+
+            {/* <div style={{width:"100%",backgroundPosition:"center",backgroundSize:"cover",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"6px"}}>
+                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",border:"1px solid orange",color:"orange",cursor:"pointer",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>Make Order <FaCartPlus/></div>
+                <div style={{width:"50%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",border:"1px solid orange",color:"white",cursor:"pointer"}}><div>View Products</div> <FaCaretRight/></div>
+            </div> */}
+
+            <hr style={{width:"80%"}}/>
+
+             <div style={{width:"100%",marginTop:"1%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:day==true?"white":"rgb(18,22,28)",color:day==true?"rgb(18,22,28)":"white"}}>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div style={{fontFamily:"arial,sans-serif",color:"black",fontWeight:"bold"}}>Drugs & Health Products</div>
+                    <div style={{color:"orange",cursor:"pointer"}}>See all <FaArrowRight/></div>
+                </div>
+                <div style={{width:"100%",display:"flex",flexDirection:"row",gap:"10px",overflow:"scroll",scrollSnapType:"x mandatory"}}>
+                    {
+                        [1,2,3,4,5].map((item,index)=>{
+                            return (
+                                <div key={index} style={{height:"100%",flex:"0 0 50%",boxShadow:"0px 0px 10px rgb(240,240,240)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",fontSize:"10px",scrollSnapAlign:"center"}}>  
+                                    <div style={{width:"90%",position:"relative",background:"rgb(240,240,240)",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:"6px"}}>
+                                        <div style={{width:"40%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                                            <FaLeaf size={60}/>
+                                        </div>
+                                        <div style={{position:"absolute",right:"0%",top:"0%",backgroundImage:"linear-gradient(to right,rgba(18,22,28,0.9),rgba(30,30,30,0.9))",color:"white",width:"50%",textAlign:"center",borderRadius:"10px"}}>In Stock</div>
+                                    </div>
+                                    <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                        
+                                        <div style={{width:"70%",fontFamily:"arial,sans-serif",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"center"}}>
+                                            <div style={{color:"black",fontWeight:"bold"}}>Paracetamol 500mg</div>
+                                            <div>Tablets (30s)</div>
+                                            <div>MediLab</div>
+                                            <div style={{color:"black",fontWeight:"bold",fontSize:"14px",width:"90%",textAlign:"center"}}>#200</div>
+                                        </div>
+                                        <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly",backgroundColor:"orange",cursor:"pointer",borderRadius:"6px",position:"relative"}}>
+                                            <div>ADD TO CART</div>
+                                            <FaPlus size={12}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+             
+
+            
+
+            {/* <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",marginTop:"10px",boxShadow:"0px 0px 10px rgb(200,200,200)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                <div>OPEN HOURS</div>
+                <div>10 HOURS DAILY SERVICE</div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Monday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Tuesday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Wednesday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Thursday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Friday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Saturday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+                <div style={{width:"90%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div>Sunday</div>
+                    <div>8AM to 6PM</div>
+                </div>
+            </div> */}
+            {/* <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",marginTop:"10px",boxShadow:"0px 0px 10px rgb(200,200,200)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                <div>CERTIFIED & TRUSTED</div>
+                <div><FaCertificate/> NDLEA</div>
+                <div><FaCertificate/> NAFDAC</div>
+            </div> */}
 
         </div>
     );
