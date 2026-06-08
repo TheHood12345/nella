@@ -5,11 +5,13 @@ import { data, Link, useNavigate } from "react-router-dom";
 
 function Login(){
     const log_data = "https://backend-test.nellalink.com/public/api/v1/nellalink/user/login"
+    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94"
     const [eye,set_eye] = useState(false);
     const [c_p,set_c_p]=useState(false);
 
     const [email,set_email] = useState("");
     const [password,set_password] = useState("");
+    const [token,set_token] = useState("");
 
     const [old_password,set_old_password] = useState("");
     const [new_password,set_new_password] = useState("");
@@ -26,19 +28,20 @@ function Login(){
         await fetch(log_data,{
             method:"post",
             headers:{
-                "x-api-key": 123
+                "Content-Type":"application/json",
+                "x-api-key": api
             },
             body: JSON.stringify({
-                email: email,
-                password: password
+                email: email.toString(),
+                password: password.toString()
             })
         }).then((res)=>res.json()).then((data)=>{
-            if(data.status==true || data.status=="true" || data.status_code==200 || data.message=="Login successful."){
+            if(data.status==true){
                 navigate("/nella")
-                console.log("login successful",data)
+                console.log("login successful: ",data)
             }else{
                 set_loading(false);
-                console.log("Could not login",data.message);
+                console.log("Could not login: ",data);
             }
         }).catch((err)=>{
             set_loading(false);
@@ -51,14 +54,15 @@ function Login(){
         await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/change-password",{
             method:"post",
             headers:{
-                "x-api-key": 123
+                "Content-Type":"application/json",
+                "x-api-key": api
             },
             body: JSON.stringify({
-                email: email
+                email_address: email
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
-                navigate("/nella")
+                //navigate("/nella")
                 console.log("Token sent to email address",data)
             }else{
                 set_loading(false);
@@ -76,7 +80,8 @@ function Login(){
         await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/change-password/validate",{
             method:"post",
             headers:{
-                "x-api-key": 123
+                "Content-Type":"application/json",
+                "x-api-key": api
             },
             body: JSON.stringify({
                 email_address: email,
@@ -166,7 +171,13 @@ function Login(){
                         set_confirm_new_password(e.target.value)
                     }} placeholder="Confirm new password" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
-                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"10px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){change_password()}}}>{loading==false?"Change password":"Loading.."}</div>
+                <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
+                    <div>Enter Token</div>
+                    <input type="text" value={token} onChange={(e)=>{
+                        set_token(e.target.value)
+                    }} placeholder="Token..." style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                </div>
+                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){change_password()}}}>{loading==false?"Change password":"Loading.."}</div>
             </div>}
         </div>
     );
