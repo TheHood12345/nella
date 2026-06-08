@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash, FaGoogle, FaTwitter } from "react-icons/fa";
 import { data, Link, useNavigate } from "react-router-dom";
 
 function Signup(){
-    const log_data = "https://backend-sbs.nellalink.com/public/api/v1/nellalink/auth/user/register"
+    const log_data = "https://backend-test.nellalink.com/public/api/v1/nellalink/user/register"
     const [eye,set_eye] = useState(false);
     const [c_eye,set_c_eye] = useState(false);
 
@@ -17,7 +17,6 @@ function Signup(){
     const navigate = useNavigate();
 
     async function login(){
-        if(first_name==last_name && first_name != "" && first_name != "" && first_name != ""){
         set_loading(true);
         console.log(first_name)
         console.log(last_name)
@@ -27,23 +26,53 @@ function Signup(){
         
          await fetch(log_data,{
             method:"post",
+            headers:{
+                "x-api-key": 123
+            },
             body: JSON.stringify({
                 first_name:first_name,
                 last_name:last_name,
                 email: email,
                 password: password
             })
-         }).then((res)=>{
-            // console.log(res.text());
+         }).then((res)=>res.json()).then((data)=>{
             set_loading(false);
-            navigate("/login");
+            if(data.status==true){
+                console.log("Successfully registered ",data);
+                navigate("/login");
+            }else{
+                console.log("Could not register",data)
+            }
         }).catch((err)=>{
             console.log(`nope: ${err}`);
             set_loading(false);
         });
-        }
     }
 
+    async function verify_email(){
+        set_loading(true);
+        
+         await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/verify-email-address",{
+            method:"post",
+            headers:{
+                "x-api-key": 123
+            },
+            body: JSON.stringify({
+                email: email
+            })
+         }).then((res)=>res.json()).then(async(data)=>{
+            set_loading(false);
+            if(data.status==true){
+                console.log("Email verified successfully",data);
+                await login()
+            }else{
+                console.log("Could not verify email",data.message)
+            }
+        }).catch((err)=>{
+            console.log(`nope: ${err}`);
+            set_loading(false);
+        });
+    }
     return (
         <div style={{width:"100%",height:"100%",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"90%",height:"90%",overflow:"scroll",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
@@ -93,7 +122,7 @@ function Signup(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Create Account":"loading.."}</div>
+                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){verify_email()}}}>{loading==false?"Create Account":"loading.."}</div>
                 
             </div>
         </div>
