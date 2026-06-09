@@ -77,16 +77,13 @@ function Nella(){
         }
     ]
     useEffect(()=>{
-        setTimeout(()=>{
           if(!token){
             navigate("/login");
             localStorage.removeItem("token");
             localStorage.removeItem("name");
             localStorage.removeItem("username");
             localStorage.removeItem("email");
-        }  
-        },2000);
-        
+        } 
     },[]);
 
     async function send_token_email_v(){
