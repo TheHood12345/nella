@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaHome, FaBusinessTime, FaBookOpen, FaOutdent, FaBell, FaList, FaOpencart, FaListOl, FaArrowUp, FaArrowDown, FaCalendar } from "react-icons/fa";
-import { FaBoltLightning, FaComputer, FaFileLines, FaI, FaMessage, FaPeopleGroup, FaPerson, FaRightToBracket } from "react-icons/fa6";
+import { FaBoltLightning, FaCircleXmark, FaComputer, FaFileLines, FaI, FaMessage, FaPeopleGroup, FaPerson, FaRightToBracket } from "react-icons/fa6";
 import Business from "./business";
 import Home from "./home";
 import Menu from "./menu";
@@ -8,12 +8,27 @@ import { useNavigate } from "react-router-dom";
 
 function Nella(){
 
+    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
     const [q,set_q] = useState(1);
     const [logout,set_logout] = useState(false);
     const token = localStorage.getItem("token");
     const [drawer1,set_drawer1] = useState(false);
+    const [show_verify_anim,set_show_verify_anim] = useState(true);
+
+    const [show_v1,set_show_v1] = useState(false);
+
+    const [c_token,set_c_token] = useState("");
 
     const navigate = useNavigate();
+
+    const [loading_token,set_loading_token] = useState(false);
+    const [v_top,set_v_top] = useState(-10);
+    const [v_error,set_v_error] = useState(false);5
+
+
+    const [loading_ve,set_loading_ve] = useState(false);
+    const [ve_top,set_ve_top] = useState(-10);
+    const [ve_s_top,set_ve_s_top] = useState(-10);
 
     const items = [
         {
@@ -56,6 +71,83 @@ function Nella(){
             localStorage.removeItem("email");
         }
     },[]);
+
+    async function send_token_email_v(){
+        set_loading_token(true);
+        //set_token_error(false);
+        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/verify-email-address",{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json",
+                "x-api-key": api
+            },
+            body: JSON.stringify({
+                email_address: localStorage.getItem("email")
+            })
+        }).then((res)=>res.json()).then((data)=>{
+            if(data.status==true){
+                set_loading_token(false);
+                set_drawer1(0);
+                set_show_v1(true);
+                console.log("Token sent to email address",data);
+            }else{
+                set_loading_token(false);
+                console.log("Could not send token to email addres, due to:  ",data.message);
+                set_v_top(0);
+                setTimeout(()=>{
+                    set_v_top(-10);
+                },2000);
+            }
+        }).catch((err)=>{
+            set_loading_token(false);
+            console.log(`Could not perform fetch: ${err}`)
+            set_v_top(0);
+                setTimeout(()=>{
+                    set_v_top(-10);
+            },2000);
+        });
+    }
+
+    
+    async function ve(){
+        set_loading_ve(true);
+        //set_token_error(false);
+        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/verify-email-address/validate",{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json",
+                "x-api-key": api
+            },
+            body: JSON.stringify({
+                email_address: localStorage.getItem("email"),
+                token_to_verify_email_address: c_token
+            })
+        }).then((res)=>res.json()).then((data)=>{
+            if(data.status==true){
+                set_loading_ve(false);
+                set_show_v1(false);
+                //console.log("Token sent to email address",data);
+                set_ve_s_top(0);
+                setTimeout(()=>{
+                    set_ve_s_top(-10);
+                },2000);
+            }else{
+                set_loading_ve(false);
+                //console.log("Could not send token to email addres, due to:  ",data.message);
+                set_ve_top(0);
+                setTimeout(()=>{
+                    set_ve_top(-10);
+                },2000);
+            }
+        }).catch((err)=>{
+            set_loading_ve(false);
+            //console.log(`Could not perform fetch: ${err}`)
+            set_ve_top(0);
+                setTimeout(()=>{
+                    set_ve_top(-10);
+            },2000);
+        });
+    }
     return (
         <div style={{width:"100%",fontSize:"10px",height:"100%",display:"flex",flexDirection:"column",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",alignItems:"center",justifyContent:"space-between"}}>
             <div style={{width:"100%",height:"10%",boxShadow:"0px 3px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
@@ -68,9 +160,22 @@ function Nella(){
                            <div style={{color:"white",backgroundColor:"red",width:"50%",height:"40%",borderRadius:"100px",textAlign:"center",position:"absolute",top:"-10%",right:"-10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>0</div>
                         </div>
                         
+                        <div style={{position:"relative"}}>
                         <FaList size={20} style={{cursor:"pointer"}} onClick={()=>{
                             set_drawer1(!drawer1);
+                            set_show_verify_anim(false);
                         }}/>
+                        {show_verify_anim&&
+                        <div className="verify" style={{position:"absolute",paddingLeft:"10px",paddingRight:"10px",backgroundColor:"transparent",color:"white",left:"-110%",borderRadius:"10px",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column"}} onClick={()=>{
+                            set_drawer1(true);
+                            set_show_verify_anim(false);
+                        }}><FaArrowUp size={20} color="black"/>
+                        <div style={{backgroundColor:"orange",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",padding:"10px"}}>
+                            <div>VERIFY</div> <div>EMAIL</div>
+                        </div>
+                        </div>
+                        }
+                        </div>
                     </div>
                 </div>
                 
@@ -136,8 +241,12 @@ function Nella(){
                 <div style={{width:"70%",height:"100%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px",justifyContent:"space-between",backgroundColor:"white"}}>
                     <div style={{height:"10%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px"}}>HELLO, {localStorage.getItem("name").toUpperCase()}</div>
                     <div style={{height:"80%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
-                        <div style={{width:"90%",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
-                            <div>Verify email</div>
+                        <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}} onClick={async()=>{
+                            if(loading_token==false){
+                            await send_token_email_v();
+                            }
+                        }}>
+                            <div>{loading_token==false?"Verify email":"Sending Token..."}</div>
                         </div>
                     </div>
                     <div style={{height:"10%",width:"100%",backgroundColor:"rgba(255,0,0,1)",color:"white",textAlign:"center",fontSize:"12px",display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>{
@@ -145,8 +254,41 @@ function Nella(){
                         set_logout(true);
                     }}>SIGN OUT</div>
                 </div>
+                <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${v_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    VERIFICATION FAILED
+                </div>
             </div>
-            
+
+            {show_v1&&
+            <div style={{width:"100%",height:"100%",position:"absolute",backgroundColor:"rgba(0,0,0,0.9)",top:"0%",left:"0%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:"80%",height:"60%",position:"absolute",backgroundColor:"transparent",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                    <div style={{position:"relative",width:"80%",height:"30%",backgroundColor:"rgba(255,255,255,1)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                        <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
+                            <div>Enter Token</div>
+                            <input type="text" value={c_token} onChange={(e)=>{
+                                set_c_token(e.target.value)
+                            }} placeholder="******" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                            <div style={{position:"absolute",right:"2%",top:"2%",cursor:"pointer"}} onClick={()=>{
+                                set_show_v1(false);
+                            }}><FaCircleXmark size={23}/></div>
+                        </div>
+                        
+                    </div>
+                    <div style={{width:"80%",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",backgroundColor:"orange",color:"white",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={async()=>{
+                        if(loading_ve==false){
+                            await ve();
+                        }
+                        
+                    }}>{loading_ve==false?"VERIFY":"Loading..."}</div>
+                </div>
+                <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${ve_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    VERIFICATION FAILED
+                </div>
+            </div>
+            }
+            <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${ve_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    Email successfully verified
+            </div>
         </div>
     );
 }

@@ -487,3 +487,18 @@ input:focus{
     display: flex;
   }
 }
+@keyframes verify_anim{
+  from{
+    top: 100%;
+  }
+  to{
+    top: 160%;
+  }
+}
+.verify{
+  animation-name: verify_anim;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}

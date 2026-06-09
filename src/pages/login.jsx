@@ -61,6 +61,7 @@ function Login(){
                 localStorage.setItem("name",data.data.name);
                 localStorage.setItem("username",data.data.username);
                 localStorage.setItem("email",data.data.email);
+                localStorage.setItem("email_verified_at",data.data.email_verified_at);
             }else{
                 set_loading(false);
                 console.log("Could not login: ",data);
