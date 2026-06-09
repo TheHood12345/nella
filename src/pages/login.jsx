@@ -15,6 +15,22 @@ function Login(){
     const [password,set_password] = useState("");
     const [token,set_token] = useState("");
 
+    const [token_error,set_token_error] = useState(false);
+    const [token_email,set_token_email] = useState("");
+    const [sending_token_email,set_sending_token_email] = useState(false);
+    const [show_token_email,set_show_token_email] = useState(false);
+    const [token_top,set_token_top] = useState(-10);
+    const [token_success,set_token_success] = useState(false);
+    const [token_s_top,set_token_s_top] = useState(-10);
+
+    const [login_error,set_login_error] = useState(false);
+    const [login_top,set_login_top] = useState(-10);
+
+    const [cp_error,set_cp_error] = useState(false);
+    const [cp_top,set_cp_top] = useState(-10);
+    const [cp_success,set_cp_success] = useState(false);
+    const [cp_s_top,set_cp_s_top] = useState(-10);
+
     const [reset_token,set_reset_token] = useState("");
     const [new_password,set_new_password] = useState("");
     const [confirm_new_password,set_confirm_new_password] = useState("");
@@ -45,15 +61,28 @@ function Login(){
             }else{
                 set_loading(false);
                 console.log("Could not login: ",data);
+                set_login_error(true);
+                set_login_top(0);
+                setTimeout(()=>{
+                    set_login_error(false);
+                    set_login_top(-10);
+                },2000);
             }
         }).catch((err)=>{
             set_loading(false);
             console.log(`Could not perform fetch: ${err}`)
+            set_login_error(true);
+            set_login_top(0);
+            setTimeout(()=>{
+                set_login_error(false);
+                set_login_top(-10);
+            },2000);
             // navigate("/nella");
         });
     }
-        async function forgot_password(){
-        set_loading(true);
+        async function send_token_email(){
+        set_sending_token_email(true);
+        set_token_error(false);
         await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/reset-password",{
             method:"post",
             headers:{
@@ -61,20 +90,39 @@ function Login(){
                 "x-api-key": api
             },
             body: JSON.stringify({
-                email_address: email
+                email_address: token_email
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
-                set_loading(false);
+                set_sending_token_email(false);
+                set_show_token_email(false);
                 set_c_p(true);
-                console.log("Token sent to email address",data)
+                console.log("Token sent to email address",data);
+                set_token_success(true);
+                set_token_s_top(0);
+                setTimeout(()=>{
+                    set_token_success(false);
+                    set_token_s_top(-10);
+                },2000);
             }else{
-                set_loading(false);
+                set_sending_token_email(false);
                 console.log("Could not send token to email addres, due to:  ",data.message);
+                set_token_error(true);
+                set_token_top(0);
+                setTimeout(()=>{
+                    set_token_error(false);
+                    set_token_top(-10);
+                },2000);
             }
         }).catch((err)=>{
-            set_loading(false);
+            set_sending_token_email(false);
             console.log(`Could not perform fetch: ${err}`)
+            set_token_error(true);
+            set_token_top(0);
+            setTimeout(()=>{
+                set_token_error(false);
+                set_token_top(-10);
+            },2000);
             // navigate("/nella");
         });
     }
@@ -88,7 +136,7 @@ function Login(){
                 "x-api-key": api
             },
             body: JSON.stringify({
-                email_address: email,
+                email_address: token_email,
                 token_to_reset_password: reset_token,
                 new_password: new_password,
                 new_password_confirmation: confirm_new_password
@@ -97,14 +145,32 @@ function Login(){
             if(data.status==true || data.status=="true" || data.status_code==200 || data.message=="Login successful."){
                 set_c_p(false);
                 set_loading(false);
-                console.log("Password change successful: ",data)
+                console.log("Password change successful: ",data);
+                set_cp_success(true);
+                set_cp_s_top(0);
+                setTimeout(()=>{
+                    set_cp_success(false);
+                    set_cp_s_top(-10);
+                },2000);
             }else{
                 set_loading(false);
                 console.log("Could not change password due to: ",data.message);
+                set_cp_error(true);
+                set_cp_top(0);
+                setTimeout(()=>{
+                    set_cp_error(false);
+                    set_cp_top(-10);
+                },2000);
             }
         }).catch((err)=>{
             set_loading(false);
-            console.log(`Could not perform fetch: ${err}`)
+            console.log(`Could not perform fetch: ${err}`);
+            set_cp_error(true);
+            set_cp_top(0);
+            setTimeout(()=>{
+                set_cp_error(false);
+                set_cp_top(-10);
+            },2000);
             // navigate("/nella");
         });
     }
@@ -133,7 +199,7 @@ function Login(){
                     </div>
                 </div>
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
-                {email!==""&&<div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={async()=>{await forgot_password()}}>Recover</Link></div>}
+                <div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={()=>{set_show_token_email(true)}}>Recover</Link></div>
                 {/* <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div> */}
                 <div style={{marginTop:"10px",marginBottom:"10px"}}>Or</div>
                 <div style={{width:"90%",marginTop:"20px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-between"}}>
@@ -153,9 +219,9 @@ function Login(){
                 <div>CHANGE PASSWORD</div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Email Address</div>
-                    <input type="email" value={email} onChange={(e)=>{
-                        set_email(e.target.value)
-                    }} placeholder="Enter Email" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                    <input type="email" value={token_email} onChange={(e)=>{
+                        set_token_email(e.target.value)
+                    }} placeholder="email@example.com" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Enter token</div>
@@ -177,7 +243,36 @@ function Login(){
                 </div>
 
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){change_password()}}}>{loading==false?"Change password":"Loading.."}</div>
+                <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${cp_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    FAILED TO CHANGE PASSWORD
+                </div>
+                
             </div>}
+            {show_token_email==true&&
+            <div style={{width:"100%",height:"100%",position:"absolute",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",top:"0%",left:"0%",backgroundColor:"rgba(0,0,0,0.9)"}}>
+                <div style={{width:"80%",height:"30%",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",backgroundColor:"rgba(255,255,255,1)",borderRadius:"10px"}}>
+                    <div style={{width:"90%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"90%"}}>Email Address</div>
+                        <input type="email" value={token_email} onChange={(e)=>{
+                            set_token_email(e.target.value)
+                        }} placeholder="email@example.com" style={{width:"80%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}}/>
+                    </div>
+                    <div style={{position:"absolute",right:"1%",top:"0%"}} onClick={()=>{set_show_token_email(false)}}><FaCircleXmark size={22}/></div>
+                </div>
+                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(sending_token_email==false){await send_token_email()}}}>{sending_token_email==false?"Send Token":`sending token to ${token_email}..`}</div>
+                <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${token_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    FAILED TO SEND TOKEN
+                </div>
+            </div>}
+            <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${login_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    FAILED TO LOGIN
+            </div>
+            <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${cp_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    Successfully changed password
+            </div>
+            <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${token_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    Token sent to {token_email}
+            </div>
         </div>
     );
 }
