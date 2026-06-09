@@ -165,7 +165,7 @@ function Nella(){
                             set_drawer1(!drawer1);
                             set_show_verify_anim(false);
                         }}/>
-                        {show_verify_anim&&
+                        {show_verify_anim&& localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")== "" || localStorage.getItem("email_verified_at")=="null"?
                         <div className="verify" style={{position:"absolute",paddingLeft:"10px",paddingRight:"10px",backgroundColor:"transparent",color:"white",left:"-110%",borderRadius:"10px",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column"}} onClick={()=>{
                             set_drawer1(true);
                             set_show_verify_anim(false);
@@ -173,7 +173,7 @@ function Nella(){
                         <div style={{backgroundColor:"orange",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",padding:"10px"}}>
                             <div>VERIFY</div> <div>EMAIL</div>
                         </div>
-                        </div>
+                        </div>:null
                         }
                         </div>
                     </div>
@@ -241,13 +241,16 @@ function Nella(){
                 <div style={{width:"70%",height:"100%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px",justifyContent:"space-between",backgroundColor:"white"}}>
                     <div style={{height:"10%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px"}}>HELLO, {localStorage.getItem("name").toUpperCase()}</div>
                     <div style={{height:"80%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
-                        <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}} onClick={async()=>{
+                        {localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")== "" || localStorage.getItem("email_verified_at")=="null"?
+                            <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}} onClick={async()=>{
                             if(loading_token==false){
                             await send_token_email_v();
                             }
                         }}>
                             <div>{loading_token==false?"Verify email":"Sending Token..."}</div>
-                        </div>
+                        </div>:
+                        <div style={{width:"90%"}}>USER EMAIL SUCESSFULLY VERIFIED</div>
+                        }
                     </div>
                     <div style={{height:"10%",width:"100%",backgroundColor:"rgba(255,0,0,1)",color:"white",textAlign:"center",fontSize:"12px",display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                         set_drawer1(false);
