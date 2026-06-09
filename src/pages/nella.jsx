@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHome, FaBusinessTime, FaBookOpen, FaOutdent, FaBell, FaList, FaOpencart, FaListOl, FaArrowUp, FaArrowDown, FaCalendar } from "react-icons/fa";
 import { FaBoltLightning, FaComputer, FaFileLines, FaI, FaMessage, FaPeopleGroup, FaPerson, FaRightToBracket } from "react-icons/fa6";
 import Business from "./business";
@@ -10,6 +10,8 @@ function Nella(){
 
     const [q,set_q] = useState(1);
     const [logout,set_logout] = useState(false);
+    const token = localStorage.getItem("token");
+    const [drawer1,set_drawer1] = useState(false);
 
     const navigate = useNavigate();
 
@@ -45,23 +47,33 @@ function Nella(){
             name: "Total Number of devices"
         }
     ]
+    useEffect(()=>{
+        if(!token){
+            navigate("/login");
+            localStorage.removeItem("token");
+            localStorage.removeItem("name");
+            localStorage.removeItem("username");
+            localStorage.removeItem("email");
+        }
+    },[]);
     return (
         <div style={{width:"100%",fontSize:"10px",height:"100%",display:"flex",flexDirection:"column",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",alignItems:"center",justifyContent:"space-between"}}>
             <div style={{width:"100%",height:"10%",boxShadow:"0px 3px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
                 <div style={{width:"90%",height:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                     <div style={{width:"60%",height:"10%",fontWeight:"bold",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",fontSize:"16px",fontWeight:"bold",color:"black"}}>{q==1?"Dashboard":q==2?"Businesses":q==3?"QR Menu & Pricing":"Dashboard"}</div>
                     <div style={{width:"30%",height:"10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                        <FaPerson size={20}/>
+                        <FaPerson size={20} color="transparent"/>
                         <div style={{position:"relative",margin:"0px",padding:"0px"}}>
                            <FaBell size={20} style={{margin:"0px",padding:"0px"}}/>
                            <div style={{color:"white",backgroundColor:"red",width:"50%",height:"40%",borderRadius:"100px",textAlign:"center",position:"absolute",top:"-10%",right:"-10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>0</div>
                         </div>
                         
-                        <FaRightToBracket size={20} style={{cursor:"pointer"}} onClick={()=>{
-                            set_logout(true);
+                        <FaList size={20} style={{cursor:"pointer"}} onClick={()=>{
+                            set_drawer1(!drawer1);
                         }}/>
                     </div>
                 </div>
+                
             </div>
             {
             q == 1?<Home/>:q==2?<Business/>:q==3?<Menu/>:null
@@ -72,26 +84,26 @@ function Nella(){
                 <div style={{width:"20%",cursor:"pointer",height:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     set_q(1);
                 }}>
-                    <FaHome color={q==1? "blue": "gray"}/>
-                    <div style={{color:q==1? "blue": "gray"}}>Home</div>
+                    <FaHome color={q==1? "black": "gray"}/>
+                    <div style={{color:q==1? "black": "gray"}}>Home</div>
                 </div>
                 <div style={{width:"20%",height:"90%",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     set_q(2);
                 }}>
-                    <FaBusinessTime color={q==2? "blue": "gray"}/>
-                    <div style={{color:q==2? "blue": "gray"}}>Business</div>
+                    <FaBusinessTime color={q==2? "black": "gray"}/>
+                    <div style={{color:q==2? "black": "gray"}}>Business</div>
                 </div>
                 <div style={{width:"20%",height:"90%",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     set_q(3);
                 }}>
-                    <FaBookOpen color={q==3? "blue": "gray"}/>
-                    <div style={{color:q==3? "blue": "gray"}}>QR Menu{/*"/Price List"*/}</div>
+                    <FaBookOpen color={q==3? "black": "gray"}/>
+                    <div style={{color:q==3? "black": "gray"}}>QR Menu{/*"/Price List"*/}</div>
                 </div>
                 <div style={{width:"20%",height:"90%",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     set_logout(true);
                 }}>
-                    <FaOutdent color={q==4? "blue": "gray"}/>
-                    <div style={{color:q==4? "blue": "gray"}}>Logout</div>
+                    <FaRightToBracket color={q==4? "black": "gray"}/>
+                    <div style={{color:q==4? "black": "gray"}}>Logout</div>
                 </div>
             </div>
 
@@ -106,13 +118,35 @@ function Nella(){
                                 set_logout(false);
                             }}>Cancel</div>
                             <div style={{width:"30%",paddingTop:"6px",paddingBottom:"6px",borderRadius:"4px",backgroundColor:"red",color:"white",textAlign:"center",cursor:"pointer"}} onClick={()=>{
-                                localStorage.removeItem("token");
                                 navigate("/login");
+                                localStorage.removeItem("token");
+                                localStorage.removeItem("name");
+                                localStorage.removeItem("username");
+                                localStorage.removeItem("email");
                             }}>Okay</div>
                         </div>
                     </div>
                 </div>
             }
+
+            <div style={{width:"100%",height:drawer1==false?"0%":"90%",transition:"all 0.1s linear",position:"absolute",top:"10%",right:"0",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"flex-end",overflow:"hidden"}}>
+                <div style={{width:"30%",height:"100%"}} onClick={()=>{
+                    set_drawer1(false);
+                }}></div>
+                <div style={{width:"70%",height:"100%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px",justifyContent:"space-between",backgroundColor:"white"}}>
+                    <div style={{height:"10%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px"}}>HELLO, {localStorage.getItem("name").toUpperCase()}</div>
+                    <div style={{height:"80%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+                        <div style={{width:"90%",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
+                            <div>Verify email</div>
+                        </div>
+                    </div>
+                    <div style={{height:"10%",width:"100%",backgroundColor:"rgba(255,0,0,1)",color:"white",textAlign:"center",fontSize:"12px",display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>{
+                        set_drawer1(false);
+                        set_logout(true);
+                    }}>SIGN OUT</div>
+                </div>
+            </div>
+            
         </div>
     );
 }

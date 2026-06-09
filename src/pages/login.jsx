@@ -55,9 +55,12 @@ function Login(){
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
-                navigate("/nella")
-                console.log("login successful: ",data.access_token);
-                localStorage.setItem("token",data.access_token);
+                navigate("/")
+                console.log("login successful: ",data);
+                localStorage.setItem("token",data.data.access_token);
+                localStorage.setItem("name",data.data.name);
+                localStorage.setItem("username",data.data.username);
+                localStorage.setItem("email",data.data.email);
             }else{
                 set_loading(false);
                 console.log("Could not login: ",data);
@@ -123,7 +126,6 @@ function Login(){
                 set_token_error(false);
                 set_token_top(-10);
             },2000);
-            // navigate("/nella");
         });
     }
 
@@ -171,7 +173,6 @@ function Login(){
                 set_cp_error(false);
                 set_cp_top(-10);
             },2000);
-            // navigate("/nella");
         });
     }
     return (
