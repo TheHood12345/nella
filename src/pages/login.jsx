@@ -9,11 +9,13 @@ function Login(){
     const [eye,set_eye] = useState(false);
     const [c_p,set_c_p]=useState(false);
 
+    const [c_t,set_c_t]=useState(false);
+
     const [email,set_email] = useState("");
     const [password,set_password] = useState("");
     const [token,set_token] = useState("");
 
-    const [old_password,set_old_password] = useState("");
+    const [reset_token,set_reset_token] = useState("");
     const [new_password,set_new_password] = useState("");
     const [confirm_new_password,set_confirm_new_password] = useState("");
 
@@ -38,7 +40,8 @@ function Login(){
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
                 navigate("/nella")
-                console.log("login successful: ",data)
+                console.log("login successful: ",data.access_token);
+                localStorage.setItem("token",data.access_token);
             }else{
                 set_loading(false);
                 console.log("Could not login: ",data);
@@ -51,7 +54,7 @@ function Login(){
     }
         async function forgot_password(){
         set_loading(true);
-        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/change-password",{
+        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/reset-password",{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
@@ -62,7 +65,8 @@ function Login(){
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
-                //navigate("/nella")
+                set_loading(false);
+                set_c_p(true);
                 console.log("Token sent to email address",data)
             }else{
                 set_loading(false);
@@ -77,7 +81,7 @@ function Login(){
 
     async function change_password(){
         set_loading(true);
-        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/change-password/validate",{
+        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/reset-password/validate",{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
@@ -85,18 +89,18 @@ function Login(){
             },
             body: JSON.stringify({
                 email_address: email,
-                token_to_change_password: email,
-                old_password: old_password,
+                token_to_reset_password: reset_token,
                 new_password: new_password,
                 new_password_confirmation: confirm_new_password
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true || data.status=="true" || data.status_code==200 || data.message=="Login successful."){
-                navigate("/nella")
-                console.log("login successful",data)
+                set_c_p(false);
+                set_loading(false);
+                console.log("Password change successful: ",data)
             }else{
                 set_loading(false);
-                console.log("Could not login",data.message);
+                console.log("Could not change password due to: ",data.message);
             }
         }).catch((err)=>{
             set_loading(false);
@@ -129,8 +133,8 @@ function Login(){
                     </div>
                 </div>
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
-                <div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={async()=>{await forgot_password()}}>Recover</Link></div>
-                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div>
+                {email!==""&&<div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={async()=>{await forgot_password()}}>Recover</Link></div>}
+                {/* <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div> */}
                 <div style={{marginTop:"10px",marginBottom:"10px"}}>Or</div>
                 <div style={{width:"90%",marginTop:"20px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-between"}}>
                     <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-evenly",borderRadius:"6px",backgroundColor:"rgb(230,230,230)"}}>
@@ -154,10 +158,10 @@ function Login(){
                     }} placeholder="Enter Email" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                    <div>Old Password</div>
-                    <input type="email" value={old_password} onChange={(e)=>{
-                        set_old_password(e.target.value)
-                    }} placeholder="Enter old password" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                    <div>Enter token</div>
+                    <input type="email" value={reset_token} onChange={(e)=>{
+                        set_reset_token(e.target.value)
+                    }} placeholder="Enter Password Reset Token" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>New Password</div>
@@ -171,12 +175,7 @@ function Login(){
                         set_confirm_new_password(e.target.value)
                     }} placeholder="Confirm new password" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
-                <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                    <div>Enter Token</div>
-                    <input type="text" value={token} onChange={(e)=>{
-                        set_token(e.target.value)
-                    }} placeholder="Token..." style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
-                </div>
+
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){change_password()}}}>{loading==false?"Change password":"Loading.."}</div>
             </div>}
         </div>
