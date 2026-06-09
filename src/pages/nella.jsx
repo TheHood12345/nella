@@ -42,6 +42,8 @@ function Nella(){
 
     const [verify_email_text_top,set_verify_email_text_top] = useState(-10);
 
+    const [v_text,set_v_text] = useState("Kindly verify your email");
+
     const items = [
         {
             icon: <FaCalendar size={20} color={"gray"}/>,
@@ -141,6 +143,8 @@ function Nella(){
             if(data.status==true){
                 set_loading_ve(false);
                 set_show_v1(false);
+                localStorage.setItem("email_verified_at", "verified");
+                set_v_text("SUCCESSFULLY VERIFIED");
                 //console.log("Token sent to email address",data);
                 set_ve_s_top(0);
                 setTimeout(()=>{
@@ -256,10 +260,10 @@ function Nella(){
                         <div>{q==1?"Dashboard":q==2?"Businesses":q==3?"QR Menu & Pricing":"Dashboard"}</div>
                         {
                             localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")=="null" || localStorage.getItem("email_verified_at")==""?
-                           <div style={{display:"flex",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white",width:"60%",borderRadius:"2px"}} onClick={()=>{
+                           <div style={{display:"flex",alignItems:"center",justifyContent:"center",backgroundColor:v_text=="Kindly verify your email"?"orange":"aqua",color:"white",width:"60%",borderRadius:"2px"}} onClick={()=>{
                             set_drawer1(!drawer1);
                             set_show_verify_anim(false);
-                        }}>Kindly verify your email</div>:
+                        }}>{v_text}</div>:
                            <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}><FaCertificate/> VERIFIED</div>
                         }
                     </div>
