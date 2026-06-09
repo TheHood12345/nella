@@ -8,8 +8,8 @@ function Signup(){
     const [eye,set_eye] = useState(false);
     const [c_eye,set_c_eye] = useState(false);
 
-    const [first_name,set_first_name] = useState("");
-    const [last_name,set_last_name] = useState("");
+    const [name,set_name] = useState("");
+    const [username,set_username] = useState("");
     const [email,set_email] = useState("");
     const [password,set_password] = useState("");
     const [confirm_password,set_confirm_password] = useState("");
@@ -46,11 +46,11 @@ function Signup(){
 
       async function register(){
         set_loading(true);
-        console.log(first_name)
-        console.log(last_name)
-        console.log(email)
-        console.log(password)
-        console.log(confirm_password)
+        // console.log(first_name)
+        // console.log(last_name)
+        // console.log(email)
+        // console.log(password)
+        // console.log(confirm_password)
         
          await fetch(log_data,{
             method:"post",
@@ -59,31 +59,29 @@ function Signup(){
                 "x-api-key": api
             },
             body: JSON.stringify({
-                username:first_name,
-                name:last_name,
                 email: email,
                 password: password,
+                username:username,
+                name:name,
                 referred_by:"string",
-                extra_data: [
-                    "string"
-                ],
-                passord_confirmation: password,
+                extra_data: ["string"],
+                password_confirmation: password,
                 meta_data: [
                     {
-                        "meta_key": "string",
-                        "meta_value":"string",
-                        "extra_data":["string"]
+                        meta_key: "string",
+                        meta_value:"string",
+                        extra_data:["string"]
                     }
                 ]
             })
          }).then((res)=>res.json()).then((data)=>{
             set_loading(false);
             if(data.status==true){
-                console.log("Successfully registered ",data);
+                console.log("Successfully registered: ",data);
                 verify_email()
                 navigate("/login");
             }else{
-                console.log("Could not register",data)
+                console.log("Could not register: ",data)
                 verify_email()
             }
         }).catch((err)=>{
@@ -98,16 +96,16 @@ function Signup(){
                 <div style={{fontWeight:"bold",fontSize:"20px",color:"black",fontWeight:"bolder",marginTop:"20px"}}>REGISTER</div>
                 <div>Already have an account? <Link to={"/login"} style={{color:"orange"}}>Login</Link></div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                    <div>First Name</div>
-                    <input type="text" required value={first_name} onChange={(e)=>{
-                        set_first_name(e.target.value)
-                    }} placeholder="Enter First Name" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                    <div>User Name</div>
+                    <input type="text" required value={username} onChange={(e)=>{
+                        set_username(e.target.value)
+                    }} placeholder="Enter User Name" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                    <div>Last Name</div>
-                    <input type="text" required value={last_name} onChange={(e)=>{
-                        set_last_name(e.target.value)
-                    }} placeholder="Enter Last Name" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                    <div>Name</div>
+                    <input type="text" required value={name} onChange={(e)=>{
+                        set_name(e.target.value)
+                    }} placeholder="Enter Name" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Email Address</div>
@@ -128,7 +126,7 @@ function Signup(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{width:"90%",marginBottom:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
+                {/* <div style={{width:"90%",marginBottom:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Confirm Password</div>
                     <div style={{width:"100%",backgroundColor:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                         <input type={c_eye?"text":"password"} required value={confirm_password} onChange={(e)=>{
@@ -140,7 +138,7 @@ function Signup(){
                             set_c_eye(!c_eye);
                         }}/>}
                     </div>
-                </div>
+                </div> */}
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(loading==false){await register()}}}>{loading==false?"Create Account":"loading.."}</div>
                 
             </div>
