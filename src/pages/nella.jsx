@@ -377,17 +377,17 @@ function Nella(){
                 </div>
             }
 
-            <div style={{width:"100%",height:drawer1==false?"0%":"90%",position:"absolute",top:"10%",right:"0",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"flex-start",overflow:"hidden"}}>
+            <div style={{width:"100%",backgroundColor:"rgba(18,22,28,1)",height:drawer1==false?"0%":"90%",position:"absolute",top:"10%",right:"0",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"flex-start",overflow:"hidden"}}>
                 
                 <div style={{width:"100%",height:"40%",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"start",fontSize:"12px",justifyContent:"end"}}>
                     <div style={{width:"50%",height:"100%",backgroundColor:"rgba(0,0,0,0.9)"}} onClick={()=>{
                         set_drawer1(false);
                     }}></div>
-                    <div style={{width:"50%",height:"100%",borderBottomLeftRadius:"1px",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"start",fontSize:"12px",justifyContent:"space-evenly",backgroundColor:"white"}}>
+                    <div style={{width:"50%",height:"100%",borderBottomLeftRadius:"1px",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"start",fontSize:"12px",justifyContent:"space-evenly",backgroundColor:"rgba(0,0,0,0.9)"}}>
                     {/* <div style={{height:"10%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",fontSize:"12px"}}>HELLO, {localStorage.getItem("name").toUpperCase()}</div> */}
                     <div style={{height:"80%",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly",overflow:"scroll"}}>
                         {localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")== "" || localStorage.getItem("email_verified_at")=="null"?
-                            <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"0px 0px 3px gray",borderBottom:"1px solid orange"}} onClick={async()=>{
+                            <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"0px 0px 3px gray",borderBottom:"1px solid orange",backgroundColor:"white"}} onClick={async()=>{
                             if(loading_token==false){
                             await send_token_email_v();
                             }
@@ -396,7 +396,7 @@ function Nella(){
                         </div>:
                         null
                         }
-                        <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"0px 0px 3px gray",borderBottom:"1px solid orange"}} onClick={async()=>{
+                        <div style={{width:"90%",cursor:"pointer",paddingTop:"12px",paddingBottom:"12px",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"0px 0px 3px gray",borderBottom:"1px solid orange",backgroundColor:"white"}} onClick={async()=>{
                             if(loading_ps_token==false){
                             await send_ps_token();
                             }
