@@ -78,7 +78,7 @@ function Nella(){
     ]
     useEffect(()=>{
           if(!token){
-            navigate("/login");
+            navigate("/login",{replace:true});
             localStorage.removeItem("token");
             localStorage.removeItem("name");
             localStorage.removeItem("username");
