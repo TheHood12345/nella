@@ -363,7 +363,7 @@ function Nella(){
                                 set_logout(false);
                             }}>Cancel</div>
                             <div style={{width:"30%",paddingTop:"6px",paddingBottom:"6px",borderRadius:"4px",backgroundColor:"red",color:"white",textAlign:"center",cursor:"pointer"}} onClick={()=>{
-                                navigate("/login");
+                                navigate("/login",{replace: true});
                                 localStorage.removeItem("token");
                                 localStorage.removeItem("name");
                                 localStorage.removeItem("username");
