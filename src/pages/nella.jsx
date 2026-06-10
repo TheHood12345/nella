@@ -368,6 +368,7 @@ function Nella(){
                                 localStorage.removeItem("name");
                                 localStorage.removeItem("username");
                                 localStorage.removeItem("email");
+                                localStorage.removeItem("email_verified_at");
                             }}>Okay</div>
                         </div>
                     </div>
