@@ -20,32 +20,34 @@ function Signup(){
     const [register_error,set_register_error] = useState(false);
     const [register_top,set_register_top] = useState(-10);
 
+    const [create_text,set_create_text] = useState("Operation Failed");
+
   
-    async function verify_email(){
-        set_loading(true);
+    // async function verify_email(){
+    //     set_loading(true);
         
-         await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/verify-email-address",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json",
-                "x-api-key": api
-            },
-            body: JSON.stringify({
-                email_address: email
-            })
-         }).then((res)=>res.json()).then(async(data)=>{
-            set_loading(false);
-            if(data.status==true){
-                console.log("Email verified successfully",data);
-                await register()
-            }else{
-                console.log("Could not verify email",data.message)
-            }
-        }).catch((err)=>{
-            console.log(`nope: ${err}`);
-            set_loading(false);
-        });
-    }
+    //      await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/verify-email-address",{
+    //         method:"post",
+    //         headers:{
+    //             "Content-Type":"application/json",
+    //             "x-api-key": api
+    //         },
+    //         body: JSON.stringify({
+    //             email_address: email
+    //         })
+    //      }).then((res)=>res.json()).then(async(data)=>{
+    //         set_loading(false);
+    //         if(data.status==true){
+    //             console.log("Email verified successfully",data);
+    //             await register()
+    //         }else{
+    //             console.log("Could not verify email",data.message)
+    //         }
+    //     }).catch((err)=>{
+    //         console.log(`nope: ${err}`);
+    //         set_loading(false);
+    //     });
+    // }
 
       async function register(){
         set_loading(true);
@@ -78,7 +80,8 @@ function Signup(){
                 console.log("Successfully registered: ",data);
                 navigate("/login");
             }else{
-                console.log("Could not register: ",data)
+                console.log("Could not register: ",data);
+                set_create_text(data.message);
                 set_register_error(true);
                 set_register_top(0);
                 setTimeout(()=>{
@@ -89,6 +92,7 @@ function Signup(){
             }
         }).catch((err)=>{
             console.log(`nope: ${err}`);
+            set_create_text("Check your internet connection.")
             set_loading(false);
             set_register_error(true);
             set_register_top(0);
@@ -152,7 +156,7 @@ function Signup(){
                 
             </div>
             <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${register_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    FAILED TO CREATE ACCOUNT
+                    {/*FAILED TO CREATE ACCOUNT*/} {create_text}
             </div>
         </div>
     );

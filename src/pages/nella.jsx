@@ -44,6 +44,9 @@ function Nella(){
 
     const [v_text,set_v_text] = useState("Kindly verify your email");
 
+    const [cp_text,set_cp_text] = useState("Operation Failed");
+    const [ver_text,set_ver_text] = useState("Operation Failed");
+
     const items = [
         {
             icon: <FaCalendar size={20} color={"gray"}/>,
@@ -83,6 +86,7 @@ function Nella(){
             localStorage.removeItem("name");
             localStorage.removeItem("username");
             localStorage.removeItem("email");
+            localStorage.removeItem("email_verified_at");
         } 
     },[]);
 
@@ -107,6 +111,7 @@ function Nella(){
             }else{
                 set_loading_token(false);
                 console.log("Could not send token to email addres, due to:  ",data.message);
+                set_ver_text(data.message);
                 set_v_top(0);
                 setTimeout(()=>{
                     set_v_top(-10);
@@ -114,7 +119,8 @@ function Nella(){
             }
         }).catch((err)=>{
             set_loading_token(false);
-            console.log(`Could not perform fetch: ${err}`)
+            console.log(`Could not perform fetch: ${err}`);
+            set_ver_text("Check your internet connection");
             set_v_top(0);
                 setTimeout(()=>{
                     set_v_top(-10);
@@ -150,6 +156,7 @@ function Nella(){
             }else{
                 set_loading_ve(false);
                 //console.log("Could not send token to email addres, due to:  ",data.message);
+                set_ver_text(data.message);
                 set_ve_top(0);
                 setTimeout(()=>{
                     set_ve_top(-10);
@@ -158,6 +165,7 @@ function Nella(){
         }).catch((err)=>{
             set_loading_ve(false);
             //console.log(`Could not perform fetch: ${err}`)
+            set_ver_text("Check your internet connection");
             set_ve_top(0);
                 setTimeout(()=>{
                     set_ve_top(-10);
@@ -186,6 +194,7 @@ function Nella(){
             }else{
                 set_loading_ps_token(false);
                 console.log("Could not send token to email addres, due to:  ",data.message);
+                set_cp_text(data.message);
                 set_v_top(0);
                 set_change_err(true);
                 setTimeout(()=>{
@@ -196,6 +205,7 @@ function Nella(){
         }).catch((err)=>{
             set_loading_ps_token(false);
             console.log(`Could not perform fetch: ${err}`);
+            set_cp_text("Check your internet connection");
             set_change_err(true);
             set_v_top(0);
                 setTimeout(()=>{
@@ -234,6 +244,7 @@ function Nella(){
             }else{
                 set_change_loading(false);
                 //console.log("Could not send token to email addres, due to:  ",data.message);
+                set_cp_text(data.message);
                 set_ve_top(0);
                 setTimeout(()=>{
                     set_ve_top(-10);
@@ -242,6 +253,7 @@ function Nella(){
         }).catch((err)=>{
             set_change_loading(false);
             //console.log(`Could not perform fetch: ${err}`)
+            set_cp_text("Check your internet connection");
             set_ve_top(0);
                 setTimeout(()=>{
                     set_ve_top(-10);
@@ -412,7 +424,7 @@ function Nella(){
                     set_drawer1(false);
                 }}></div>
                 <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${v_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    OPERATION FAILED
+                    {cp_text}
                 </div>
             </div>
 
@@ -439,7 +451,7 @@ function Nella(){
                     }}>{loading_ve==false?"VERIFY":"Loading..."}</div>
                 </div>
                 <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${ve_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    OPERATION FAILED
+                    {/*OPERATION FAILED*/} {ver_text}
                 </div>
             </div>
             }
@@ -479,7 +491,7 @@ function Nella(){
                             
                         </div>
 
-                        <div style={{width:"80%",cursor:"pointer",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",backgroundColor:"orange",color:"white",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={async()=>{
+                        <div style={{width:"80%",cursor:"pointer",marginTop:"20px",marginBottom:"20px",paddingTop:"10px",paddingBottom:"10px",backgroundColor:"orange",color:"white",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={async()=>{
                         if(change_loading==false){
                             await change_password();
                         }
@@ -494,7 +506,7 @@ function Nella(){
                     
                 </div>
                 <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${ve_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    OPERATION FAILED
+                    {cp_text}
                 </div>
             </div>
             }

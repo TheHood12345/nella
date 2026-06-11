@@ -25,6 +25,9 @@ function Login(){
 
     const [login_error,set_login_error] = useState(false);
     const [login_top,set_login_top] = useState(-10);
+    const [login_text,set_login_text] = useState("Operation Failed");
+    const [fp_text,set_fp_text] = useState("Operation Failed");
+    const [login_err,set_login_err] = useState(false);
 
     const [cp_error,set_cp_error] = useState(false);
     const [cp_top,set_cp_top] = useState(-10);
@@ -65,6 +68,7 @@ function Login(){
             }else{
                 set_loading(false);
                 console.log("Could not login: ",data);
+                set_login_text(data.message);
                 set_login_error(true);
                 set_login_top(0);
                 setTimeout(()=>{
@@ -75,6 +79,7 @@ function Login(){
         }).catch((err)=>{
             set_loading(false);
             console.log(`Could not perform fetch: ${err}`)
+            set_login_text("Check your internet connection.");
             set_login_error(true);
             set_login_top(0);
             setTimeout(()=>{
@@ -110,7 +115,8 @@ function Login(){
                 },2000);
             }else{
                 set_sending_token_email(false);
-                console.log("Could not send token to email addres, due to:  ",data.message);
+                console.log("Could not send token to email address, due to:  ",data.message);
+                set_fp_text(data.message);
                 set_token_error(true);
                 set_token_top(0);
                 setTimeout(()=>{
@@ -120,7 +126,8 @@ function Login(){
             }
         }).catch((err)=>{
             set_sending_token_email(false);
-            console.log(`Could not perform fetch: ${err}`)
+            console.log(`Could not perform fetch: ${err}`);
+            set_fp_text("Check your internet connection.");
             set_token_error(true);
             set_token_top(0);
             setTimeout(()=>{
@@ -158,6 +165,7 @@ function Login(){
             }else{
                 set_loading(false);
                 console.log("Could not change password due to: ",data.message);
+                set_fp_text(data.message);
                 set_cp_error(true);
                 set_cp_top(0);
                 setTimeout(()=>{
@@ -168,6 +176,7 @@ function Login(){
         }).catch((err)=>{
             set_loading(false);
             console.log(`Could not perform fetch: ${err}`);
+            set_fp_text("Check your internet connection.");
             set_cp_error(true);
             set_cp_top(0);
             setTimeout(()=>{
@@ -200,7 +209,7 @@ function Login(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
+                <div style={{opacity:"1",width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
                 <div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={()=>{set_show_token_email(true)}}>Recover</Link></div>
                 {/* <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div> */}
                 <div style={{marginTop:"10px",marginBottom:"10px"}}>Or</div>
@@ -263,13 +272,13 @@ function Login(){
                 </div>
                 <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",marginTop:"20px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(sending_token_email==false){await send_token_email()}}}>{sending_token_email==false?"Send Token":`sending token to ${token_email}..`}</div>
                 <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${token_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    FAILED TO SEND TOKEN
+                    {/*FAILED TO SEND TOKEN*/} {fp_text}
                 </div>
             </div>}
-            <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${login_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
-                    FAILED TO LOGIN
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${login_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    {/*FAILED TO LOGIN*/} {login_text}
             </div>
-            <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${cp_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${cp_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
                     Successfully changed password
             </div>
             <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${token_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
