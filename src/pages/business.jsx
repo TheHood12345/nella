@@ -1,42 +1,72 @@
 import { useState } from "react";
 import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
 import { FaEarthAfrica, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
+import { data } from "react-router-dom";
 
 function Business(){
-    const url="https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business"
+    const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business"
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [x,set_x]=useState("Filter Enabled");
     const [q,set_q]=useState(false);
     const [ad,set_ad]=useState(false);
     const [sc,set_sc]=useState("");
 
-    //     async function login(){
-    //     if(first_name==last_name && first_name != "" && first_name != "" && first_name != ""){
-    //     set_loading(true);
-    //     console.log(first_name)
-    //     console.log(last_name)
-    //     console.log(email)
-    //     console.log(password)
-    //     console.log(confirm_password)
+    const [loading,set_loading] = useState(false);
+    const [create_text,set_create_text] = useState("Operation failed");
+    const [create_top,set_create_top] = useState(-10);
+    const [create_s_text,set_create_s_text] = useState("Sucess");
+    const [create_s_top,set_create_s_top] = useState(-10);
+    
+    async function create_business(){
+        set_loading(true);
         
-    //      await fetch(log_data,{
-    //         method:"post",
-    //         body: JSON.stringify({
-    //             first_name:first_name,
-    //             last_name:last_name,
-    //             email: email,
-    //             password: password
-    //         })
-    //      }).then((res)=>{
-    //         // console.log(res.text());
-    //         set_loading(false);
-    //         navigate("/login");
-    //     }).catch((err)=>{
-    //         console.log(`nope: ${err}`);
-    //         set_loading(false);
-    //     });
-    //     }
-    // }
+         await fetch(url,{
+            method:"post",
+            body: JSON.stringify({
+                request_id: "string",
+                meta_key: "string",
+                meta_value: "string",
+                slug: "string",
+                data_type: "string",
+                title_name: "string",
+                description: "string",
+                entity_featured_url: "http://example.com",
+                extra_data: {
+                    key_name1:"value1",
+                    key_name2: 2
+                },
+                status: "active, inactive, draft, activated, deactivated, pending",
+                parent_entity_type: "custom_entity",
+                parent_entity_uuid: "660e8400-e29b-41d4-a716-446655440000",
+                owned_by: "550e8400-e29b-41d4-a716-446655440000"
+            })
+         }).then((res)=> res.json()).then((data)=>{
+            if(data.status==true){
+                set_loading(false);
+                set_ad(false);
+                set_create_s_text("successfully created business");
+                set_create_s_top(0);
+                setTimeout(() => {
+                    set_create_s_top(-10);
+                }, 3000);
+            }else{
+                set_loading(false);
+                set_create_text(data.message);
+                set_create_top(0);
+                setTimeout(() => {
+                    set_create_top(-10);
+                }, 3000);
+            }
+         }).catch((err)=>{
+            console.log(`nope: ${err}`);
+            set_loading(false);
+            set_create_text("Check your internet connection.");
+            set_create_top(0);
+            setTimeout(() => {
+                set_create_top(-10);
+            }, 3000);
+        });
+    }
 
 
     return (
@@ -89,7 +119,7 @@ function Business(){
                         <label style={{width:"90%",boxShadow:"0px 0px 3px rgb(200,200,200)",backgroundColor:"rgb(200,200,200)",borderRadius:"3px",marginTop:"10px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
                             <FaPlus size={20}/>
                             <div>Upload Image for Business Logo</div>
-                            <input type="file" style={{display:"none"}} onChange={(e)=>{
+                            <input type="file" accept="image/*" style={{display:"none"}} onChange={(e)=>{
                                 set_sc(e.target.files[0]);
                             }}/>
                         </label>
@@ -130,7 +160,12 @@ function Business(){
                                 <input type="text" placeholder="" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
                             </div>
 
-                            <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}}>Register</div>
+                            <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
+                                if(loading==false){
+                                    await create_business();
+                                }
+                                
+                            }}>{loading?"Loading":"Register"}</div>
                         </div>
                     </div>
                     <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",color:"orangered",marginTop:"10px",marginBottom:"20px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center"}}>
@@ -138,6 +173,12 @@ function Business(){
                         <div style={{fontSize:"14px"}} onClick={()=>{
                             set_ad(false);
                         }}>Back</div>
+                    </div>
+                    <div style={{position:"fixed",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center"}}>
+                    {/*FAILED TO LOGIN*/} {create_text}
+                    </div>
+                    <div style={{position:"fixed",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    {/* Successful */} {create_s_text}
                     </div>
                 </div>
             }
