@@ -4,7 +4,8 @@ import { FaEarthAfrica, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "
 import { data } from "react-router-dom";
 
 function Business(){
-    const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business"
+    const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
+    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [x,set_x]=useState("Filter Enabled");
     const [q,set_q]=useState(false);
@@ -16,41 +17,78 @@ function Business(){
     const [create_top,set_create_top] = useState(-10);
     const [create_s_text,set_create_s_text] = useState("Sucess");
     const [create_s_top,set_create_s_top] = useState(-10);
+
+    const [title_name,set_title_name]=useState("");
+    const [description,set_description]=useState("");
+    const [business_address,set_business_address] = useState("");
+    const [contact_email,set_contact_email] = useState("");
+    const [country,set_country] = useState("");
     
     async function create_business(){
         set_loading(true);
-        
-         await fetch(url,{
+        await fetch(url,{
             method:"post",
             body: JSON.stringify({
-                request_id: "string",
-                meta_key: "string",
-                meta_value: "string",
-                slug: "string",
-                data_type: "string",
-                title_name: "string",
-                description: "string",
-                entity_featured_url: "http://example.com",
+                request_id: Date.now().toString(),
+                meta_key: title_name,
+                meta_value: "",
+               // slug: "string",
+               // data_type: "string",
+               // created_by:"string",
+                title_name: title_name,
+                description: description,
+              //  entity_type: "string",
+              //  entity_featured_url: "http://example.com",
                 extra_data: {
-                    key_name1:"value1",
-                    key_name2: 2
+                 //   key_name1:"value1",
+                 //   key_name2: 2,
+                    business_address:business_address,
+                    contact_email:contact_email,
+                    enable_on_portal_listing: true,
+                    country_of_registration: country
                 },
-                status: "active, inactive, draft, activated, deactivated, pending",
-                parent_entity_type: "custom_entity",
-                parent_entity_uuid: "660e8400-e29b-41d4-a716-446655440000",
-                owned_by: "550e8400-e29b-41d4-a716-446655440000"
-            })
+                status: "enabled",
+                //parent_entity_type: "business",
+               // parent_entity_uuid: localStorage.getItem("uuid"),
+                owned_by: localStorage.getItem("uuid")
+
+                
+    // "request_id": "1781335841198",
+    // "entity_featured_url": "",
+    // "meta_key": "",
+    // "meta_value": "",
+    // "title_name": "",
+    // "description": "",
+    // "status": "enabled",
+    // "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
+    // "created_by": "",
+    // "extra_data": {
+    //     "business_address": "",
+    //     "contact_email": "",
+    //     "enable_on_portal_listing": true,
+    //     "country_of_registration": "Nigeria",
+    //     "country_of_operation": "us,ng,gh",
+    //     "enable_feature_menu": true
+    // }
+
+            }),
+            headers:{
+                "Content-Type":"application/json",
+                "x-api-key": api
+            },
          }).then((res)=> res.json()).then((data)=>{
             if(data.status==true){
                 set_loading(false);
-                set_ad(false);
+                // set_ad(false);
                 set_create_s_text("successfully created business");
                 set_create_s_top(0);
                 setTimeout(() => {
                     set_create_s_top(-10);
+                    set_ad(false);
                 }, 3000);
             }else{
                 set_loading(false);
+                console.log(data);
                 set_create_text(data.message);
                 set_create_top(0);
                 setTimeout(() => {
@@ -128,7 +166,9 @@ function Business(){
                             <div style={{width:"100%",marginTop:"10px"}}>Business Name</div>
                             <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaBook size={17}/>
-                                <input type="text" placeholder="Smart Business Suite" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" value={title_name} placeholder="Smart Business Suite" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                    set_title_name(e.target.value);
+                                }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Short Name</div>
@@ -137,27 +177,35 @@ function Business(){
                                 <input type="text" placeholder="SBS" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
                             </div>
 
-                            <div style={{width:"100%",marginTop:"10px"}}>Business Address</div>
+                            <div style={{width:"100%",marginTop:"10px"}}>Description</div>
                             <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
-                                <input type="text" placeholder="Add description here" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" value={description} placeholder="Add description here" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                    set_description(e.target.value);
+                                }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Business Address</div>
                             <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaLocationPin size={17}/>
-                                <input type="text" placeholder="Abuja" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" value={business_address} placeholder="Abuja" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                    set_business_address(e.target.value);
+                                }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Contact Email</div>
                             <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaMessage size={17}/>
-                                <input type="text" placeholder="Business contact email" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" value={contact_email} placeholder="Business contact email" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                    set_contact_email(e.target.value);
+                                }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Country</div>
                             <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaEarthAfrica size={17}/>
-                                <input type="text" placeholder="" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" value={country} placeholder="" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                    set_country(e.target.value);
+                                }}/>
                             </div>
 
                             <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
@@ -165,7 +213,7 @@ function Business(){
                                     await create_business();
                                 }
                                 
-                            }}>{loading?"Loading":"Register"}</div>
+                            }}>{loading?"Loading...":"Register"}</div>
                         </div>
                     </div>
                     <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",color:"orangered",marginTop:"10px",marginBottom:"20px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center"}}>
@@ -174,10 +222,10 @@ function Business(){
                             set_ad(false);
                         }}>Back</div>
                     </div>
-                    <div style={{position:"fixed",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center"}}>
+                    <div style={{position:"fixed",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center",fontSize:"14px"}}>
                     {/*FAILED TO LOGIN*/} {create_text}
                     </div>
-                    <div style={{position:"fixed",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
+                    <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center",fontSize:"14px"}}>
                     {/* Successful */} {create_s_text}
                     </div>
                 </div>
