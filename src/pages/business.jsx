@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
-import { FaEarthAfrica, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
+import { FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { data } from "react-router-dom";
 
 function Business(){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
+    const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [x,set_x]=useState("Filter Enabled");
     const [q,set_q]=useState(false);
@@ -15,7 +16,7 @@ function Business(){
     const [loading,set_loading] = useState(false);
     const [create_text,set_create_text] = useState("Operation failed");
     const [create_top,set_create_top] = useState(-10);
-    const [create_s_text,set_create_s_text] = useState("Sucess");
+    const [create_s_text,set_create_s_text] = useState("Success");
     const [create_s_top,set_create_s_top] = useState(-10);
 
     const [title_name,set_title_name]=useState("");
@@ -23,6 +24,93 @@ function Business(){
     const [business_address,set_business_address] = useState("");
     const [contact_email,set_contact_email] = useState("");
     const [country,set_country] = useState("");
+
+    const [get_now,set_get_now] = useState(false);
+    const [loading_get_now,set_loading_get_now] = useState(false);
+    const [all_data,set_all_data] = useState(null);
+    const [i,set_i]=useState(null);
+        // [{
+        //     "uuid": "a41cf4c3-9182-47b8-8eb7-e268334d99be",
+        //     "request_id": "1781292473638",
+        //     "meta_key": "Cd",
+        //     "meta_value": "Codex2026-06-12",
+        //     "title_name": "Codex",
+        //     "description": "Tech",
+        //     "entity_featured_url": null,
+        //     "extra_data": {
+        //         "contact_email": "ini.a.mails@gmwil.com",
+        //         "business_address": "AKS",
+        //         "enable_feature_menu": true,
+        //         "country_of_operation": "us,ng,gh",
+        //         "country_of_registration": "ng",
+        //         "enable_on_portal_listing": true
+        //     },
+        //     "parent_entity_type": null,
+        //     "parent_entity": null,
+        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
+        //     "added_by": "1",
+        //     "data_type": null,
+        //     "status": "enabled",
+        //     "created_at": "2026-06-12 19:29:15",
+        //     "updated_at": "2026-06-12 19:29:15",
+        //     "deleted_at": null,
+        //     "created_by": null
+        // },
+        // {
+        //     "uuid": "b14ff0f9-efcf-400e-81f2-d582bd68419c",
+        //     "request_id": "1781335841198",
+        //     "meta_key": "IRF",
+        //     "meta_value": "IRF2026-06-13",
+        //     "title_name": "IRF",
+        //     "description": null,
+        //     "entity_featured_url": null,
+        //     "extra_data": {
+        //         "contact_email": "ini.a.mails@gmail.com",
+        //         "business_address": "DES",
+        //         "enable_feature_menu": true,
+        //         "country_of_operation": "us,ng,gh",
+        //         "country_of_registration": "Nigeria",
+        //         "enable_on_portal_listing": true
+        //     },
+        //     "parent_entity_type": null,
+        //     "parent_entity": null,
+        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
+        //     "added_by": "1",
+        //     "data_type": null,
+        //     "status": "enabled",
+        //     "created_at": "2026-06-13 07:57:40",
+        //     "updated_at": "2026-06-13 07:57:40",
+        //     "deleted_at": null,
+        //     "created_by": null
+        // },
+        // {
+        //     "uuid": "c3808949-4a70-44f6-afd9-db6a9dfd2b61",
+        //     "request_id": "1781294534916",
+        //     "meta_key": "nm",
+        //     "meta_value": "name2026-06-12",
+        //     "title_name": "name",
+        //     "description": "description",
+        //     "entity_featured_url": null,
+        //     "extra_data": {
+        //         "contact_email": "ini.a.mails@gmail.com",
+        //         "business_address": "address",
+        //         "enable_feature_menu": true,
+        //         "country_of_operation": "us,ng,gh",
+        //         "country_of_registration": "ng",
+        //         "enable_on_portal_listing": true
+        //     },
+        //     "parent_entity_type": null,
+        //     "parent_entity": null,
+        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
+        //     "added_by": "1",
+        //     "data_type": null,
+        //     "status": "enabled",
+        //     "created_at": "2026-06-12 20:08:10",
+        //     "updated_at": "2026-06-12 20:08:10",
+        //     "deleted_at": null,
+        //     "created_by": null
+        // }]
+  
     
     async function create_business(){
         set_loading(true);
@@ -37,7 +125,7 @@ function Business(){
                // created_by:"string",
                 title_name: title_name,
                 description: description,
-              //  entity_type: "string",
+              //  entity_type: "nellalink_business",
               //  entity_featured_url: "http://example.com",
                 extra_data: {
                  //   key_name1:"value1",
@@ -79,12 +167,12 @@ function Business(){
          }).then((res)=> res.json()).then((data)=>{
             if(data.status==true){
                 set_loading(false);
-                // set_ad(false);
+                set_get_now(!get_now);
+                set_ad(false);
                 set_create_s_text("successfully created business");
                 set_create_s_top(0);
                 setTimeout(() => {
                     set_create_s_top(-10);
-                    set_ad(false);
                 }, 3000);
             }else{
                 set_loading(false);
@@ -107,12 +195,39 @@ function Business(){
     }
 
 
+
+    useEffect(()=>{
+        async function get_business(){
+        set_loading_get_now(true);
+            await fetch(get_all_url,{
+                method: "get",
+                headers:{
+                    "Content-Type": "application/json",
+                    "x-api-key": api
+                }
+            }).then((res)=>res.json()).then((data)=>{
+                set_loading_get_now(false);
+                if(data.status==true){
+                    set_all_data(data.data);
+                }else{
+
+                }
+                console.log("success:   ",data);
+            }).catch((err)=>{
+                set_loading_get_now(false);
+                console.log("SORRY",err);
+            });
+        }
+        get_business();
+    },[get_now]);
+
+
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
             <div style={{width:"90%",paddingTop:"1%",paddingBottom:"1%",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
                 set_ad(true);
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Business</div></div>
-            <div style={{width:"90%",paddingTop:"1%",paddingBottom:"1%",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
                 <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}}/>
             </div>
@@ -139,11 +254,64 @@ function Business(){
                 </div>:null
                 }
             </div>
+            {
+                all_data==null?
+                loading_get_now==true?
+                <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                <FaDownload size={30}/>
+                <div style={{color:"black"}}>Loading all data...</div>
+                </div>:
+                
             <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
                 <FaIcicles size={30}/>
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
+            </div>:
+            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+            <div style={{width:"90%",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+                <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
+                    <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
+                    <div style={{width:"10%",textAlign:"end"}}>S/N</div>
+                    <div style={{width:"80%",textAlign:"center"}}>Business Name</div>
+                </div>
             </div>
+            {all_data.map((item,index)=>{
+                return (
+                    <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                        <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                            <div style={{width:"10%"}}><input type="checkbox"/></div>
+                            <div style={{width:"10%",textAlign:"center"}}>{index+1}</div>
+                            
+                            <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                                {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
+                                    <FaImage size={23} style={{paddingRight:"10px"}}/>
+                                {/* </div> */}
+                                <div>
+                                    <div>{item.title_name}</div>
+                                    <div>{item.extra_data.contact_email}</div>
+                                    <div>{item.extra_data.business_address}</div>
+                                    <div style={{paddingLeft:"10px",paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px"}}>{item.status}</div>
+                                </div>
+                                <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
+                                    set_i(index);
+                                }}/>
+                            </div>
+                        </div>
+                        {
+                            i==index&&
+                            <div style={{position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"10%",right:"10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                <div className="view">View</div>
+                                <div className="view">Edit</div>
+                                <div className="view">Manage</div>
+                            </div>
+                        }
+                    </div>
+                        
+                    
+                )
+            })}
+            </div>
+            }
 
             {
                 ad&&
@@ -222,14 +390,16 @@ function Business(){
                             set_ad(false);
                         }}>Back</div>
                     </div>
-                    <div style={{position:"fixed",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center",fontSize:"14px"}}>
-                    {/*FAILED TO LOGIN*/} {create_text}
-                    </div>
-                    <div style={{position:"absolute",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center",fontSize:"14px"}}>
-                    {/* Successful */} {create_s_text}
-                    </div>
+                    
+                    
                 </div>
             }
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center",fontSize:"14px"}}>
+                    {/*FAILED TO LOGIN*/} {create_text}
+                    </div>
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center",fontSize:"14px"}}>
+                    {/* Successful */} {create_s_text}
+            </div>
         </div>
     )
 }
