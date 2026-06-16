@@ -6,32 +6,32 @@ function Home(){
 
         const items = [
             {
-                icon: <FaCalendar size={20} color={"gray"}/>,
+                icon: <FaCalendar size={30} color={"gray"}/>,
                 nil: "_",
                 name: "Total Business (My Business)"
             },
             {
-                icon: <FaPeopleGroup size={20} color={"purple"}/>,
+                icon: <FaPeopleGroup size={30} color={"purple"}/>,
                 nil: "_",
                 name: "Total Number of Users Onboarded"
             },
             {
-                icon: <FaList size={20} color={"gray"}/>,
+                icon: <FaList size={30} color={"gray"}/>,
                 nil: "_",
                 name: "Total number of accepted orders"
             },
             {
-                icon: <FaBell size={20} color={"orange"}/>,
+                icon: <FaBell size={30} color={"orange"}/>,
                 nil: "Nil",
                 name: "Total Number of Notifications"
             },
             {
-                icon: <FaFileLines size={20} color={"red"}/>,
+                icon: <FaFileLines size={30} color={"red"}/>,
                 nil: "Nil",
                 name: "Total Number of Declined Orders"
             },
             {
-                icon: <FaComputer size={20} color={"gray"}/>,
+                icon: <FaComputer size={30} color={"gray"}/>,
                 nil: "Nil",
                 name: "Total Number of devices"
             }
@@ -43,7 +43,7 @@ function Home(){
                         {
                             items.map((item,index)=>{
                                 return(
-                                <div className="up" key={index} style={{width:"90%",transition:"all 0.1s linear",cursor:"pointer",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:`0px 0px ${up==index?20:3}px gray`,marginTop:"20px",display:"flex",flexDirection:"column"}} onClick={()=>{
+                                <div className="up" key={index} style={{width:"90%",fontSize:"14px",transition:"all 0.1s linear",cursor:"pointer",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:`0px 0px ${up==index?20:3}px rgb(200,200,200)`,marginTop:"20px",display:"flex",flexDirection:"column"}} onClick={()=>{
                                     set_up(index);
                                 }} onMouseEnter={(e)=>{
                                     set_up(index);
@@ -58,7 +58,7 @@ function Home(){
                             )
                             })
                         }
-                        <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 3px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
+                        <div style={{width:"90%",fontSize:"14px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 3px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
                                     <div style={{fontSize:"30px",fontWeight:"bold",color:"black"}}>1</div>
                                     <div>USER ONBOARDING</div>
                                     <div style={{width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
@@ -68,8 +68,8 @@ function Home(){
                                     </div>
                                     <div style={{color:"black",fontWeight:"bold"}}>Total User</div>
                                     <div style={{width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                                         <div style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",textAlign:"center",aspectRatio:"1/1",backgroundColor:"orange",color:"white",borderRadius:"100px"}}>BS</div>
-                                         <div style={{width:"85%",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"center"}}>
+                                         <div style={{width:"20%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",textAlign:"center",aspectRatio:"1/1",backgroundColor:"orange",color:"white",borderRadius:"100px"}}>BS</div>
+                                         <div style={{width:"70%",display:"flex",flexDirection:"column",alignItems:"start",justifyContent:"center"}}>
                                             <div style={{fontWeight:"bold",color:"black"}}>Business 1</div>
                                             <div>business@example.com</div>
                                         </div>
@@ -77,28 +77,28 @@ function Home(){
                                     <div>12/07/23</div>
                         </div>
         
-                        <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
+                        <div style={{width:"90%",fontSize:"14px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
                             <div>TIME LOGS</div>
                             <div style={{color:"black",fontWeight:"bold"}}>0 HOURS</div>
                             <div style={{color:"red"}}><FaArrowDown/>0% up from last week</div>
                         </div>
         
-                        <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
+                        <div style={{width:"90%",fontSize:"14px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",display:"flex",flexDirection:"column"}}>
                             <div>NOTIFICATION</div>
-                            <div style={{width:"40%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                                         <div style={{width:"47%",paddingTop:"1%",paddingBottom:"1%",backgroundColor:"pink",color:"red",textAlign:"center",borderRadius:"3px"}}>Today</div>
-                                         <div style={{width:"47%",paddingTop:"1%",paddingBottom:"1%",backgroundColor:"rgb(200,200,200)",color:"black",textAlign:"center",borderRadius:"3px"}}>Last Week</div>
-                                    </div>
+                            <div style={{width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                                         <div style={{width:"49%",paddingTop:"1%",paddingBottom:"1%",backgroundColor:"pink",color:"red",textAlign:"center",borderRadius:"3px"}}>Today</div>
+                                         <div style={{width:"49%",paddingTop:"1%",paddingBottom:"1%",backgroundColor:"rgb(200,200,200)",color:"black",textAlign:"center",borderRadius:"3px"}}>Last Week</div>
+                            </div>
                             <div><FaMessage/> 0 New Notification</div>
                         </div>
         
         
-                        <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",marginBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"90%",paddingTop:"10px",fontSize:"14px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:"0px 0px 20px gray",marginTop:"20px",marginBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"95%"}}>RECENT</div>
                             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",border:"1px solid orange",marginTop:"2px",display:"flex",flexDirection:"column"}}>
                                 <div><FaBoltLightning style={{color:"yellow"}}/> QR Code successfully generated</div>
                                 <div>Your QR code was generated and you have view it <a href="/">here</a></div>
-                                <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",background:"orange",textAlign:"center",color:"white",marginTop:"20px",display:"flex",flexDirection:"column"}}>View QR Code</div>
+                                <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",background:"orange",textAlign:"center",color:"white",marginTop:"20px",display:"flex",flexDirection:"column"}}>View QR Code</div>
                             </div>
                             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",border:"1px solid orange",marginTop:"20px",display:"flex",flexDirection:"column"}}>
                                 <div><FaI/> Information</div>

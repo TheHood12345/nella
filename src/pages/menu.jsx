@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaArrowDown, FaDollarSign, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
 import { FaCediSign, FaCircleXmark, FaNairaSign, FaX } from "react-icons/fa6";
+import { useLocation } from "react-router-dom";
 
 function Menu(){
 
@@ -30,6 +31,8 @@ function Menu(){
     const [create_top,set_create_top] = useState(-10);
     const [create_s_text,set_create_s_text] = useState("Success");
     const [create_s_top,set_create_s_top] = useState(-10);
+
+    const {state} = useLocation();
 
         async function create_menu(){
         set_loading(true);

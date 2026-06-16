@@ -6,6 +6,9 @@ import Nella from './pages/nella'
 import Login from './pages/login'
 import Signup from "./pages/signup"
 import P_Home from './pharm/p_home'
+import Home from './pages/home'
+import Business from './pages/business'
+import Menu from './pages/menu'
 
 function App() {
 
@@ -14,7 +17,12 @@ function App() {
       <Route path='/' element={<Nella/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
-      <Route path='/nella' element={<Nella/>}/>
+      <Route path='/' element={<Nella/>}>
+        <Route index element={<Home/>}/>
+        <Route path="home" element={<Home/>}/>
+        <Route path="business" element={<Business/>}/>
+        <Route path="menu" element={<Menu/>}/>
+      </Route>
 
       <Route path='/p_home' element={<P_Home/>}/>
 

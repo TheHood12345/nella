@@ -55,7 +55,7 @@ html,body{
   margin: 0;
   user-select: none;
   font-family: ja;
-  font-size:14px;
+  font-size:3990px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,8 +87,16 @@ html{
 }
 .view:hover{
   background-color: orange;
+  color: white;
+  border-radius: 2px;
 }
 .view{
   padding-left: 20px;
   padding-right: 20px;
+  width: 90%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:black;
+  font-size:12px;
+  
 }

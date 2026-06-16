@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { BiEdit } from "react-icons/bi";
+import { BsViewList } from "react-icons/bs";
 import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
 import { FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
-import { data } from "react-router-dom";
+import { MdManageAccounts } from "react-icons/md";
+import { data, Link } from "react-router-dom";
 
-function Business(){
+function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
     const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
@@ -232,7 +235,7 @@ function Business(){
                 <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}}/>
             </div>
             <div style={{width:"90%",paddingTop:"1%",color:"black",paddingBottom:"1%",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
-                <div style={{width:"100%",paddingLeft:"6%",paddingRight:"6%",paddingTop:"1%",fontWeight:"bold",paddingBottom:"1%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
+                <div style={{width:"90%",paddingTop:"10px",fontWeight:"bold",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
                 }}>
                     <div>{x}</div>
@@ -268,7 +271,7 @@ function Business(){
                 <div>Please add new items to see them listed here.</div>
             </div>:
             <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-            <div style={{width:"90%",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+            <div style={{width:"90%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
                 <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
                     <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
                     <div style={{width:"10%",textAlign:"end"}}>S/N</div>
@@ -280,17 +283,17 @@ function Business(){
                     <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
                         <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                             <div style={{width:"10%"}}><input type="checkbox"/></div>
-                            <div style={{width:"10%",textAlign:"center"}}>{index+1}</div>
+                            <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
                             
                             <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                                 {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
-                                    <FaImage size={23} style={{paddingRight:"10px"}}/>
+                                    <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
                                 {/* </div> */}
                                 <div>
-                                    <div>{item.title_name}</div>
-                                    <div>{item.extra_data.contact_email}</div>
-                                    <div>{item.extra_data.business_address}</div>
-                                    <div style={{paddingLeft:"10px",paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px"}}>{item.status}</div>
+                                    <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
+                                    <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
+                                    <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
+                                    <div style={{paddingLeft:"10px",paddingRight:"10px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"5px"}}>{item.status}</div>
                                 </div>
                                 <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
                                     set_i(index);
@@ -299,10 +302,12 @@ function Business(){
                         </div>
                         {
                             i==index&&
-                            <div style={{position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"10%",right:"10%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-                                <div className="view">View</div>
-                                <div className="view">Edit</div>
-                                <div className="view">Manage</div>
+                            <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                    <div className="view"><BsViewList/> View</div>
+                                    <div className="view"><BiEdit/> Edit</div>
+                                    <Link to={"/menu"} state={all_data} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
+                                </div>
                             </div>
                         }
                     </div>

@@ -1,0 +1,79 @@
+//create business
+
+{
+    "request_id": "1781555268836",
+    "entity_featured_url": "",
+    "meta_key": "",
+    "meta_value": "",
+    "title_name": "",
+    "description": "",
+    "status": "enabled",
+    "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
+    "created_by": "",
+    "extra_data": {
+        "business_address": "",
+        "contact_email": "",
+        "enable_on_portal_listing": true,
+        "country_of_registration": "Nigeria",
+        "country_of_operation": "us,ng,gh",
+        "enable_feature_menu": true
+    }
+},
+
+//create menu
+
+{
+    "slug": "",
+    "request_id": "1781555324355",
+    "entity_featured_url": "",
+    "meta_key": "untitled",
+    "meta_value": "untitled-2026-06-15",
+    "title_name": "",
+    "description": "",
+    "status": "enabled",
+    "created_by": "",
+    "extra_data": {
+        "menu_base_wallet_ticker": "",
+        "menu_featured_categories": [
+            "delivery"
+        ],
+        "menu_base_wallet_ticker_symbol": "",
+        "menu_primary_color": "",
+        "enable_dark_mode": true,
+        "support_tab": {
+            "title": "",
+            "content": "",
+            "nav_button_text": "",
+            "show_ring_feature_on_support_page": true
+        },
+        "contact_info": {
+            "mobile_number": "",
+            "address": "",
+            "show_contact_info_on_support_page": true
+        },
+        "menu_checkout_payments_providers": {
+            "paystack": {
+                "title": "",
+                "description": "",
+                "fee": "",
+                "fee_max_amount": 2000
+            },
+            "flutterwave": {
+                "title": "",
+                "description": "",
+                "fee": "",
+                "fee_max_amount": 2000
+            },
+            "bank_transfer": {
+                "title": "",
+                "description": ""
+            }
+        },
+        "parent_entity_type": "nellalink_business",
+        "parent_entity_uuid": "",
+        "owned_by": "",
+        "data_type": null,
+        "status": "enabled"
+    },
+    "parent_entity_type": "nellalink_business"
+}
