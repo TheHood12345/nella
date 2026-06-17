@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBusinessTime, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
-import { FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
+import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
+import { FaArrowRight, FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -14,7 +14,7 @@ function Menu(){
 
     const url=`https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${location.state?.owned_by}&parent_entity_type=${location.state?.parent_entity_type}&parent_entity_uuid=${location.state?.parent_entity_uuid}`
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
-    const get_all_menu_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${localStorage.getItem("uuid")}&parent_entity_type=nellalink_business`;
+    const get_all_menu_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${localStorage.getItem("uuid")}&parent_entity_type=nellalink_business&per_page=20000000`;
 //https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business&parent_entity_uuid=2abf5fdf-8982-4cde-97a1-9e0f3a4e8a4e
 //https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business&parent_entity_uuid=2abf5fdf-8982-4cde-97a1-9e0f3a4e8a4e
 //https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business
@@ -54,6 +54,8 @@ function Menu(){
     const [get_b_now,set_get_b_now]=useState(false);
     const [all_b_data,set_all_b_data]=useState(null);
     const [i_b,set_i_b]=useState(null);
+
+    const [a,set_a]=useState(2);
 
 
     useEffect(()=>{
@@ -138,6 +140,7 @@ function Menu(){
                 set_loading(false);
                 // set_ad(false);
                 set_create_s_text("successfully created Menu");
+                set_get_now(!get_now);
                 set_create_s_top(0);
                 set_show_menu(false);
                 navigate(location.pathname+location.search,{replace:true,state:null});
@@ -202,6 +205,7 @@ function Menu(){
                         set_loading_b_get_now(false);
                         if(data.status==true){
                             set_all_b_data(data.data);
+                            //set_get_b_now(!get_b_now);
                         }else{
         
                         }
@@ -221,7 +225,14 @@ function Menu(){
             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
                 if(!location.state){
                     //navigate("/business");
-                    set_show_business(true);
+                    if(all_b_data){
+                        set_show_business(true);
+                    }else{
+                        set_get_b_now(!get_b_now);
+                        set_show_business(true);
+                    }
+                    
+                    
                 }else{
                     set_show_menu(true);
                 }
@@ -304,11 +315,19 @@ function Menu(){
                         return acc;
                     },{})
                 ).map(([parentId,items],index)=>(
-                    <div key={parentId} style={{width:"100%",boxShadow:"0px 0px 3px gray",backgroundColor:"rgb(240,240,240)",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                    <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px gray",backgroundColor:"rgb(240,240,240)",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",fontSize:"20px",color:"orange"}}>{/*"parentId"*/}Category {index+1}</div>
+                        <div style={{color:"orange",fontSize:"14px",position:"absolute",right:"1%",top:"1%",textDecoration:"underline"}} onClick={()=>{
+                            if(a==2){
+                                set_a(all_data.length);
+                            }else{
+                                set_a(2);
+                            }
+                        }}>{a==2?"See all":"Collapse"} {a==2?<FaArrowRight/>:<FaCaretDown/>}</div>
+                       
                         {
                             items.map((item,index)=>(
-                                
+                                index<a&&
                                     
                                 <div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}}>
                         
