@@ -196,8 +196,8 @@ function Business({prop_set_q}){
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div>:
-            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-            <div style={{width:"90%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
                 <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
                     <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
                     <div style={{width:"10%",textAlign:"end"}}>S/N</div>
@@ -206,7 +206,7 @@ function Business({prop_set_q}){
             </div>
             {all_data.map((item,index)=>{
                 return (
-                    <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"rgb(240,240,240)",borderRadius:"10px"}}>
                         <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                             <div style={{width:"10%"}}><input type="checkbox"/></div>
                             <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>

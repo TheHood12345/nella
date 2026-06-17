@@ -315,7 +315,7 @@ function Menu(){
                         return acc;
                     },{})
                 ).map(([parentId,items],index)=>(
-                    <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px gray",backgroundColor:"rgb(240,240,240)",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                    <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px rgb(240,240,240)",backgroundColor:"rgb(240,240,240)",borderRadius:"10px",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",fontSize:"20px",color:"orange"}}>{/*"parentId"*/}Category {index+1}</div>
                         <div style={{color:"orange",fontSize:"14px",position:"absolute",right:"1%",top:"1%",textDecoration:"underline"}} onClick={()=>{
                             if(a==2){
