@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
 import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
-import { FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
+import { FaCircleXmark, FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { data, Link, useSearchParams } from "react-router-dom";
 
@@ -306,13 +306,13 @@ function Business({prop_set_q}){
             {
                 ad&&
                 <div style={{width:"100%",height:"100%",overflow:"scroll",backgroundColor:"white",position:"absolute",top:"0%",left:"0%",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                    <div style={{width:"90%",marginTop:"20px",marginBottom:"20px",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                    <div style={{width:"90%",position:"relative",marginTop:"20px",marginBottom:"20px",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                         <div style={{width:"90%",height:"200px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",position:"relative"}}>
                         {
                             sc==""?<FaPhotoFilm size={100}/>:<img src={URL.createObjectURL(sc)} alt="qwe" style={{width:"100%",height:"100%"}}/>
                         }
                         </div>
-                        <label style={{width:"90%",boxShadow:"0px 0px 3px rgb(200,200,200)",backgroundColor:"rgb(200,200,200)",borderRadius:"3px",marginTop:"10px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                        <label style={{width:"90%",boxShadow:"0px 0px 3px rgb(200,200,200)",cursor:"pointer",backgroundColor:"rgb(200,200,200)",borderRadius:"3px",marginTop:"10px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
                             <FaPlus size={20}/>
                             <div>Upload Image for Business Logo</div>
                             <input type="file" accept="image/*" style={{display:"none"}} onChange={(e)=>{
@@ -322,65 +322,70 @@ function Business({prop_set_q}){
                         <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>Max: 2MB. PNG, JPEG only.</div>
                         <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"100%",marginTop:"10px"}}>Business Name</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaBook size={17}/>
-                                <input type="text" value={title_name} placeholder="Smart Business Suite" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                <input type="text" value={title_name} placeholder="Smart Business Suite" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
                                     set_title_name(e.target.value);
                                 }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Short Name</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaPerson size={17}/>
-                                <input type="text" placeholder="SBS" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}}/>
+                                <input type="text" placeholder="SBS" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Description</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
-                                <input type="text" value={description} placeholder="Add description here" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                                <input type="text" value={description} placeholder="Add description here" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
                                     set_description(e.target.value);
                                 }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Business Address</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaLocationPin size={17}/>
-                                <input type="text" value={business_address} placeholder="Abuja" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                <input type="text" value={business_address} placeholder="Abuja" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
                                     set_business_address(e.target.value);
                                 }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Contact Email</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaMessage size={17}/>
-                                <input type="text" value={contact_email} placeholder="Business contact email" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                <input type="text" value={contact_email} placeholder="Business contact email" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
                                     set_contact_email(e.target.value);
                                 }}/>
                             </div>
 
                             <div style={{width:"100%",marginTop:"10px"}}>Country</div>
-                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",paddingTop:"3px",paddingBottom:"3px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                            <div style={{width:"100%",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"4px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center"}}>
                                 <FaEarthAfrica size={17}/>
-                                <input type="text" value={country} placeholder="" style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
+                                <input type="text" value={country} placeholder="" style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"transparent",border:"0px"}} onChange={(e)=>{
                                     set_country(e.target.value);
                                 }}/>
                             </div>
 
-                            <div style={{width:"100%",paddingTop:"3px",paddingBottom:"3px",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
+                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",cursor:"pointer",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
                                 if(loading==false){
                                     await create_business();
                                 }
                                 
                             }}>{loading?"Loading...":"Register"}</div>
                         </div>
+                        <div style={{paddingTop:"20px",paddingBottom:"20px",position:"absolute",right:"1%",top:"0%",marginTop:"10px",marginBottom:"20px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                        <FaCircleXmark size={30} onClick={()=>{
+                            set_ad(false);
+                        }}/>
+                        </div>
+                    
                     </div>
-                    <div style={{width:"90%",paddingTop:"3px",paddingBottom:"3px",color:"orangered",marginTop:"10px",marginBottom:"20px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center"}}>
+                    <div style={{width:"90%",paddingBottom:"20px",marginTop:"10px",marginBottom:"20px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",color:"orangered"}}>
                         <FaCaretLeft size={30}/>
                         <div style={{fontSize:"14px"}} onClick={()=>{
                             set_ad(false);
                         }}>Back</div>
-                    </div>
-                    
+                        </div>
                     
                 </div>
             }
