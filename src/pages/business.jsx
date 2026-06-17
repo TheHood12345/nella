@@ -32,88 +32,6 @@ function Business({prop_set_q}){
     const [loading_get_now,set_loading_get_now] = useState(false);
     const [all_data,set_all_data] = useState(null);
     const [i,set_i]=useState(null);
-        // [{
-        //     "uuid": "a41cf4c3-9182-47b8-8eb7-e268334d99be",
-        //     "request_id": "1781292473638",
-        //     "meta_key": "Cd",
-        //     "meta_value": "Codex2026-06-12",
-        //     "title_name": "Codex",
-        //     "description": "Tech",
-        //     "entity_featured_url": null,
-        //     "extra_data": {
-        //         "contact_email": "ini.a.mails@gmwil.com",
-        //         "business_address": "AKS",
-        //         "enable_feature_menu": true,
-        //         "country_of_operation": "us,ng,gh",
-        //         "country_of_registration": "ng",
-        //         "enable_on_portal_listing": true
-        //     },
-        //     "parent_entity_type": null,
-        //     "parent_entity": null,
-        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
-        //     "added_by": "1",
-        //     "data_type": null,
-        //     "status": "enabled",
-        //     "created_at": "2026-06-12 19:29:15",
-        //     "updated_at": "2026-06-12 19:29:15",
-        //     "deleted_at": null,
-        //     "created_by": null
-        // },
-        // {
-        //     "uuid": "b14ff0f9-efcf-400e-81f2-d582bd68419c",
-        //     "request_id": "1781335841198",
-        //     "meta_key": "IRF",
-        //     "meta_value": "IRF2026-06-13",
-        //     "title_name": "IRF",
-        //     "description": null,
-        //     "entity_featured_url": null,
-        //     "extra_data": {
-        //         "contact_email": "ini.a.mails@gmail.com",
-        //         "business_address": "DES",
-        //         "enable_feature_menu": true,
-        //         "country_of_operation": "us,ng,gh",
-        //         "country_of_registration": "Nigeria",
-        //         "enable_on_portal_listing": true
-        //     },
-        //     "parent_entity_type": null,
-        //     "parent_entity": null,
-        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
-        //     "added_by": "1",
-        //     "data_type": null,
-        //     "status": "enabled",
-        //     "created_at": "2026-06-13 07:57:40",
-        //     "updated_at": "2026-06-13 07:57:40",
-        //     "deleted_at": null,
-        //     "created_by": null
-        // },
-        // {
-        //     "uuid": "c3808949-4a70-44f6-afd9-db6a9dfd2b61",
-        //     "request_id": "1781294534916",
-        //     "meta_key": "nm",
-        //     "meta_value": "name2026-06-12",
-        //     "title_name": "name",
-        //     "description": "description",
-        //     "entity_featured_url": null,
-        //     "extra_data": {
-        //         "contact_email": "ini.a.mails@gmail.com",
-        //         "business_address": "address",
-        //         "enable_feature_menu": true,
-        //         "country_of_operation": "us,ng,gh",
-        //         "country_of_registration": "ng",
-        //         "enable_on_portal_listing": true
-        //     },
-        //     "parent_entity_type": null,
-        //     "parent_entity": null,
-        //     "owned_by": "6a622d6e-b707-4159-9742-1ad91d4cc620",
-        //     "added_by": "1",
-        //     "data_type": null,
-        //     "status": "enabled",
-        //     "created_at": "2026-06-12 20:08:10",
-        //     "updated_at": "2026-06-12 20:08:10",
-        //     "deleted_at": null,
-        //     "created_by": null
-        // }]
-  
     
     async function create_business(){
         set_loading(true);
@@ -306,7 +224,7 @@ function Business({prop_set_q}){
                                 <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
                                     <div className="view"><BsViewList/> View</div>
                                     <div className="view"><BiEdit/> Edit</div>
-                                    <Link to={"/menu"} state={all_data} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
+                                    <Link to={"/menu"} state={item} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
                                 </div>
                             </div>
                         }
