@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaRegImages, FaSearch } from "react-icons/fa";
 import { FaArrowRight, FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -56,6 +56,24 @@ function Menu(){
     const [i_b,set_i_b]=useState(null);
 
     const [a,set_a]=useState(2);
+
+    const [im_menu,set_im_menu]=useState("");
+
+    const [p_title,set_p_title]=useState("");
+    const [p_desc,set_p_desc]=useState("");
+    const [p_fee,set_p_fee]=useState("");
+
+    const [f_title,set_f_title]=useState("");
+    const [f_desc,set_f_desc]=useState("");
+    const [f_fee,set_f_fee]=useState("");
+
+    const [b_title,set_b_title]=useState("");
+    const [b_desc,set_b_desc]=useState("");
+
+    const [p,set_p]=useState(false);
+    const [f,set_f]=useState(false);
+    const [b,set_b]=useState(false);
+
 
 
     useEffect(()=>{
@@ -393,26 +411,26 @@ function Menu(){
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Title</div>
-                            <input text="text" value={title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter menu title" onChange={(e)=>{
+                            <input type="text" value={title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter menu title" onChange={(e)=>{
                                 set_title(e.target.value);
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Description</div>
-                            <input text="text" value={description} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                            <input type="text" value={description} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
                                 set_description(e.target.value);
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Menu Link</div>
                             <div style={{width:"90%"}}>https://business.nellalink.com/app/menu/</div>
-                            <input text="text" value={slug} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="your-slug" onChange={(e)=>{
+                            <input type="text" value={slug} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="your-slug" onChange={(e)=>{
                                 set_slug(e.target.value);
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Wallet Ticker</div>
-                            <select text="text" value={currency} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Select a currency" onChange={(e)=>{
+                            <select type="text" value={currency} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Select a currency" onChange={(e)=>{
                                 set_slug(e.target.value);
                             }} onChange={(e)=>{
                                 set_currency(e.target.value);
@@ -432,7 +450,7 @@ function Menu(){
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>categories for Menu Items</div>
-                            <input text="text" value={category} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add category..." onChange={(e)=>{
+                            <input type="text" value={category} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add category..." onChange={(e)=>{
                                 set_category(e.target.value);
                             }}/>
                         </div>
@@ -450,19 +468,19 @@ function Menu(){
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Support Tab Title</div>
-                            <input text="text" value={s_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Need Help?" onChange={(e)=>{
+                            <input type="text" value={s_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Need Help?" onChange={(e)=>{
                                 set_s_title(e.target.value);
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Navigation Button Text</div>
-                            <input text="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Contact Us" onChange={(e)=>{
+                            <input type="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Contact Us" onChange={(e)=>{
                                 set_n_tx(e.target.value);
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Support Tab Description</div>
-                            <input text="text" value={t_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
+                            <input type="text" value={t_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
                                 set_t_desc(e.target.value);
                             }}/>
                         </div>
@@ -474,7 +492,7 @@ function Menu(){
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Contact Email</div>
-                            <input text="text" value={con_email} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add email here" onChange={(e)=>{
+                            <input type="text" value={con_email} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add email here" onChange={(e)=>{
                                 set_con_email(e.target.value);
                             }}/>
                         </div>
@@ -486,7 +504,7 @@ function Menu(){
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Phone Number</div>
-                            <input text="text" value={phone_num} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="080x xxx xxxx" onChange={(e)=>{
+                            <input type="text" value={phone_num} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="080x xxx xxxx" onChange={(e)=>{
                                 set_phone_num(e.target.value);
                             }}/>
                         </div>
@@ -516,6 +534,62 @@ function Menu(){
                                 <input type="checkbox"/>
                                 <div>Bank Transfer</div>
                             </div>
+                        </div>
+                        {
+                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                                <div style={{width:"90%"}}>Paystack</div>
+                                <input type="text" value={p_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                    set_p_title(e.target.value);
+                                }}/>
+                                <input type="text" value={p_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                                    set_p_desc(e.target.value);
+                                }}/>
+                                <input type="text" value={p_fee} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Fee" onChange={(e)=>{
+                                    set_p_fee(e.target.value);
+                                }}/>
+                            </div>
+                            
+                        }
+                        {
+                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                                <div style={{width:"90%"}}>Flutterwave</div>
+                                <input type="text" value={f_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                    set_f_title(e.target.value);
+                                }}/>
+                                <input type="text" value={f_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                                    set_f_desc(e.target.value);
+                                }}/>
+                                <input type="text" value={f_fee} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Fee" onChange={(e)=>{
+                                    set_f_fee(e.target.value);
+                                }}/>
+                            </div>
+                        }
+                        {
+                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                                <div style={{width:"90%"}}>Bank Transfer</div>
+                                <input type="text" value={b_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                    set_b_title(e.target.value);
+                                }}/>
+                                <input type="text" value={b_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Description" onChange={(e)=>{
+                                    set_b_desc(e.target.value);
+                                }}/>
+                            </div>
+                        }
+                        <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                            <div style={{width:"90%"}}>Select Menu Image</div>
+                            <label style={{width:"100%",backgroundColor:"rgb(240,240,240)",border:"1px solid orange",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                
+                            <input type="file" accept="image/*" style={{width:"85%",paddingTop:"10px",paddingBottom:"10px",display:"none"}} onChange={(e)=>{
+                                set_im_menu(e.target.files[0]);
+                            }}/>
+                            <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                {
+                                    im_menu==""?
+                                    <FaRegImages size={30}/>:
+                                <img src={URL.createObjectURL(im_menu)} alt={"image"} style={{width:"80%",aspectRatio:"2/1"}}/>
+                                }
+                            </div>
+                        </label>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}>
                             <div style={{width:"40%",textAlign:"center",cursor:"pointer",backgroundColor:"rgb(200,200,200)",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px"}} onClick={()=>{
