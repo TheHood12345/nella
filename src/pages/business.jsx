@@ -4,7 +4,7 @@ import { BsViewList } from "react-icons/bs";
 import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
 import { FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
-import { data, Link } from "react-router-dom";
+import { data, Link, useSearchParams } from "react-router-dom";
 
 function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
@@ -32,6 +32,14 @@ function Business({prop_set_q}){
     const [loading_get_now,set_loading_get_now] = useState(false);
     const [all_data,set_all_data] = useState(null);
     const [i,set_i]=useState(null);
+
+    const [query] = useSearchParams();
+
+    useEffect(()=>{
+        if(query.get("q") == "create"){
+            set_ad(true);
+        }
+    },[]);
     
     async function create_business(){
         set_loading(true);
@@ -224,7 +232,7 @@ function Business({prop_set_q}){
                                 <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
                                     <div className="view"><BsViewList/> View</div>
                                     <div className="view"><BiEdit/> Edit</div>
-                                    <Link to={"/menu"} state={item} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
+                                    <Link to={"/menu?q=create_menu"} state={item} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
                                 </div>
                             </div>
                         }

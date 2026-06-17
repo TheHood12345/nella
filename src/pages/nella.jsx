@@ -4,7 +4,7 @@ import { FaBoltLightning, FaCertificate, FaCircleXmark, FaComputer, FaFileLines,
 import Business from "./business";
 import Home from "./home";
 import Menu from "./menu";
-import { Outlet, useNavigate,Link } from "react-router-dom";
+import { Outlet, useNavigate,Link,useSearchParams } from "react-router-dom";
 
 function Nella(){
 
@@ -50,6 +50,16 @@ function Nella(){
     const [col1,set_col1]=useState(false);
     const [col2,set_col2]=useState(false);
     const [col3,set_col3]=useState(false);
+    
+    const [query]=useSearchParams();
+
+    useEffect(()=>{
+        if(query.get("q")=="create"){
+            set_q(2);
+        }else if(query.get("q")=="create_menu"){
+            set_q(3);
+        }
+    },[query]);
 
     const items = [
         {

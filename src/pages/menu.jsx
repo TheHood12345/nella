@@ -1,19 +1,24 @@
 import { useState,useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaBusinessTime, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaSearch } from "react-icons/fa";
 import { FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 function Menu(){
 
     const location = useLocation();
     const navigate = useNavigate();
+    const [query] = useSearchParams();
 
     const url=`https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${location.state?.owned_by}&parent_entity_type=${location.state?.parent_entity_type}&parent_entity_uuid=${location.state?.parent_entity_uuid}`
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
-    const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
+    const get_all_menu_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=${localStorage.getItem("uuid")}&parent_entity_type=nellalink_business`;
+//https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business&parent_entity_uuid=2abf5fdf-8982-4cde-97a1-9e0f3a4e8a4e
+//https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business&parent_entity_uuid=2abf5fdf-8982-4cde-97a1-9e0f3a4e8a4e
+//https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu?owned_by=6a622d6e-b707-4159-9742-1ad91d4cc620&parent_entity_type=nellalink_business
+    const get_business_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
 
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [x,set_x]=useState("Filter Enabled");
@@ -43,6 +48,19 @@ function Menu(){
     const [get_now,set_get_now]=useState(false);
     const [all_data,set_all_data]=useState(null);
     const [i,set_i]=useState(null);
+
+    const [show_business,set_show_business]=useState(false);
+    const [loading_b_get_now,set_loading_b_get_now]=useState(false);
+    const [get_b_now,set_get_b_now]=useState(false);
+    const [all_b_data,set_all_b_data]=useState(null);
+    const [i_b,set_i_b]=useState(null);
+
+
+    useEffect(()=>{
+        if(query.get("q") == "create_menu"){
+            set_show_menu(true);
+        }
+    },[query]);
     
 
         async function create_menu(){
@@ -97,14 +115,19 @@ function Menu(){
                             description: ""
                         }
                     },
-                    // parent_entity_type: "nellalink_business",
-                    parent_entity_type:location.state?.parent_entity_type,
-                    parent_entity_uuid: location.state?.parent_entity_uuid,
+                    parent_entity_type: "nellalink_business",
+                    //parent_entity_type:location.state?.parent_entity_type,
+                    parent_entity_uuid: location.state?.uuid,
                     owned_by: location.state?.owned_by,
                     data_type: null,
                     status: "enabled"
                 },
-                parent_entity_type: "nellalink_business"
+                parent_entity_type: "nellalink_business",
+                status: "enabled",
+                owned_by: location.state?.owned_by,
+                parent_entity_uuid: location.state?.uuid,
+                parent_entity: location.state?.uuid,
+               // uuid: "accf7c79-605c-43ed-9553-58d80f961888"
             }),
             headers:{
                 "Content-Type":"application/json",
@@ -114,8 +137,10 @@ function Menu(){
             if(data.status==true){
                 set_loading(false);
                 // set_ad(false);
-                set_create_s_text("successfully created business");
+                set_create_s_text("successfully created Menu");
                 set_create_s_top(0);
+                set_show_menu(false);
+                navigate(location.pathname+location.search,{replace:true,state:null});
                 setTimeout(() => {
                     set_create_s_top(-10);
                 }, 3000);
@@ -142,7 +167,7 @@ function Menu(){
         useEffect(()=>{
             async function get_menu(){
             set_loading_get_now(true);
-                await fetch(get_all_url,{
+                await fetch(get_all_menu_url,{
                     method: "get",
                     headers:{
                         "Content-Type": "application/json",
@@ -152,24 +177,51 @@ function Menu(){
                     set_loading_get_now(false);
                     if(data.status==true){
                         set_all_data(data.data);
+                        console.log("All menu success:   ",data);
                     }else{
-    
+                        console.log("MENU Request Sent but failed:   ",data)
                     }
-                    console.log("success:   ",data);
                 }).catch((err)=>{
                     set_loading_get_now(false);
-                    console.log("SORRY",err);
+                    console.log("ERROR ON MENU: ",err);
                 });
             }
             get_menu();
         },[get_now]);
+
+            useEffect(()=>{
+                async function get_business(){
+                set_loading_b_get_now(true);
+                    await fetch(get_business_url,{
+                        method: "get",
+                        headers:{
+                            "Content-Type": "application/json",
+                            "x-api-key": api
+                        }
+                    }).then((res)=>res.json()).then((data)=>{
+                        set_loading_b_get_now(false);
+                        if(data.status==true){
+                            set_all_b_data(data.data);
+                        }else{
+        
+                        }
+                        console.log("success:   ",data);
+                    }).catch((err)=>{
+                        set_loading_b_get_now(false);
+                        console.log("SORRY",err);
+                    });
+                }
+                get_business();
+            },[get_b_now]);
+        
 
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
                 if(!location.state){
-                    navigate("/business");
+                    //navigate("/business");
+                    set_show_business(true);
                 }else{
                     set_show_menu(true);
                 }
@@ -221,52 +273,74 @@ function Menu(){
                 <div>Please add new items to see them listed here.</div>
             </div>:
             <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-            <div style={{width:"90%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
-                <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
-                    <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
-                    <div style={{width:"10%",textAlign:"end"}}>S/N</div>
-                    <div style={{width:"80%",textAlign:"center"}}>Menu</div>
+            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+                <div style={{width:"100%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange",color:"white"}}>
+                  
+                    <div style={{width:"20%",textAlign:"center"}}>S/N</div>
+                    <div style={{width:"20%",textAlign:"center"}}>Menu Name</div>
+                    <div style={{width:"20%",textAlign:"center"}}>View</div>
+                    <div style={{width:"20%",textAlign:"center"}}>Actions</div>
                 </div>
             </div>
             {
-            // all_data.map((item,index)=>{
-            //     return (
-            //         <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-            //             <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-            //                 <div style={{width:"10%"}}><input type="checkbox"/></div>
-            //                 <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
-                            
-            //                 <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-            //                     {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
-            //                         <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
-            //                     {/* </div> */}
-            //                     <div>
-            //                         <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
-            //                         <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
-            //                         <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
-            //                         <div style={{paddingLeft:"10px",paddingRight:"10px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"5px"}}>{item.status}</div>
-            //                     </div>
-            //                     <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
-            //                         set_i(index);
-            //                     }}/>
-            //                 </div>
-            //             </div>
-            //             {
-            //                 i==index&&
-            //                 <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
-            //                     <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-            //                         <div className="view"><BsViewList/> View</div>
-            //                         <div className="view"><BiEdit/> Edit</div>
-            //                         <Link to={"/menu"} state={item} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
-            //                     </div>
-            //                 </div>
-            //             }
-            //         </div>
+            all_data.map((item,index)=>{
+                return (
+                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                        
+                        {/* {
+                            item.parent_entity_uuid==all_data[index].parent_entity_uuid?
+                            <div>{item.parent_entity_uuid}</div>:null
+                        }
+                         */}
+                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                           
+                            <div style={{width:"20%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
+                            <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
+                            <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder",textDecoration:"underline",color:"gray"}}>View Menu</div>
+                            <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder"}}>
+                                <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
+                                    set_i(index);
+                                }}/>
+                            </div>
+                
+                        </div>
+
+
+                        {
+                            i==index&&
+                            <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                    <div className="view"><BsViewList/> Generate QR</div>
+                                    <div className="view"><BiEdit/> Copy URL</div>
+                                    <div className="view"><BsViewList/> Download Flyer</div>
+                                    <div className="view"><BiEdit/> Edit</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                         
                     
-            //     )
-            // })
+                )
+            })
             }
+            {/* {
+                Object.entries(
+                    all_data.reduce((acc,item)=>{
+                        if(!acc[item.parent_entity_uuid]){
+                            acc[item.parent_entity_uuid] = [];
+                        }
+                        acc[item.parent_entity_uuid].push(item);
+                        return acc;
+                    },{})
+                ).map((item,index)=>(
+                    <div key={index}>
+                        <h1>{item.parent_entity_uuid}</h1>
+                        item.
+
+                    </div>
+                ))
+            } */}
+            
             </div>
             }
                         {/* ----------------------------------------------------------------------------------- */}
@@ -278,6 +352,7 @@ function Menu(){
                             <div style={{fontSize:"15px"}}>Add Menu</div><div></div>
                             <FaCircleXmark size={20} style={{cursor:"pointer"}} onClick={()=>{
                                 set_show_menu(false);
+                                navigate(location.pathname+location.search,{replace:true,state:null});
                             }}/>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
@@ -422,12 +497,104 @@ function Menu(){
                     <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center",fontSize:"14px"}}>
                         {/*FAILED TO LOGIN*/} {create_text}
                     </div>
-                    <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center",fontSize:"14px"}}>
-                        {/* Successful */} {create_s_text}
-                    </div>
                     
                 </div>
+                
             }
+            {show_business&&
+                <div style={{position:"absolute",top:"0%",left:"0%",width:"100%",height:"100%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                    <div style={{position:"relative",overflow:"scroll",width:"90%",height:"80%",backgroundColor:"rgb(240,240,240)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{fontSize:"20px",marginTop:"20px"}}>SELECT BUSINESS</div>
+
+                        <FaCircleXmark size={30} style={{position:"absolute",right:"1%",top:"1%",cursor:"pointer"}} onClick={()=>{
+                            set_show_business(false);
+                            navigate(location.pathname+location.search,{replace:true,state:null});
+                        }}/>
+
+                                    {
+                                        all_b_data==null?
+                                        loading_b_get_now==true?
+                                        <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                                        <FaDownload size={30}/>
+                                        <div style={{color:"black"}}>Loading all data...</div>
+                                        </div>:
+                                        
+                                    <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                                        <FaIcicles size={30}/>
+                                        <div style={{color:"black"}}>No menu data available</div>
+                                        <div>Please add new items to see them listed here.</div>
+                                    </div>:
+                                    <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                                    <div style={{width:"90%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+                                        <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
+                                
+                                            <div style={{width:"10%",textAlign:"end"}}>S/N</div>
+                                            <div style={{width:"80%",textAlign:"center"}}>Business Name</div>
+                                        </div>
+                                    </div>
+                                    {all_b_data.map((item,index)=>{
+                                        return (
+                                            <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                                                <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+        
+                                                    <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
+                                                    
+                                                    <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start"}}>
+                                                        {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
+                                                            <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
+                                                        {/* </div> */}
+                                                        <div style={{width:"80%",fontSize:"14px"}}>
+                                                            <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
+                                                            <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
+                                                            <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
+                                                            <div style={{fontStyle:"italic"}}>{item.status}</div>
+                                                            <Link to={"/menu?q=create_menu"} state={item} style={{textDecoration:"none",paddingTop:"20px",paddingBottom:"20px",width:"100%",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white"}} onClick={()=>{
+                                                                set_show_business(false);
+                                                                navigate(location.pathname+location.search,{replace:true,state:null});
+                                                            }}><MdManageAccounts/> Manage</Link>
+                                                        </div>
+                                                        {/* <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
+                                                            set_i_b(index);
+                                                        }}/> */}
+                                                    </div>
+                                                </div>
+                                                {/* {
+                                                    i_b==index&&
+                                                    <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                                        <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                                            <div className="view"><BsViewList/> View</div>
+                                                            <div className="view"><BiEdit/> Edit</div>
+                                                            <Link to={"/menu?q=create_menu"} state={item} className="view" style={{textDecoration:"none"}} onClick={()=>{
+                                                                set_show_business(false);
+                                                            }}><MdManageAccounts/> Manage</Link>
+                                                        </div>
+                                                    </div>
+                                                } */}
+                                            </div>
+                                                
+                                            
+                                        )
+                                    })}
+                                    
+                                    </div>
+                                    }
+                                    
+                                    
+                    </div>
+                    <div style={{width:"90%",height:"20%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+                        <div>OR</div>
+                        <div style={{width:"90%",height:"60%",borderRadius:"10px",backgroundColor:"orange",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",color:"white",cursor:"pointer"}} onClick={()=>{
+                                navigate("/business?q=create");
+                            }}>
+                                <FaBusinessTime size={30}/> CREATE A BUSINESS
+                        </div>
+                    </div>
+                    </div>
+            }
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
+                        {/* Successful */} {create_s_text}
+            </div>
+                    
         </div>
     )
 }
