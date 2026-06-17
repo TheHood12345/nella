@@ -225,6 +225,7 @@ function Menu(){
                 }else{
                     set_show_menu(true);
                 }
+                set_i(null);
                 
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Menu {location.state?.title_name}</div></div>
             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
@@ -272,7 +273,7 @@ function Menu(){
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div>:
-            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
             <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
                 <div style={{width:"100%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange",color:"white"}}>
                   
@@ -282,21 +283,42 @@ function Menu(){
                     <div style={{width:"20%",textAlign:"center"}}>Actions</div>
                 </div>
             </div>
-            {
+            {/* {
             all_data.map((item,index)=>{
                 return (
-                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                    
                         
-                        {/* {
-                            item.parent_entity_uuid==all_data[index].parent_entity_uuid?
-                            <div>{item.parent_entity_uuid}</div>:null
+                    
+                )
+            })
+            } */}
+            {
+                Object.entries(
+                    all_data.reduce((acc,item)=>{
+                        const key = item.parent_entity_uuid;
+                        // const key = item.title_name;
+                        if(!acc[key]){
+                            acc[key] = [];
                         }
-                         */}
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                        acc[key].push(item);
+                        return acc;
+                    },{})
+                ).map(([parentId,items],index)=>(
+                    <div key={parentId} style={{width:"100%",boxShadow:"0px 0px 3px gray",backgroundColor:"rgb(240,240,240)",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                        <div style={{width:"90%",fontSize:"20px",color:"orange"}}>{/*"parentId"*/}Category {index+1}</div>
+                        {
+                            items.map((item,index)=>(
+                                
+                                    
+                                <div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}}>
+                        
+                                
+                        
+                                <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                            
                             <div style={{width:"20%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
                             <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
-                            <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder",textDecoration:"underline",color:"gray"}}>View Menu</div>
+                            <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder",color:"gray"}}>View Menu</div>
                             <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder"}}>
                                 <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
                                     set_i(index);
@@ -308,7 +330,7 @@ function Menu(){
 
                         {
                             i==index&&
-                            <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                            <div style={{width:"60%",zIndex:"2",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
                                 <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
                                     <div className="view"><BsViewList/> Generate QR</div>
                                     <div className="view"><BiEdit/> Copy URL</div>
@@ -318,28 +340,13 @@ function Menu(){
                             </div>
                         }
                     </div>
-                        
-                    
-                )
-            })
-            }
-            {/* {
-                Object.entries(
-                    all_data.reduce((acc,item)=>{
-                        if(!acc[item.parent_entity_uuid]){
-                            acc[item.parent_entity_uuid] = [];
+                                
+                            ))
                         }
-                        acc[item.parent_entity_uuid].push(item);
-                        return acc;
-                    },{})
-                ).map((item,index)=>(
-                    <div key={index}>
-                        <h1>{item.parent_entity_uuid}</h1>
-                        item.
 
                     </div>
                 ))
-            } */}
+            }
             
             </div>
             }
