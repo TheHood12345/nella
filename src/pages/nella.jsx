@@ -348,7 +348,9 @@ function Nella(){
                     <FaHome color={q==1? "black": "gray"} size={20}/>
                     <div style={{fontSize:"12px",color:q==1? "black": "gray"}}>Home</div>
                 </Link>
-                <Link to={"/business"} style={{width:"20%",height:"90%",textDecoration:"none",border:"0px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
+                <Link to={
+                    localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")== "" || localStorage.getItem("email_verified_at")=="null"?
+                    "/home":"/business"} style={{width:"20%",height:"90%",textDecoration:"none",border:"0px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     if(localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")=="null" || localStorage.getItem("email_verified_at")==""){
                         set_verify_email_text_top(0);
                         setTimeout(()=>{
@@ -362,7 +364,9 @@ function Nella(){
                     <FaBusinessTime color={q==2? "black": "gray"} size={20}/>
                     <div style={{fontSize:"12px",color:q==2? "black": "gray"}}>Business</div>
                 </Link>
-                <Link to={"/menu"} style={{width:"20%",height:"90%",textDecoration:"none",border:"0px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
+                <Link to={
+                    localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")== "" || localStorage.getItem("email_verified_at")=="null"?
+                    "/home":"/menu"} style={{width:"20%",height:"90%",textDecoration:"none",border:"0px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     if(localStorage.getItem("email_verified_at")==null || localStorage.getItem("email_verified_at")=="null" || localStorage.getItem("email_verified_at")==""){
                         set_verify_email_text_top(0);
                         setTimeout(()=>{
