@@ -239,9 +239,9 @@ function Menu(){
                 set_i(null);
                 
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Menu {location.state?.title_name}</div></div>
-            <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",paddingTop:"20px",paddingBottom:"14px",marginTop:"14px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
-                <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}}/>
+                <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"10px",paddingBottom:"10px",border:"0px",width:"90%"}}/>
             </div>
             <div style={{width:"90%",paddingTop:"10px",color:"black",paddingBottom:"10px",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
                 <div style={{width:"90%",paddingTop:"1%",fontWeight:"bold",paddingBottom:"1%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
@@ -347,7 +347,22 @@ function Menu(){
                         </div>
 
 
-                        {
+                        {/* {
+                            i==index&&
+                            <div style={{width:"60%",zIndex:"2",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                    <div className="view"><BsViewList/> Generate QR</div>
+                                    <div className="view"><BiEdit/> Copy URL</div>
+                                    <div className="view"><BsViewList/> Download Flyer</div>
+                                    <div className="view"><BiEdit/> Edit</div>
+                                </div>
+                            </div>
+                        } */}
+                    </div>
+                                
+                            ))
+                        }
+                         {
                             i==index&&
                             <div style={{width:"60%",zIndex:"2",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
                                 <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
@@ -358,11 +373,6 @@ function Menu(){
                                 </div>
                             </div>
                         }
-                    </div>
-                                
-                            ))
-                        }
-
                     </div>
                 ))
             }
@@ -550,26 +560,26 @@ function Menu(){
                                         <div style={{color:"black"}}>No menu data available</div>
                                         <div>Please add new items to see them listed here.</div>
                                     </div>:
-                                    <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-                                    <div style={{width:"90%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
+                                    <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
+                                    <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
                                         <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
                                 
                                             <div style={{width:"10%",textAlign:"end"}}>S/N</div>
-                                            <div style={{width:"80%",textAlign:"center"}}>Business Name</div>
+                                            <div style={{width:"80%",textAlign:"start"}}>Business Name</div>
                                         </div>
                                     </div>
                                     {all_b_data.map((item,index)=>{
                                         return (
-                                            <div key={index} style={{width:"90%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                                            <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"0px 0px 3px rgb(200,200,200)",borderRadius:"10px"}}>
                                                 <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
         
-                                                    <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
+                                                    <div style={{width:"10%",fontSize:"14px",display:"column",alignItems:"start",justifyContent:"start",textAlign:"center",fontSize:"20px"}}>{index+1}</div>
                                                     
                                                     <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start"}}>
                                                         {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
-                                                            <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
+                                                            {/* <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/> */}
                                                         {/* </div> */}
-                                                        <div style={{width:"80%",fontSize:"14px"}}>
+                                                        <div style={{width:"100%",fontSize:"14px"}}>
                                                             <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
                                                             <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
                                                             <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
@@ -577,7 +587,7 @@ function Menu(){
                                                             <Link to={"/menu?q=create_menu"} state={item} style={{textDecoration:"none",paddingTop:"20px",paddingBottom:"20px",width:"100%",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange",color:"white"}} onClick={()=>{
                                                                 set_show_business(false);
                                                                 navigate(location.pathname+location.search,{replace:true,state:null});
-                                                            }}><MdManageAccounts/> Manage</Link>
+                                                            }}><MdManageAccounts size={20}/> Select</Link>
                                                         </div>
                                                         {/* <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
                                                             set_i_b(index);
