@@ -21,6 +21,9 @@ function Menu(){
     const get_business_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
 
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
+    const [z_main,set_z_main]=useState("enabled");
+    const [z_all,set_z_all]=useState("disabled");
+    const [z_search,set_z_search]=useState("");
     const [x,set_x]=useState("Filter Enabled");
     const [q,set_q]=useState(false);
     const [show_menu,set_show_menu] = useState("");
@@ -74,6 +77,8 @@ function Menu(){
     const [f,set_f]=useState(false);
     const [b,set_b]=useState(false);
 
+    const [color,set_color]=useState("rgb(19, 161, 85)");
+
 
 
     useEffect(()=>{
@@ -103,7 +108,7 @@ function Menu(){
                         "delivery"
                         ],
                     menu_base_wallet_ticker_symbol: "",
-                    menu_primary_color: "",
+                    menu_primary_color: color,
                     enable_dark_mode: true,
                     support_tab: {
                     title: s_title,
@@ -119,20 +124,20 @@ function Menu(){
                     },
                     menu_checkout_payments_providers: {
                         paystack: {
-                            title: "",
-                            description: "",
-                            fee: "",
+                            title: p_title,
+                            description: p_desc,
+                            fee: p_fee,
                             fee_max_amount: 2000
                         },
                         flutterwave: {
-                            title: "",
-                            description: "",
-                            fee: "",
+                            title: f_title,
+                            description: f_desc,
+                            fee: f_fee,
                             fee_max_amount: 2000
                         },
                         bank_transfer: {
-                            title: "",
-                            description: ""
+                            title: b_title,
+                            description: b_desc
                         }
                     },
                     parent_entity_type: "nellalink_business",
@@ -143,7 +148,7 @@ function Menu(){
                     status: "enabled"
                 },
                 parent_entity_type: "nellalink_business",
-                status: "enabled",
+               // status: "enabled",
                 owned_by: location.state?.owned_by,
                 parent_entity_uuid: location.state?.uuid,
                 parent_entity: location.state?.uuid,
@@ -240,6 +245,7 @@ function Menu(){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
+            <div style={{width:"100%",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
                 if(!location.state){
                     //navigate("/business");
@@ -257,10 +263,20 @@ function Menu(){
                 set_i(null);
                 
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Menu {location.state?.title_name}</div></div>
-            <div style={{width:"90%",paddingTop:"20px",paddingBottom:"14px",marginTop:"14px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",marginTop:"14px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
-                <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"10px",paddingBottom:"10px",border:"0px",width:"90%"}}/>
+                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"20px",paddingBottom:"20px",border:"0px",width:"90%"}} onChange={(e)=>{
+                    set_z_search(e.target.value);
+                    if(z_search!=""){
+                        set_z_main("");
+                        set_z_all("");
+                    }else{
+                        set_z_main("enabled");
+                        set_z_all("disabled");
+                    }
+                }}/>
             </div>
+           
             <div style={{width:"90%",paddingTop:"10px",color:"black",paddingBottom:"10px",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
                 <div style={{width:"90%",paddingTop:"1%",fontWeight:"bold",paddingBottom:"1%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
@@ -268,27 +284,41 @@ function Menu(){
                     <div>{x}</div>
                     <FaArrowDown/>
                 </div>
-                {
+                {/* {
                 q==true?
-                <div style={{width:"100%",backgroundColor:"white",paddingTop:"10px",paddingBottom:"10px",position:"absolute",border:"1px solid black",top:"120%",overflow:"scroll"}}>
+                <div style={{width:"100%",backgroundColor:"white",paddingTop:"10px",paddingBottom:"10px",position:"absolute",border:"1px solid black",top:"0%",overflow:"scroll"}}>
                     {
                         z.map((item,index)=>{
                             return (
                                 <div className="add" style={{width:"100%",paddingLeft:"3px",paddingRight:"3px",paddingTop:"1%",paddingBottom:"1%",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center"}} onClick={()=>{
                                     set_x(item);
                                     set_q(!q);
+                                    set_z_search("");
+                                    if(index == 0){
+                                        set_z_main("enabled");
+                                        set_z_all("disabled");
+                                    }else if(index==1){
+                                        set_z_main("enabled");
+                                        set_z_all("enabled");
+                                    }else if(index==2){
+                                        set_z_main("disabled");
+                                        set_z_all("disabled")
+                                    }
                                 }}>{item}</div>
                             )
                         })
                     }
                 </div>:null
-                }
+                } */}
             </div>
+            </div>
+             {/* ................... */}
             {/* <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
                 <FaIcicles size={30}/>
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div> */}
+             <div style={{width:"100%",position:"relative",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
                         {
                 all_data==null?
                 loading_get_now==true?
@@ -332,7 +362,9 @@ function Menu(){
                         acc[key].push(item);
                         return acc;
                     },{})
-                ).map(([parentId,items],index)=>(
+                ).map(([parentId,items],index)=>{
+                    
+                    return(
                     <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px rgb(240,240,240)",backgroundColor:"rgb(240,240,240)",borderRadius:"10px",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",fontSize:"20px",color:"orange"}}>{/*"parentId"*/}Category {index+1}</div>
                         <div style={{color:"orange",fontSize:"14px",position:"absolute",right:"1%",top:"1%",textDecoration:"underline"}} onClick={()=>{
@@ -344,10 +376,10 @@ function Menu(){
                         }}>{a==2?"See all":"Collapse"} {a==2?<FaArrowRight/>:<FaCaretDown/>}</div>
                        
                         {
-                            items.map((item,index)=>(
-                                index<a&&
-                                    
-                                <div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}}>
+                            items.map((item,index)=>{
+                                if(index<a){
+                                    if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
+                                return(<div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}}>
                         
                                 
                         
@@ -378,7 +410,8 @@ function Menu(){
                         } */}
                     </div>
                                 
-                            ))
+                            )}}}
+                        )
                         }
                          {
                             i==index&&
@@ -392,15 +425,47 @@ function Menu(){
                             </div>
                         }
                     </div>
-                ))
+
+                )
+            }
+            )
             }
             
             </div>
+
+            
             }
+             {
+                q==true?
+                <div style={{width:"90%",backgroundColor:"white",paddingTop:"10px",paddingBottom:"10px",position:"absolute",border:"1px solid black",top:"0%",overflow:"scroll"}}>
+                    {
+                        z.map((item,index)=>{
+                            return (
+                                <div className="add" style={{width:"100%",paddingLeft:"3px",paddingRight:"3px",paddingTop:"1%",paddingBottom:"1%",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center"}} onClick={()=>{
+                                    set_x(item);
+                                    set_q(!q);
+                                    set_z_search("");
+                                    if(index == 0){
+                                        set_z_main("enabled");
+                                        set_z_all("disabled");
+                                    }else if(index==1){
+                                        set_z_main("enabled");
+                                        set_z_all("enabled");
+                                    }else if(index==2){
+                                        set_z_main("disabled");
+                                        set_z_all("disabled")
+                                    }
+                                }}>{item}</div>
+                            )
+                        })
+                    }
+                </div>:null
+                }
+            </div>
                         {/* ----------------------------------------------------------------------------------- */}
             {
                 show_menu&&
-                <div style={{width:"100%",height:"100%",top:"0%",left:"0%",backgroundColor:"rgba(240,240,240,0.9)",position:"absolute",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:"100%",height:"100%",fontSize:"16px",overflow:"scroll",top:"0%",left:"0%",backgroundColor:"rgba(240,240,240,0.9)",position:"absolute",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                     <div style={{width:"90%",height:"90%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"rgb(200,200,200)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-around"}}>
                             <div style={{fontSize:"15px"}}>Add Menu</div><div></div>
@@ -409,28 +474,28 @@ function Menu(){
                                 navigate(location.pathname+location.search,{replace:true,state:null});
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px   ",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Title</div>
-                            <input type="text" value={title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter menu title" onChange={(e)=>{
+                            <input type="text" value={title} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Enter menu title" onChange={(e)=>{
                                 set_title(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Description</div>
-                            <input type="text" value={description} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                            <input type="text" value={description} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Enter description" onChange={(e)=>{
                                 set_description(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"20px",display:"flex",flexDirection:"column",alignItems:"center",fontFamily:"arial"}}>
                             <div style={{width:"90%"}}>Menu Link</div>
-                            <div style={{width:"90%"}}>https://business.nellalink.com/app/menu/</div>
-                            <input type="text" value={slug} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="your-slug" onChange={(e)=>{
+                            <div style={{width:"80%",overflow:"scroll",mask:"linear-gradient(to left, transparent, white)",color:"gray",paddingTop:"10px",paddingBottom:"10px"}}>https://business.nellalink.com/app/menu/</div>
+                            <input type="text" value={slug} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="your-slug" onChange={(e)=>{
                                 set_slug(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Wallet Ticker</div>
-                            <select type="text" value={currency} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Select a currency" onChange={(e)=>{
+                            <select type="text" value={currency} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Select a currency" onChange={(e)=>{
                                 set_slug(e.target.value);
                             }} onChange={(e)=>{
                                 set_currency(e.target.value);
@@ -442,142 +507,140 @@ function Menu(){
                                 <option>Ghanaian Cedi (GHS)</option>
                             </select>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Ticker Symbol</div>
-                            <div style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} onChange={(e)=>{
+                            <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",backgroundColor:"rgb(240,240,240)"}} onChange={(e)=>{
                                 set_description(e.target.value);
                             }}>{currency=="Nigerian Naira (NGN)"?<FaNairaSign/>:currency=="US Dollar (USD)"?<FaDollarSign/>:currency=="EURO (EUR)"?<FaEuroSign/>:currency=="Ghanaian Cedi (GHS)"?<FaCediSign/>:null}</div>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                            <div style={{width:"90%"}}>categories for Menu Items</div>
-                            <input type="text" value={category} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add category..." onChange={(e)=>{
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                            <div style={{width:"90%"}}>Categories for Menu Items</div>
+                            <input type="text" value={category} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Add category..." onChange={(e)=>{
                                 set_category(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Primary color</div>
-                            {/* <input text="text" value={category} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add category..." onChange={(e)=>{
-                                set_category(e.target.value);
-                            }}/> */}
+                            <input type="color" value={color} style={{width:"90%",cursor:"pointer",paddingTop:"20px",paddingBottom:"20px",backgroundColor:color,border:"10px solid rgb(23, 43, 71)",borderRadius:"10px"}} placeholder="Add category..." onChange={(e)=>{
+                                set_color(e.target.value);
+                            }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
+                        <div style={{width:"100%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
                             <div style={{width:"90%"}}>SUPPORT INFORMATION</div>
-                            {/* <input text="text" value={description} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
-                                set_description(e.target.value);
-                            }}/> */}
+                            
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Support Tab Title</div>
-                            <input type="text" value={s_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Need Help?" onChange={(e)=>{
+                            <input type="text" value={s_title} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="e.g. Need Help?" onChange={(e)=>{
                                 set_s_title(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Navigation Button Text</div>
-                            <input type="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="e.g. Contact Us" onChange={(e)=>{
+                            <input type="text" value={n_tx} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="e.g. Contact Us" onChange={(e)=>{
                                 set_n_tx(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Support Tab Description</div>
-                            <input type="text" value={t_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
+                            <input type="text" value={t_desc} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
                                 set_t_desc(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
+                        <div style={{width:"100%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
                             <div style={{width:"90%"}}>Contact Information</div>
-                            {/* <input text="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
-                                set_n_tx(e.target.value);
-                            }}/> */}
+                           
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Contact Email</div>
-                            <input type="text" value={con_email} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add email here" onChange={(e)=>{
+                            <input type="text" value={con_email} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Add email here" onChange={(e)=>{
                                 set_con_email(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Contact Address</div>
-                            <input text="text" value={con_address} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Add address here" onChange={(e)=>{
+                            <input text="text" value={con_address} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Add address here" onChange={(e)=>{
                                 set_con_address(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Phone Number</div>
-                            <input type="text" value={phone_num} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="080x xxx xxxx" onChange={(e)=>{
+                            <input type="text" value={phone_num} style={{width:"90%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="080x xxx xxxx" onChange={(e)=>{
                                 set_phone_num(e.target.value);
                             }}/>
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
+                        <div style={{width:"100%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"orange",color:"white"}}>
                             <div style={{width:"90%"}}>Checkout Payment Providers</div>
-                            {/* <input text="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
-                                set_n_tx(e.target.value);
-                            }}/> */}
+                            
                         </div>
-                        <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                            <div style={{width:"90%"}}>Payment Providers</div>
-                            {/* <input text="text" value={n_tx} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter support info with HTML tags if needed" onChange={(e)=>{
-                                set_n_tx(e.target.value);
-                            }}/> */}
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                            <div style={{width:"90%",fontWeight:"bolder"}}>Payment Providers</div>
+                            
                         </div>
-                        <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"start"}}>
+                        <div style={{width:"90%",marginTop:"0px",display:"flex",flexDirection:"column",alignItems:"start"}}>
                             
                             <div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                                <input type="checkbox"/>
+                                <input type="checkbox" value={p} onChange={(e)=>{
+                                    set_p(e.target.checked);
+                                }}/>
                                 <div>Paystack</div>
                             </div>
                             <div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                                <input type="checkbox"/>
+                                <input type="checkbox" value={f} onChange={(e)=>{
+                                    set_f(e.target.checked);
+                                }}/>
                                 <div>Flutterwave</div>
                             </div>
                             <div style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
-                                <input type="checkbox"/>
+                                <input type="checkbox" value={b} onChange={(e)=>{
+                                    set_b(e.target.checked);
+                                }}/>
                                 <div>Bank Transfer</div>
                             </div>
                         </div>
-                        {
-                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        {p&&
+                            <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                                 <div style={{width:"90%"}}>Paystack</div>
-                                <input type="text" value={p_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                <input type="text" value={p_title} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Title" onChange={(e)=>{
                                     set_p_title(e.target.value);
                                 }}/>
-                                <input type="text" value={p_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                                <input type="text" value={p_desc} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Enter description" onChange={(e)=>{
                                     set_p_desc(e.target.value);
                                 }}/>
-                                <input type="text" value={p_fee} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Fee" onChange={(e)=>{
+                                <input type="text" value={p_fee} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Fee" onChange={(e)=>{
                                     set_p_fee(e.target.value);
                                 }}/>
                             </div>
                             
                         }
-                        {
-                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        {f&&
+                            <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                                 <div style={{width:"90%"}}>Flutterwave</div>
-                                <input type="text" value={f_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                <input type="text" value={f_title} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Title" onChange={(e)=>{
                                     set_f_title(e.target.value);
                                 }}/>
-                                <input type="text" value={f_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Enter description" onChange={(e)=>{
+                                <input type="text" value={f_desc} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Enter description" onChange={(e)=>{
                                     set_f_desc(e.target.value);
                                 }}/>
-                                <input type="text" value={f_fee} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Fee" onChange={(e)=>{
+                                <input type="text" value={f_fee} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Fee" onChange={(e)=>{
                                     set_f_fee(e.target.value);
                                 }}/>
                             </div>
                         }
-                        {
-                            <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        {b&&
+                            <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                                 <div style={{width:"90%"}}>Bank Transfer</div>
-                                <input type="text" value={b_title} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Title" onChange={(e)=>{
+                                <input type="text" value={b_title} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Title" onChange={(e)=>{
                                     set_b_title(e.target.value);
                                 }}/>
-                                <input type="text" value={b_desc} style={{width:"85%",paddingTop:"10px",paddingBottom:"10px"}} placeholder="Description" onChange={(e)=>{
+                                <input type="text" value={b_desc} style={{width:"85%",paddingTop:"20px",paddingBottom:"20px"}} placeholder="Description" onChange={(e)=>{
                                     set_b_desc(e.target.value);
                                 }}/>
                             </div>
                         }
-                        <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                        <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Select Menu Image</div>
-                            <label style={{width:"100%",backgroundColor:"rgb(240,240,240)",border:"1px solid orange",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                            <label style={{width:"90%",backgroundColor:"rgb(240,240,240)",border:"1px solid orange",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                 
                             <input type="file" accept="image/*" style={{width:"85%",paddingTop:"10px",paddingBottom:"10px",display:"none"}} onChange={(e)=>{
                                 set_im_menu(e.target.files[0]);
@@ -585,7 +648,11 @@ function Menu(){
                             <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                                 {
                                     im_menu==""?
-                                    <FaRegImages size={30}/>:
+                                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+                                        <FaRegImages size={30}/>
+                                        <div>Click to upload image</div>
+                                    </div>
+                                    :
                                 <img src={URL.createObjectURL(im_menu)} alt={"image"} style={{width:"80%",aspectRatio:"2/1"}}/>
                                 }
                             </div>

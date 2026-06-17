@@ -11,7 +11,10 @@ function Business({prop_set_q}){
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
     const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
-    const [x,set_x]=useState("Filter Enabled");
+    const [z_main,set_z_main]=useState("enabled");
+    const [z_all,set_z_all]=useState("disabled");
+    const [z_search,set_z_search]=useState("");
+    const [x,set_x]=useState("Filter Enabled, Disabled");
     const [q,set_q]=useState(false);
     const [ad,set_ad]=useState(false);
     const [sc,set_sc]=useState("");
@@ -153,12 +156,22 @@ function Business({prop_set_q}){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
+             <div style={{width:"100%",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             <div style={{width:"90%",paddingTop:"1%",paddingBottom:"1%",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
                 set_ad(true);
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Business</div></div>
             <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
-                <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
-                <input type="text" placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}}/>
+                <FaSearch size={20}style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
+                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}} onChange={(e)=>{
+                    set_z_search(e.target.value);
+                    if(z_search!=""){
+                        set_z_main("");
+                        set_z_all("");
+                    }else{
+                        set_z_main("enabled");
+                        set_z_all("disabled");
+                    }
+                }}/>
             </div>
             <div style={{width:"90%",paddingTop:"1%",color:"black",paddingBottom:"1%",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
                 <div style={{width:"90%",paddingTop:"10px",fontWeight:"bold",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
@@ -167,7 +180,7 @@ function Business({prop_set_q}){
                     <div>{x}</div>
                     <FaArrowDown/>
                 </div>
-                {
+                {/* {
                 q==true?
                 <div style={{width:"100%",backgroundColor:"white",paddingTop:"10px",paddingBottom:"10px",position:"absolute",border:"1px solid black",top:"120%",overflow:"scroll"}}>
                     {
@@ -176,13 +189,28 @@ function Business({prop_set_q}){
                                 <div className="add" style={{width:"100%",paddingLeft:"3px",paddingRight:"3px",paddingTop:"1%",paddingBottom:"1%",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center"}} onClick={()=>{
                                     set_x(item);
                                     set_q(!q);
+                                    set_z_search("");
+                                    if(index == 0){
+                                        set_z_main("enabled");
+                                        set_z_all("disabled");
+                                    }else if(index==1){
+                                        set_z_main("enabled");
+                                        set_z_all("enabled");
+                                    }else if(index==2){
+                                        set_z_main("disabled");
+                                        set_z_all("disabled")
+                                    }
                                 }}>{item}</div>
                             )
                         })
                     }
                 </div>:null
-                }
+                } */}
             </div>
+
+            </div>
+            {/* ....... */}
+             <div style={{width:"100%",height:"50%",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             {
                 all_data==null?
                 loading_get_now==true?
@@ -205,6 +233,7 @@ function Business({prop_set_q}){
                 </div>
             </div>
             {all_data.map((item,index)=>{
+                if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
                 return (
                     <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"rgb(240,240,240)",borderRadius:"10px"}}>
                         <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
@@ -215,7 +244,7 @@ function Business({prop_set_q}){
                                 {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
                                     <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
                                 {/* </div> */}
-                                <div>
+                                <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
                                     <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
                                     <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
                                     <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
@@ -239,10 +268,40 @@ function Business({prop_set_q}){
                     </div>
                         
                     
-                )
+                )}
+
             })}
             </div>
             }
+            {
+                q==true?
+                <div style={{width:"90%",backgroundColor:"white",paddingTop:"10px",paddingBottom:"10px",position:"absolute",border:"1px solid black",top:"0%",overflow:"scroll"}}>
+                    {
+                        z.map((item,index)=>{
+                            return (
+                                <div className="add" style={{width:"100%",paddingLeft:"3px",paddingRight:"3px",paddingTop:"1%",paddingBottom:"1%",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center"}} onClick={()=>{
+                                    set_x(item);
+                                    set_q(!q);
+                                    set_z_search("");
+                                    if(index == 0){
+                                        set_z_main("enabled");
+                                        set_z_all("disabled");
+                                    }else if(index==1){
+                                        set_z_main("enabled");
+                                        set_z_all("enabled");
+                                    }else if(index==2){
+                                        set_z_main("disabled");
+                                        set_z_all("disabled")
+                                    }
+                                }}>{item}</div>
+                            )
+                        })
+                    }
+                </div>:null
+                }
+            </div>
+
+            {/* ..................................... */}
 
             {
                 ad&&
