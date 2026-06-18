@@ -302,6 +302,8 @@ function Business({prop_set_q}){
                                         set_business_country_v(item.extra_data.country_of_registration);
                                         set_business_status_v(item.status);
                                         set_short_name(item.meta_key);
+
+                                        set_i(null);
                                         
                                     }}><BiEdit/> Edit</div>
                                     <Link to={"/menu?q=create_menu"} state={item} className="view" style={{textDecoration:"none",height:"30%"}}><MdManageAccounts/> Manage</Link>

@@ -20,7 +20,7 @@ function Business_edit({set_get_now,get_now,set_edit,short_name1,business_owned_
     async function make_edit(){
         set_loading(true);
         await fetch(edit_url,{
-            method:"post",
+            method:"put",
             body: JSON.stringify(
                 {
     "request_id": Date.now().toString(),
