@@ -5,6 +5,8 @@ import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPie
 import { FaCircleXmark, FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { data, Link, useSearchParams } from "react-router-dom";
+import Business_view from "./business_view";
+import Business_edit from "./business_edit";
 
 function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
@@ -37,6 +39,20 @@ function Business({prop_set_q}){
     const [i,set_i]=useState(null);
 
     const [query] = useSearchParams();
+
+    const [view,set_view]=useState(false);
+    const [business_name_v,set_business_name_v]=useState("");
+    const [business_address_v,set_business_address_v]=useState("");
+    const [business_email_v,set_business_email_v]=useState("");
+    const [business_desc_v,set_business_desc_v]=useState("");
+    const [business_country_v,set_business_country_v]=useState("");
+    const [business_status_v,set_business_status_v]=useState("");
+
+    const [edit,set_edit] = useState(false);
+    const [business_uuid,set_business_uuid] = useState("");
+
+    const [short_name,set_short_name]=useState("");
+    const [business_owned_by,set_business_owned_by] = useState("");
 
     useEffect(()=>{
         if(query.get("q") == "create"){
@@ -251,17 +267,44 @@ function Business({prop_set_q}){
                                     <div style={{paddingLeft:"10px",paddingRight:"10px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"5px"}}>{item.status}</div>
                                 </div>
                                 <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
+                                    if(i==index){
+                                        set_i(null);
+                                    }else{
                                     set_i(index);
+                                    }
                                 }}/>
                             </div>
                         </div>
                         {
                             i==index&&
-                            <div style={{width:"60%",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
-                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-                                    <div className="view"><BsViewList/> View</div>
-                                    <div className="view"><BiEdit/> Edit</div>
-                                    <Link to={"/menu?q=create_menu"} state={item} className="view" style={{textDecoration:"none"}}><MdManageAccounts/> Manage</Link>
+                            <div style={{width:"60%",height:"100%",alignSelf:"self-start",position:"absolute",backgroundColor:"white",boxShadow:"px 0px 10px black",paddingLeft:"10px",paddingRight:"10px",top:"0%",leftt:"0%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                <div style={{width:"90%",height:"100%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
+                                    <div className="view" style={{height:"30%"}} onClick={()=>{
+                                        set_view(true);
+                                        set_business_name_v(item.title_name);
+                                        set_business_address_v(item.extra_data.business_address);
+                                        set_business_email_v(item.extra_data.contact_email);
+                                        set_business_desc_v(item.description);
+                                        set_business_country_v(item.extra_data.country_of_registration);
+                                        set_business_status_v(item.status);
+                                        
+                                        set_i(null);
+                                    }}><BsViewList/> View</div>
+                                    <div className="view" style={{height:"30%"}} onClick={()=>{
+                                        set_edit(true);
+                                        set_business_uuid(item.uuid);
+                                        set_business_owned_by(item.owned_by);
+
+                                        set_business_name_v(item.title_name);
+                                        set_business_address_v(item.extra_data.business_address);
+                                        set_business_email_v(item.extra_data.contact_email);
+                                        set_business_desc_v(item.description);
+                                        set_business_country_v(item.extra_data.country_of_registration);
+                                        set_business_status_v(item.status);
+                                        set_short_name(item.meta_key);
+                                        
+                                    }}><BiEdit/> Edit</div>
+                                    <Link to={"/menu?q=create_menu"} state={item} className="view" style={{textDecoration:"none",height:"30%"}}><MdManageAccounts/> Manage</Link>
                                 </div>
                             </div>
                         }
@@ -388,6 +431,13 @@ function Business({prop_set_q}){
                         </div>
                     
                 </div>
+            }
+            {
+                view&&
+                <Business_view set_view={set_view} business_name_v={business_name_v} business_address_v={business_address_v} business_email_v={business_email_v} business_desc_v={business_desc_v} business_country_v={business_country_v} business_status_v={business_status_v}/>
+            }
+            {   edit&&
+                <Business_edit set_get_now={set_get_now} get_now={get_now} set_edit={set_edit} business_owned_by={business_owned_by} short_name1={short_name} business_uuid={business_uuid} business_name_v={business_name_v} business_address_v={business_address_v} business_email_v={business_email_v} business_desc_v={business_desc_v} business_country_v={business_country_v} business_status_v={business_status_v}/>
             }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"red",color:"honeydew",top:`${create_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.3s linear",textAlign:"center",fontSize:"14px"}}>
                     {/*FAILED TO LOGIN*/} {create_text}
