@@ -54,6 +54,8 @@ function Business({prop_set_q}){
     const [short_name,set_short_name]=useState("");
     const [business_owned_by,set_business_owned_by] = useState("");
 
+    //entity_featured_url: "https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781768213528-w.jpg"
+
     useEffect(()=>{
         if(query.get("q") == "create"){
             set_ad(true);
@@ -74,7 +76,7 @@ function Business({prop_set_q}){
                 title_name: title_name,
                 description: description,
               //  entity_type: "nellalink_business",
-              //  entity_featured_url: "http://example.com",
+                entity_featured_url: `https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo${sc}`,
                 extra_data: {
                  //   key_name1:"value1",
                  //   key_name2: 2,

@@ -460,7 +460,7 @@ function Nella(){
                     <div style={{position:"relative",width:"80%",height:"30%",backgroundColor:"rgba(255,255,255,1)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                             <div>Enter Token</div>
-                            <input type="text" value={c_token} onChange={(e)=>{
+                            <input type="number" value={c_token} onChange={(e)=>{
                                 set_c_token(e.target.value)
                             }} placeholder="******" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                             <div style={{position:"absolute",right:"2%",top:"2%",cursor:"pointer"}} onClick={()=>{
@@ -487,7 +487,7 @@ function Nella(){
                     <div style={{width:"100%",height:"100%",backgroundColor:"rgba(255,255,255,1)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                             <div>Enter Token</div>
-                            <input type="text" value={change_tok} onChange={(e)=>{
+                            <input type="number" value={change_tok} onChange={(e)=>{
                                 set_change_tok(e.target.value)
                             }} placeholder="******" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
                             
