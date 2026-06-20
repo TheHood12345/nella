@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaImages } from "react-icons/fa";
+import { FaImages, FaUpload } from "react-icons/fa";
 import { FaCircleXmark, FaPlus } from "react-icons/fa6";
 
 function Business_edit({set_get_now,get_now,set_edit,short_name1,business_owned_by,business_uuid,business_name_v,business_address_v,business_email_v,business_desc_v,business_country_v,business_status_v}){
@@ -100,22 +100,40 @@ function Business_edit({set_get_now,get_now,set_edit,short_name1,business_owned_
         })
     }
     return (
-        <div style={{width:"100%",height:"100%",fontSize:"16px",backgroundColor:"white",position:"absolute",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
-            <div style={{width:"90%",textAlign:"end"}}><FaCircleXmark size={30} onClick={()=>{
+        <div style={{width:"100%",height:"100%",fontSize:"14px",backgroundColor:"white",position:"absolute",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+            <div style={{width:"90%",textAlign:"end",position:"absolute",top:"1%",right:"1%"}}><FaCircleXmark size={30} onClick={()=>{
                 set_edit(false);
             }}/></div>
-            <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center"}}>
+            <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"rgb(240,240,240)",paddingTop:"10px",paddingBottom:"10px"}} onDragLeave={(e)=>{
+                            e.preventDefault();
+                            e.target.style.border="0px dashed transparent";
+                        }} onDragOver={(e)=>{
+                            e.preventDefault();
+                            e.target.style.border="2px dashed orange";
+                        }} onDrop={(e)=>{
+                            e.preventDefault();
+                            if(e.dataTransfer.files[0].type.startsWith("image/")){
+                                set_im(e.dataTransfer.files[0]); 
+                            }
+                            e.target.style.border="0px dashed transparent";
+            }}>
                 {
-                    im==""?<FaImages size={100}/>:
+                    im==""?
+                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                                    <FaUpload size={100} color="gray"/>
+                                                    <div>Drag & Drop Image File here</div>
+                    </div>:
                     <img src={URL.createObjectURL(im)} alt="image" style={{width:"90%",aspectRatio:"3/1"}}/>
                 }
-                <label style={{width:"90%",paddingTop:"13px",paddingBottom:"13px",cursor:"pointer",borderRadius:"10px",backgroundColor:"rgb(240,240,240)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}><FaPlus/> Click to upload business logo
+                
+            </div>
+            <div style={{marginTop:"5px"}}>OR</div>
+            <label style={{width:"90%",fontSize:"12px",marginTop:"5px",paddingTop:"13px",paddingBottom:"13px",cursor:"pointer",borderRadius:"10px",backgroundColor:"rgb(240,240,240)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}><FaPlus/> Click to upload business logo
                     <input type="file" accept="image/*" style={{display:"none"}} onChange={(e)=>{
                         set_im(e.target.files[0]);
                     }}/>
                 </label>
-                <div style={{alignSelf:"flex-end"}}><sub>Max: 2MB. PNG, JPEG only.</sub></div>
-            </div>
+            <div style={{alignSelf:"flex-end",fontFamily:"arial",fontSize:"12px"}}><sub>Max: 2MB. PNG, JPEG only.</sub></div>
 
             <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
                 <div>Business Name</div>

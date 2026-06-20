@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaRegImages, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaRegImages, FaSearch, FaUpload } from "react-icons/fa";
 import { FaArrowRight, FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -640,22 +640,38 @@ function Menu(){
                         }
                         <div style={{width:"100%",marginTop:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
                             <div style={{width:"90%"}}>Select Menu Image</div>
-                            <label style={{width:"90%",backgroundColor:"rgb(240,240,240)",border:"1px solid orange",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                
-                            <input type="file" accept="image/*" style={{width:"85%",paddingTop:"10px",paddingBottom:"10px",display:"none"}} onChange={(e)=>{
-                                set_im_menu(e.target.files[0]);
-                            }}/>
-                            <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                            <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",paddingTop:"10px",paddingBottom:"10px",backgroundColor:"rgb(200,200,200)"}} onDragLeave={(e)=>{
+                                            e.preventDefault();
+                                            e.target.style.border="0px dashed transparent";
+                                        }} onDragOver={(e)=>{
+                                            e.preventDefault();
+                                            e.target.style.border="2px dashed orange";
+                                        }} onDrop={(e)=>{
+                                            e.preventDefault();
+                                            if(e.dataTransfer.files[0].type.startsWith("image/")){
+                                                set_im_menu(e.dataTransfer.files[0]); 
+                                            }
+                                            e.target.style.border="0px dashed transparent";
+                                        }}>
                                 {
                                     im_menu==""?
-                                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-                                        <FaRegImages size={30}/>
-                                        <div>Click to upload image</div>
+                                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                        <FaUpload size={100} color="gray"/>
+                                        <div>Drag & Drop Image File here</div>
                                     </div>
                                     :
                                 <img src={URL.createObjectURL(im_menu)} alt={"image"} style={{width:"80%",aspectRatio:"2/1"}}/>
                                 }
+                               
                             </div>
+                            <div style={{marginTop:"5px"}}>OR</div>
+
+                            <label style={{width:"90%",backgroundColor:"rgb(240,240,240)",border:"1px solid orange",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                
+                            <input type="file" accept="image/*" style={{width:"85%",paddingTop:"10px",paddingBottom:"10px",display:"none"}} onChange={(e)=>{
+                                set_im_menu(e.target.files[0]);
+                            }}/>
+                             <div>Click to upload image</div>
                         </label>
                         </div>
                         <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}>

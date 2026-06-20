@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch, FaUpload } from "react-icons/fa";
 import { FaCircleXmark, FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { data, Link, useSearchParams } from "react-router-dom";
@@ -352,11 +352,27 @@ function Business({prop_set_q}){
 
             {
                 ad&&
-                <div style={{width:"100%",height:"100%",overflow:"scroll",backgroundColor:"white",position:"absolute",top:"0%",left:"0%",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                <div style={{width:"100%",height:"100%",fontSize:"14px",overflow:"scroll",backgroundColor:"white",position:"absolute",top:"0%",left:"0%",display:"flex",flexDirection:"column",alignItems:"center"}}>
                     <div style={{width:"90%",position:"relative",marginTop:"20px",marginBottom:"20px",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                        <div style={{width:"90%",height:"200px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",position:"relative"}}>
+                        <div style={{width:"90%",height:"200px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",position:"relative"}} onDragLeave={(e)=>{
+                            e.preventDefault();
+                            e.target.style.border="0px dashed transparent";
+                        }} onDragOver={(e)=>{
+                            e.preventDefault();
+                            e.target.style.border="2px dashed orange";
+                        }} onDrop={(e)=>{
+                            e.preventDefault();
+                            if(e.dataTransfer.files[0].type.startsWith("image/")){
+                                set_sc(e.dataTransfer.files[0]); 
+                            }
+                            e.target.style.border="0px dashed transparent";
+                        }}>
                         {
-                            sc==""?<FaPhotoFilm size={100}/>:<img src={URL.createObjectURL(sc)} alt="qwe" style={{width:"100%",height:"100%"}}/>
+                            sc==""?
+                            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                                <FaUpload size={100} color="gray"/>
+                                <div>Drag & Drop Image File here</div>
+                            </div>:<img src={URL.createObjectURL(sc)} alt="qwe" style={{width:"100%",height:"100%"}}/>
                         }
                         </div>
                         <label style={{width:"90%",boxShadow:"0px 0px 3px rgb(200,200,200)",cursor:"pointer",backgroundColor:"rgb(200,200,200)",borderRadius:"3px",marginTop:"10px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
