@@ -7,6 +7,7 @@ import { MdManageAccounts } from "react-icons/md";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Menu_qr_code from "./menu_qr_code";
 import Menu_del from "./menu_del";
+import Menu_edit from "./menu_edit";
 
 function Menu(){
 
@@ -90,6 +91,8 @@ function Menu(){
 
     const [show_del,set_show_del]=useState(false);
     const [uuid_del,set_uuid_del]=useState("");
+
+    const [show_menu_edit,set_show_menu_edit]=useState(false);
 
 
 
@@ -455,7 +458,10 @@ function Menu(){
                                         link.download = "nellalink-flyer.png";
                                         link.click();
                                     }}><BsViewList/> Download Flyer</div>
-                                    <div className="view"><BiEdit/> Edit</div>
+                                    <div className="view" onClick={()=>{
+                                        set_i(-1);
+                                        set_show_menu_edit(true);
+                                    }}><BiEdit/> Edit</div>
                                     <div className="view" onClick={()=>{
                                         set_i(-1);
                                         set_qr_nm(item.title_name);
@@ -839,6 +845,10 @@ function Menu(){
             {
                 show_del&&
                 <Menu_del set_show_del={set_show_del} qr_nm={qr_nm} get_now={get_now} set_get_now={set_get_now} uuid_del={uuid_del}/>
+            }
+            {
+                !show_menu_edit&&
+                <Menu_edit/>
             }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
                         {/* Successful */} {create_s_text}

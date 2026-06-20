@@ -132,7 +132,7 @@ function Business_edit({set_get_now,get_now,set_edit,short_name1,business_owned_
                     <input type="file" accept="image/*" style={{display:"none"}} onChange={(e)=>{
                         set_im(e.target.files[0]);
                     }}/>
-                </label>
+            </label>
             <div style={{alignSelf:"flex-end",fontFamily:"arial",fontSize:"12px"}}><sub>Max: 2MB. PNG, JPEG only.</sub></div>
 
             <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
