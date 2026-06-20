@@ -54,6 +54,8 @@ function Business({prop_set_q}){
     const [short_name,set_short_name]=useState("");
     const [business_owned_by,set_business_owned_by] = useState("");
 
+    const [nw,set_nw]=useState(`${Date.now().toString()}`);
+
     //entity_featured_url: "https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781768213528-w.jpg"
 
     useEffect(()=>{
@@ -61,8 +63,10 @@ function Business({prop_set_q}){
             set_ad(true);
         }
     },[]);
+
+
     
-    async function create_business(){
+    async function create_business(file,nw){
         set_loading(true);
         await fetch(url,{
             method:"post",
@@ -76,7 +80,8 @@ function Business({prop_set_q}){
                 title_name: title_name,
                 description: description,
               //  entity_type: "nellalink_business",
-                entity_featured_url: `https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo${sc}`,
+                entity_featured_url: `https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,
+                //entity_featured_url:"https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781952232029-a2.jpg",
                 extra_data: {
                  //   key_name1:"value1",
                  //   key_name2: 2,
@@ -144,6 +149,95 @@ function Business({prop_set_q}){
         });
     }
 
+        async function file_upload(file){
+        set_loading(true);
+        set_nw(`${Date.now().toString()}`);
+        await fetch(`https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,{
+            method:"put",
+            headers:{
+                "Content-Type": file.type,
+                "Authorization": "AWS4-HMAC-SHA256 Credential=AKIASZPIVUO5LETSUJWI/20260620/eu-west-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-user-agent, Signature=4e418ba57483f375bd0add943985ffd6aa42836ff830cef361bab60ab1de9b70",
+                "host": "nellalink.s3.eu-west-1.amazonaws.com",
+                "x-amz-content-sha256":"UNSIGNED-PAYLOAD",
+                "x-amz-date": "20260620T104352Z",
+                "x-amz-user-agent": "aws-sdk-js/2.1692.0 callback",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "cross-site",
+                "origin": "http://localhost:5173/"
+            },
+            body: file
+        }).then(async(res)=>{
+            set_loading(false);
+            if(!res.ok){
+                console.log("Upload failed:    ");
+            }else{
+                await create_business(file,nw);
+                console.log("Upload Successful:    ");
+            }
+        }).catch((err)=>{
+            set_loading(false);
+            console.log("Could not make upload request:    ",err);
+        })
+    }
+    
+
+    async function create_business11(){
+        set_loading(true);
+        await fetch(url,{
+            method:"post",
+            body: JSON.stringify({
+                request_id: Date.now().toString(),
+                meta_key: title_name,
+                meta_value: "",
+                title_name: title_name,
+                description: description,
+              //  entity_type: "nellalink_business",
+               // entity_featured_url: `https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,
+                entity_featured_url:"https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781952232029-a2.jpg",
+                extra_data: {
+
+                    business_address:business_address,
+                    contact_email:contact_email,
+                    enable_on_portal_listing: true,
+                    country_of_registration: country
+                },
+                status: "enabled",
+                owned_by: localStorage.getItem("uuid")
+            }),
+            headers:{
+                "Content-Type":"application/json",
+                "x-api-key": api
+            },
+         }).then((res)=> res.json()).then((data)=>{
+            if(data.status==true){
+                set_loading(false);
+                set_get_now(!get_now);
+                set_ad(false);
+                set_create_s_text("successfully created business");
+                set_create_s_top(0);
+                setTimeout(() => {
+                    set_create_s_top(-10);
+                }, 3000);
+            }else{
+                set_loading(false);
+                console.log(data);
+                set_create_text(data.message);
+                set_create_top(0);
+                setTimeout(() => {
+                    set_create_top(-10);
+                }, 3000);
+            }
+         }).catch((err)=>{
+            console.log(`nope: ${err}`);
+            set_loading(false);
+            set_create_text("Check your internet connection.");
+            set_create_top(0);
+            setTimeout(() => {
+                set_create_top(-10);
+            }, 3000);
+        });
+    }
 
 
     useEffect(()=>{
@@ -174,13 +268,13 @@ function Business({prop_set_q}){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
-             <div style={{width:"100%",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
-            <div style={{width:"90%",paddingTop:"1%",paddingBottom:"1%",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
+             <div style={{width:"100%",height:"40%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
+            <div style={{width:"90%",height:"30%",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
                 set_ad(true);
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Business</div></div>
-            <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",marginTop:"20px",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20}style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
-                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"1%",paddingBottom:"1%",border:"0px",width:"90%"}} onChange={(e)=>{
+                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",height:"100%",border:"0px",width:"90%"}} onChange={(e)=>{
                     set_z_search(e.target.value);
                     if(z_search!=""){
                         set_z_main("");
@@ -191,8 +285,8 @@ function Business({prop_set_q}){
                     }
                 }}/>
             </div>
-            <div style={{width:"90%",paddingTop:"1%",color:"black",paddingBottom:"1%",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
-                <div style={{width:"90%",paddingTop:"10px",fontWeight:"bold",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
+            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
+                <div style={{width:"90%",fontWeight:"bold",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
                 }}>
                     <div>{x}</div>
@@ -228,7 +322,7 @@ function Business({prop_set_q}){
 
             </div>
             {/* ....... */}
-             <div style={{width:"100%",height:"50%",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+             <div style={{width:"100%",height:"60%",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             {
                 all_data==null?
                 loading_get_now==true?
@@ -260,7 +354,8 @@ function Business({prop_set_q}){
                             
                             <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                                 {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
-                                    <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/>
+                                    {/* <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/> */}
+                                    <img src={item.entity_featured_url} alt="..." style={{width:"30%",aspectRatio:"3/1"}}/>
                                 {/* </div> */}
                                 <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
                                     <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
@@ -431,7 +526,8 @@ function Business({prop_set_q}){
 
                             <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",cursor:"pointer",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
                                 if(loading==false){
-                                    await create_business();
+                                    await create_business11();
+                                  //await file_upload(sc);
                                 }
                                 
                             }}>{loading?"Loading...":"Register"}</div>

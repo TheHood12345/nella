@@ -245,8 +245,8 @@ function Menu(){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
-            <div style={{width:"100%",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
-            <div style={{width:"90%",paddingTop:"10px",paddingBottom:"10px",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px",marginTop:"20px"}} onClick={()=>{
+            <div style={{width:"100%",height:"40%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
+            <div style={{width:"90%",height:"30%",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
                 if(!location.state){
                     //navigate("/business");
                     if(all_b_data){
@@ -263,9 +263,9 @@ function Menu(){
                 set_i(null);
                 
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Menu {location.state?.title_name}</div></div>
-            <div style={{width:"90%",marginTop:"14px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
-                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",paddingTop:"20px",paddingBottom:"20px",border:"0px",width:"90%"}} onChange={(e)=>{
+                <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",height:"100%",border:"0px",width:"90%"}} onChange={(e)=>{
                     set_z_search(e.target.value);
                     if(z_search!=""){
                         set_z_main("");
@@ -277,8 +277,8 @@ function Menu(){
                 }}/>
             </div>
            
-            <div style={{width:"90%",paddingTop:"10px",color:"black",paddingBottom:"10px",marginTop:"20px",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px",position:"relative"}}>
-                <div style={{width:"90%",paddingTop:"1%",fontWeight:"bold",paddingBottom:"1%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
+            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
+                <div style={{width:"90%",fontWeight:"bold",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
                 }}>
                     <div>{x}</div>
@@ -318,7 +318,7 @@ function Menu(){
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div> */}
-             <div style={{width:"100%",position:"relative",height:"50%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+             <div style={{width:"100%",position:"relative",height:"60%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
                         {
                 all_data==null?
                 loading_get_now==true?
