@@ -460,6 +460,7 @@ function Menu(){
                                     }}><BsViewList/> Download Flyer</div>
                                     <div className="view" onClick={()=>{
                                         set_i(-1);
+                                        set_qr_nm(item.title_name);
                                         set_show_menu_edit(true);
                                     }}><BiEdit/> Edit</div>
                                     <div className="view" onClick={()=>{
@@ -848,7 +849,7 @@ function Menu(){
             }
             {
                 show_menu_edit&&
-                <Menu_edit/>
+                <Menu_edit qr_nm={qr_nm}/>
             }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
                         {/* Successful */} {create_s_text}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 
-function Menu_edit(){
+function Menu_edit({qr_nm}){
     const [im,set_im]=useState("");
     const [im1,set_im1]=useState("");
     const [p,set_p]=useState(false);
@@ -13,7 +13,7 @@ function Menu_edit(){
         <div style={{width:"100%",height:"100%",fontSize:"16px",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",paddingTop:"5px",paddingBottom:"5px"}}>
                 <img src="" alt="..." style={{width:"90%",aspectRatio:"4/1",alignSelf:"center"}}/>
-                <div>{"name"}</div>
+                <div>{qr_nm}</div>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start"}}>
