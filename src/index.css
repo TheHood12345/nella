@@ -94,9 +94,9 @@ html{
   /* padding-left: 20px;
   padding-right: 20px; */
   width: 90%;
-  /* padding-top: 10px;
-  padding-bottom: 10px; */
+  padding-top: 10px;
+  padding-bottom: 10px;
   color:black;
   font-size:12px;
-  
+  cursor: pointer;
 }

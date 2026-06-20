@@ -1,10 +1,12 @@
 import { useState,useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBusinessTime, FaCaretDown, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaRegImages, FaSearch, FaUpload } from "react-icons/fa";
-import { FaArrowRight, FaCediSign, FaCircleXmark, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
+import { FaArrowDown, FaBusinessTime, FaCaretDown, FaCheckCircle, FaDollarSign, FaDownload, FaEuroSign, FaIcicles, FaPlus, FaRegImages, FaSearch, FaUpload } from "react-icons/fa";
+import { FaArrowRight, FaCediSign, FaCircleXmark, FaDeleteLeft, FaEllipsisVertical, FaImage, FaNairaSign, FaX } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import Menu_qr_code from "./menu_qr_code";
+import Menu_del from "./menu_del";
 
 function Menu(){
 
@@ -51,6 +53,7 @@ function Menu(){
     const [get_now,set_get_now]=useState(false);
     const [all_data,set_all_data]=useState(null);
     const [i,set_i]=useState(null);
+    const [en,set_en]=useState(null);
 
     const [show_business,set_show_business]=useState(false);
     const [loading_b_get_now,set_loading_b_get_now]=useState(false);
@@ -78,6 +81,15 @@ function Menu(){
     const [b,set_b]=useState(false);
 
     const [color,set_color]=useState("rgb(19, 161, 85)");
+
+    const [copied_top,set_copied_top]=useState(-10);
+    const [is_copied,set_is_copied]=useState(false);
+
+    const [show_qr,set_show_qr]=useState(false);
+    const [qr_nm,set_qr_nm]=useState("");
+
+    const [show_del,set_show_del]=useState(false);
+    const [uuid_del,set_uuid_del]=useState("");
 
 
 
@@ -391,6 +403,7 @@ function Menu(){
                             <div style={{width:"20%",textAlign:"center",fontSize:"14px",colo:"black",fontWeight:"bolder"}}>
                                 <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
                                     set_i(index);
+                                    set_en(item.parent_entity_uuid);
                                 }}/>
                             </div>
                 
@@ -408,22 +421,57 @@ function Menu(){
                                 </div>
                             </div>
                         } */}
+
+
+{
+                            (i==index && en==item.parent_entity_uuid)&&
+                            <div style={{width:"60%",zIndex:"2",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
+                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
+                                    <div className="view" onClick={()=>{
+                                        set_qr_nm(item.title_name);
+                                        set_show_qr(true);
+                                        set_i(-1);
+                                        
+                                    }}><BsViewList/> Generate QR</div>
+                                    <div className="view" onClick={()=>{
+                                        navigator.clipboard.writeText("https://business.nellalink.com/app/mb/menu/https://nella.vercel.app/").then(()=>{
+                                            set_i(-1);
+                                            set_is_copied(true);
+                                            set_copied_top(0);
+                                            setTimeout(()=>{
+                                                set_copied_top(-10);
+                                                setTimeout(()=>{
+                                                    set_is_copied(false);
+                                                },3000,);
+                                            },2000,);
+                                        }).catch((err)=>{
+                                            console.log("Failed to copy:    ",err);
+                                        });
+                                    }}><BiEdit/> Copy URL</div>
+                                    <div className="view" onClick={()=>{
+                                        set_i(-1);
+                                        const link = document.createElement("a");
+                                        link.href = "/flyer.png";
+                                        link.download = "nellalink-flyer.png";
+                                        link.click();
+                                    }}><BsViewList/> Download Flyer</div>
+                                    <div className="view"><BiEdit/> Edit</div>
+                                    <div className="view" onClick={()=>{
+                                        set_i(-1);
+                                        set_qr_nm(item.title_name);
+                                        set_uuid_del(item.uuid);
+                                        set_show_del(true);
+                                    }}><FaDeleteLeft/> Delete</div>
+                                </div>
+                            </div>
+                        }
+
                     </div>
                                 
                             )}}}
                         )
                         }
-                         {
-                            i==index&&
-                            <div style={{width:"60%",zIndex:"2",position:"absolute",backgroundColor:"white",boxShadow:"0px 0px 10px black",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",top:"0%",right:"11%",display:"flex",flexDirection:"column",alignItems:"end",justifyContent:"start"}}>
-                                <div style={{width:"90%",backgroundColor:"white",paddingRight:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
-                                    <div className="view"><BsViewList/> Generate QR</div>
-                                    <div className="view"><BiEdit/> Copy URL</div>
-                                    <div className="view"><BsViewList/> Download Flyer</div>
-                                    <div className="view"><BiEdit/> Edit</div>
-                                </div>
-                            </div>
-                        }
+                         
                     </div>
 
                 )
@@ -784,8 +832,19 @@ function Menu(){
                     </div>
                     </div>
             }
+            {
+                show_qr&&
+                <Menu_qr_code set_show_qr={set_show_qr} qr_nm={qr_nm}/>
+            }
+            {
+                show_del&&
+                <Menu_del set_show_del={set_show_del} qr_nm={qr_nm} get_now={get_now} set_get_now={set_get_now} uuid_del={uuid_del}/>
+            }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
                         {/* Successful */} {create_s_text}
+            </div>
+            <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${copied_top}%`,width:"100%",display:is_copied?"flex":"none",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
+                        <FaCheckCircle/> COPIED SUCCESSFULLY
             </div>
                     
         </div>
