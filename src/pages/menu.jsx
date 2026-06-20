@@ -847,7 +847,7 @@ function Menu(){
                 <Menu_del set_show_del={set_show_del} qr_nm={qr_nm} get_now={get_now} set_get_now={set_get_now} uuid_del={uuid_del}/>
             }
             {
-                !show_menu_edit&&
+                show_menu_edit&&
                 <Menu_edit/>
             }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
