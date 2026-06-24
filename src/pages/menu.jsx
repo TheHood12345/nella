@@ -94,6 +94,17 @@ function Menu(){
 
     const [show_menu_edit,set_show_menu_edit]=useState(false);
 
+    const [dragIndex,set_dragIndex] = useState(null);
+    const handleDrop = (dropIndex)=>{
+        const newItems = [...all_data];
+
+        [newItems[dragIndex],newItems[dropIndex]]=[newItems[dropIndex],newItems[dragIndex],];
+        set_all_data(newItems);
+        set_dragIndex(null);
+    }
+
+  
+
 
 
     useEffect(()=>{
@@ -394,7 +405,29 @@ function Menu(){
                             items.map((item,index)=>{
                                 if(index<a){
                                     if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
-                                return(<div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}}>
+                                return(<div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}} draggable
+                                     onDragStart={(e)=>{
+                        set_dragIndex(index);
+                        // const dragImage=document.createElement("div");
+                        // dragImage.style.backgroundColor="red";
+                        // dragImage.style.color="black";
+                        // dragImage.style.paddingTop="20px";
+                        // dragImage.style.paddingBottom="20px";
+                        // dragImage.style.width="90%";
+                        // dragImage.textContent=item.title_name;
+
+                        // document.body.appendChild(dragImage);
+
+                        // e.dataTransfer.setDragImage(dragImage,20,20);
+                        // setTimeout(()=>{
+                        //     document.body.removeChild(dragImage);
+                        // },0);
+                    }} onDrop={(e)=>{
+                        
+                        handleDrop(index);
+                    }} onDragOver={(e)=>{
+                                    e.preventDefault();
+                                }}>
                         
                                 
                         

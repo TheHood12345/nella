@@ -56,6 +56,13 @@ function Business({prop_set_q}){
 
     const [nw,set_nw]=useState(`${Date.now().toString()}`);
 
+    const [mem,set_mem]=useState({title_name:""});
+    const [mem_from,set_mem_from]=useState(null);
+    const [mem_to,set_mem_to]=useState(null);
+    const [mem_on,set_mem_on]=useState(false);
+
+    const [dragIndex,set_dragIndex] = useState(null);
+
     //entity_featured_url: "https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781768213528-w.jpg"
 
     useEffect(()=>{
@@ -63,6 +70,14 @@ function Business({prop_set_q}){
             set_ad(true);
         }
     },[]);
+
+    const handleDrop = (dropIndex)=>{
+        const newItems = [...all_data];
+
+        [newItems[dragIndex],newItems[dropIndex]]=[newItems[dropIndex],newItems[dragIndex],];
+        set_all_data(newItems);
+        set_dragIndex(null);
+    }
 
 
     
@@ -347,7 +362,28 @@ function Business({prop_set_q}){
             {all_data.map((item,index)=>{
                 if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
                 return (
-                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"rgb(240,240,240)",borderRadius:"10px"}}>
+                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"#f9f9f9",borderRadius:"10px"}} draggable onDragOver={(e)=>{
+                        e.preventDefault();
+                    }} onDragStart={(e)=>{
+                        set_dragIndex(index);
+                        // const dragImage=document.createElement("div");
+                        // dragImage.style.backgroundColor="red";
+                        // dragImage.style.color="black";
+                        // dragImage.style.paddingTop="20px";
+                        // dragImage.style.paddingBottom="20px";
+                        // dragImage.style.width="90%";
+                        // dragImage.textContent=item.title_name;
+
+                        // document.body.appendChild(dragImage);
+
+                        // e.dataTransfer.setDragImage(dragImage,20,20);
+                        // setTimeout(()=>{
+                        //     document.body.removeChild(dragImage);
+                        // },0);
+                    }} onDrop={(e)=>{
+                        
+                        handleDrop(index);
+                    }}>
                         <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                             <div style={{width:"10%"}}><input type="checkbox"/></div>
                             <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>
@@ -358,7 +394,7 @@ function Business({prop_set_q}){
                                     <img src={item.entity_featured_url} alt="..." style={{width:"30%",aspectRatio:"3/1"}}/>
                                 {/* </div> */}
                                 <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                                    <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
+                                    <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{mem_on?"":`${item.title_name}`}{mem.title_name}{mem_from==index?mem_from:""}{mem_to==index?mem_to:""}</div>
                                     <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
                                     <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
                                     <div style={{paddingLeft:"10px",paddingRight:"10px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"5px"}}>{item.status}</div>
