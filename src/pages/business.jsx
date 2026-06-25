@@ -286,11 +286,11 @@ function Business({prop_set_q}){
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
              <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
-            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
+            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"#fd7e14",borderRadius:"10px"}} onClick={()=>{
                 set_ad(true);
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Business</div></div>
             <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:`${ht.search1}`,flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
-                <FaSearch size={20}style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
+                <FaSearch size={20} color={"gray"} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
                 <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",height:"100%",border:"0px",width:"90%"}} onChange={(e)=>{
                     set_z_search(e.target.value);
                     if(z_search!=""){
@@ -372,8 +372,8 @@ function Business({prop_set_q}){
                 <div>Please add new items to see them listed here.</div>
             </div>:
             <div style={{width:"90%",marginTop:"0px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
-            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
-                <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
+            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"#fd7d143a"}}>
+                <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                     <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
                     <div style={{width:"10%",textAlign:"end"}}>S/N</div>
                     <div style={{width:"80%",textAlign:"center"}}>Business Name</div>
@@ -382,7 +382,7 @@ function Business({prop_set_q}){
             {all_data.map((item,index)=>{
                 if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
                 return (
-                    <div key={index} style={{width:"100%",position:"relative",cursor:"grab",transition:"all 0.1s linear",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"#f9f9f9",borderRadius:"10px"}} draggable onDragOver={(e)=>{
+                    <div key={index} style={{width:"100%",position:"relative",cursor:"grab",transition:"all 0.1s linear",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px transparent",backgroundColor:"#f9f9f9",borderRadius:"10px"}} draggable onDragOver={(e)=>{
                         e.preventDefault();
                     }} onDragStart={(e)=>{
                         set_dragIndex(index);
@@ -419,10 +419,10 @@ function Business({prop_set_q}){
                                     <img src={item.entity_featured_url} alt="..." style={{width:"30%",aspectRatio:"3/1"}}/>
                                 {/* </div> */}
                                 <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
-                                    <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{mem_on?"":`${item.title_name}`}{mem.title_name}{mem_from==index?mem_from:""}{mem_to==index?mem_to:""}</div>
-                                    <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.contact_email}</div>
-                                    <div style={{fontSize:"12px",fontFamily:"arial"}}>{item.extra_data.business_address}</div>
-                                    <div style={{paddingLeft:"10px",paddingRight:"10px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"5px"}}>{item.status}</div>
+                                    <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
+                                    <div style={{fontSize:"12px",fontFamily:"arial",color:"gray"}}>{item.extra_data.contact_email}</div>
+                                    <div style={{fontSize:"12px",fontFamily:"arial",color:"gray"}}>{item.extra_data.business_address}</div>
+                                    <div style={{paddingLeft:"10px",paddingRight:"10px",paddingTop:"5px",paddingBottom:"5px",marginTop:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"100px"}}>{item.status}</div>
                                 </div>
                                 <FaEllipsisVertical size={24} style={{cursor:"pointer"}} onClick={()=>{
                                     if(i==index){

@@ -39,11 +39,11 @@ function Home(){
 
         const [up,set_up] = useState(0)
     return (
-        <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <div style={{width:"100%",height:"80%",color:"gray",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center"}}>
                         {
                             items.map((item,index)=>{
                                 return(
-                                <div className="up" key={index} style={{width:"90%",fontSize:"14px",transition:"all 0.1s linear",cursor:"pointer",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:`0px 0px ${up==index?20:3}px rgb(200,200,200)`,marginTop:"20px",display:"flex",flexDirection:"column"}} onClick={()=>{
+                                <div className="up" key={index} style={{width:"90%",fontSize:"14px",color:"gray",transition:"all 0.1s linear",cursor:"pointer",paddingTop:"20px",paddingBottom:"20px",paddingLeft:"10px",paddingRight:"10px",borderRadius:"10px",boxShadow:`0px 0px ${up==index?20:3}px rgb(230,230,230)`,marginTop:"20px",display:"flex",flexDirection:"column"}} onClick={()=>{
                                     set_up(index);
                                 }} onMouseEnter={(e)=>{
                                     set_up(index);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaHome, FaBusinessTime, FaBookOpen, FaOutdent, FaBell, FaList, FaOpencart, FaListOl, FaArrowUp, FaArrowDown, FaCalendar, FaUserCircle } from "react-icons/fa";
-import { FaBoltLightning, FaCertificate, FaCircleXmark, FaComputer, FaFileLines, FaGear, FaI, FaMessage, FaPeopleGroup, FaPerson, FaRightToBracket } from "react-icons/fa6";
+import { FaBoltLightning, FaCertificate, FaCircleXmark, FaComputer, FaFileLines, FaGear, FaI, FaMessage, FaPeopleGroup, FaPerson, FaRegBell, FaRightToBracket } from "react-icons/fa6";
 import Business from "./business";
 import Home from "./home";
 import Menu from "./menu";
@@ -50,6 +50,8 @@ function Nella(){
     const [col1,set_col1]=useState(false);
     const [col2,set_col2]=useState(false);
     const [col3,set_col3]=useState(false);
+
+    const [icon,set_icon]=useState(false);
     
     const [query]=useSearchParams();
 
@@ -291,23 +293,38 @@ function Nella(){
                         }
                     </div>
                     
-                    <div style={{width:"30%",position:"relative",height:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                    <div style={{width:"40%",position:"relative",height:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                         {/* <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",position:"relative"}}> */}
-                           <FaUserCircle size={24} color={col1==true&&drawer1==true?"black":"gray"}  onClick={()=>{
+                           
+
+                        <div style={{width:"30%",position:"relative",margin:"0px",padding:"0px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                        {icon==false?
+                        <img src="/35.png" style={{width:"80%"}} onClick={()=>{
+                            set_col1(!col1);
+                            set_col3(false);
+                            set_drawer1(!drawer1);
+                            set_show_verify_anim(false);
+                        }} onError={(e)=>{
+                            set_icon(true);
+                        }}/>:
+                        <FaUserCircle size={24} color={col1==true&&drawer1==true?"black":"gray"}  onClick={()=>{
                             set_col1(!col1);
                             set_col3(false);
                             set_drawer1(!drawer1);
                             set_show_verify_anim(false);
                         }}/>
+                        }
+                        
+                        </div>
                            
                         {/* </div> */}
                         
-                        <div style={{position:"relative",margin:"0px",padding:"0px"}}>
-                           <FaBell size={24} color={"gray"} style={{margin:"0px",padding:"0px"}}/>
+                        <div style={{width:"30%",position:"relative",margin:"0px",padding:"0px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                           <FaRegBell size={24} color={"gray"} style={{margin:"0px",padding:"0px"}}/>
                            <div style={{color:"white",backgroundColor:"red",width:"50%",height:"40%",borderRadius:"100px",textAlign:"center",position:"absolute",top:"-10%",right:"-10%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>0</div>
                         </div>
                         
-                        <div style={{position:"relative"}}>
+                        <div style={{width:"30%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
                         {/* <FaList size={20} style={{cursor:"pointer"}} onClick={()=>{
                             set_drawer1(!drawer1);
                             set_show_verify_anim(false);

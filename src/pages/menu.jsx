@@ -297,7 +297,7 @@ function Menu(){
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
             <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
-            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
+            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"#fd7e14",borderRadius:"10px"}} onClick={()=>{
                 if(!location.state){
                     //navigate("/business");
                     if(all_b_data){
@@ -402,8 +402,8 @@ function Menu(){
                 <div>Please add new items to see them listed here.</div>
             </div>:
             <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
-            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
-                <div style={{width:"100%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange",color:"white"}}>
+            <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"#fd7d143a"}}>
+                <div style={{width:"100%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",color:"rgb(27, 41, 62)"}}>
                   
                     <div style={{width:"20%",textAlign:"center"}}>S/N</div>
                     <div style={{width:"20%",textAlign:"center"}}>Menu Name</div>
