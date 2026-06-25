@@ -94,6 +94,8 @@ function Menu(){
 
     const [show_menu_edit,set_show_menu_edit]=useState(false);
 
+    const [ht,set_ht]=useState({first:40,second:60,add1:30,search1:"flex",filter1:"flex"});
+
     const [p_i,set_p_i]=useState("-1");
 
     const [dragIndex,set_dragIndex] = useState(null);
@@ -294,8 +296,8 @@ function Menu(){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
-            <div style={{width:"100%",height:"40%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
-            <div style={{width:"90%",height:"30%",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
+            <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
+            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
                 if(!location.state){
                     //navigate("/business");
                     if(all_b_data){
@@ -312,7 +314,7 @@ function Menu(){
                 set_i(null);
                 
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Menu {location.state?.title_name}</div></div>
-            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",display:`${ht.search1}`,flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20} style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
                 <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",height:"100%",border:"0px",width:"90%"}} onChange={(e)=>{
                     set_z_search(e.target.value);
@@ -326,7 +328,7 @@ function Menu(){
                 }}/>
             </div>
            
-            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
+            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:`${ht.filter1}`,flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
                 <div style={{width:"90%",fontWeight:"bold",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
                 }}>
@@ -367,7 +369,25 @@ function Menu(){
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div> */}
-             <div style={{width:"100%",position:"relative",height:"60%",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+             <div style={{width:"100%",position:"relative",height:`${ht.second}%`,display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}} onScroll={(e)=>{
+                if(e.target.scrollTop >= 100){
+                    set_ht({
+                        first:20,
+                        second: 80,
+                        add1: 70,
+                        search1: "none",
+                        filter1: "none"
+                    })
+                }else{
+                    set_ht({
+                        first:40,
+                        second: 60,
+                        add1: 30,
+                        search1: "flex",
+                        filter1: "flex"
+                    })
+                }
+             }}>
                         {
                 all_data==null?
                 loading_get_now==true?
