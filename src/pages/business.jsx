@@ -351,7 +351,7 @@ function Business({prop_set_q}){
                 <div style={{color:"black"}}>No menu data available</div>
                 <div>Please add new items to see them listed here.</div>
             </div>:
-            <div style={{width:"90%",marginTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",marginTop:"0px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
             <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"orange"}}>
                 <div style={{width:"90%",fontWeight:"bolder",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"orange"}}>
                     <div style={{width:"10%",textAlign:"center"}}><input type="checkbox"/></div>
@@ -362,10 +362,11 @@ function Business({prop_set_q}){
             {all_data.map((item,index)=>{
                 if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
                 return (
-                    <div key={index} style={{width:"100%",position:"relative",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"#f9f9f9",borderRadius:"10px"}} draggable onDragOver={(e)=>{
+                    <div key={index} style={{width:"100%",position:"relative",cursor:"grab",transition:"all 0.1s linear",marginTop:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",boxShadow:"-3px 3px 3px gray",backgroundColor:"#f9f9f9",borderRadius:"10px"}} draggable onDragOver={(e)=>{
                         e.preventDefault();
                     }} onDragStart={(e)=>{
                         set_dragIndex(index);
+                        e.target.style.opacity="0";
                         // const dragImage=document.createElement("div");
                         // dragImage.style.backgroundColor="red";
                         // dragImage.style.color="black";
@@ -383,7 +384,11 @@ function Business({prop_set_q}){
                     }} onDrop={(e)=>{
                         
                         handleDrop(index);
-                    }}>
+                    }}
+                    onDragEnd={(e)=>{
+                        e.target.style.opacity="1";
+                    }}
+                    >
                         <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                             <div style={{width:"10%"}}><input type="checkbox"/></div>
                             <div style={{width:"10%",textAlign:"center",fontSize:"14px"}}>{index+1}</div>

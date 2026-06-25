@@ -94,6 +94,8 @@ function Menu(){
 
     const [show_menu_edit,set_show_menu_edit]=useState(false);
 
+    const [p_i,set_p_i]=useState("-1");
+
     const [dragIndex,set_dragIndex] = useState(null);
 
     const [drag,set_drag] = useState({parentId:null,index:null});
@@ -414,9 +416,10 @@ function Menu(){
                     
                     
                     return(
-                    <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px rgb(240,240,240)",backgroundColor:"rgb(240,240,240)",borderRadius:"10px",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                    <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px rgb(240,240,240)",backgroundColor:"rgba(240,240,240,0)",borderRadius:"10px",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                         <div style={{width:"90%",fontSize:"20px",color:"orange"}}>{/*"parentId"*/}Category {index+1}</div>
-                        <div style={{color:"orange",fontSize:"14px",position:"absolute",right:"1%",top:"1%",textDecoration:"underline"}} onClick={()=>{
+                        <div style={{color:"orange",fontSize:"14px",position:"absolute",right:"1%",top:"1%",textDecoration:"underline",cursor:"pointer"}} onClick={()=>{
+                            set_p_i(index);
                             if(a==2){
                                 set_a(all_data.length);
                             }else{
@@ -427,40 +430,21 @@ function Menu(){
                         {
                             items.map((item,index)=>{
 
-                                
-                                // const handleDrop = (dropIndex)=>{
-                                //         const newItems = [...items];
-
-                                //         [newItems[dragIndex],newItems[dropIndex]]=[newItems[dropIndex],newItems[dragIndex],];
-                                //         set_all_data(newItems);
-                                //         set_dragIndex(null);
-                                //     }
-
                                 if(index<a){
                                     if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
-                                return(<div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}} draggable
+                                return(<div key={index} style={{width:"100%",position:"relative",backgroundColor:"rgba(240,240,240,1)",marginTop:"10px",cursor:"grab",transition:"all 0.1s linear",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}} draggable
                                      onDragStart={(e)=>{
-                        set_drag({parentId,index});
-                        // const dragImage=document.createElement("div");
-                        // dragImage.style.backgroundColor="red";
-                        // dragImage.style.color="black";
-                        // dragImage.style.paddingTop="20px";
-                        // dragImage.style.paddingBottom="20px";
-                        // dragImage.style.width="90%";
-                        // dragImage.textContent=item.title_name;
-
-                        // document.body.appendChild(dragImage);
-
-                        // e.dataTransfer.setDragImage(dragImage,20,20);
-                        // setTimeout(()=>{
-                        //     document.body.removeChild(dragImage);
-                        // },0);
-                    }} onDrop={(e)=>{
-                        
-                        handleDrop(parentId,index);
-                    }} onDragOver={(e)=>{
-                                    e.preventDefault();
-                                }}>
+                                        set_drag({parentId,index});
+                                        e.target.style.opacity="0";
+                                    }} onDrop={(e)=>{
+                                        
+                                        handleDrop(parentId,index);
+                                    }}onDragEnd={(e)=>{
+                                        e.target.style.opacity="1";
+                                    }}
+                                    onDragOver={(e)=>{
+                                        e.preventDefault();
+                                    }}>
                         
                                 
                         
