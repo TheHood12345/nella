@@ -95,12 +95,33 @@ function Menu(){
     const [show_menu_edit,set_show_menu_edit]=useState(false);
 
     const [dragIndex,set_dragIndex] = useState(null);
-    const handleDrop = (dropIndex)=>{
-        const newItems = [...all_data];
 
-        [newItems[dragIndex],newItems[dropIndex]]=[newItems[dropIndex],newItems[dragIndex],];
-        set_all_data(newItems);
-        set_dragIndex(null);
+    const [drag,set_drag] = useState({parentId:null,index:null});
+    const handleDrop = (parentId,dropIndex)=>{
+        // if(!all_data) return null;
+        // if(drag.parentId !== parentId) return
+        // const groups = {...all_data};
+
+        // const list = [...groups[parentId]];
+
+        // const temp = list[drag.index];
+        // list[drag.index] = list[dropIndex];
+        // list[dropIndex] = temp;
+        // groups[parentId]=list;
+        // set_all_data(groups);
+        // set_drag({parentId:null,index:null});
+
+        const data=[...all_data];
+        const indexes=data.map((item,i)=>
+        item.parent_entity_uuid===parentId? i : -1).filter(i => i !== -1);
+
+        const from = indexes[drag.index];
+        const to = indexes[dropIndex];
+
+        [data[from],data[to]]=[data[to],data[from]];
+
+        set_all_data(data);
+        
     }
 
   
@@ -389,6 +410,8 @@ function Menu(){
                         return acc;
                     },{})
                 ).map(([parentId,items],index)=>{
+
+                    
                     
                     return(
                     <div key={parentId} style={{width:"100%",position:"relative",boxShadow:"0px 0px 3px rgb(240,240,240)",backgroundColor:"rgb(240,240,240)",borderRadius:"10px",marginTop:"20px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
@@ -403,11 +426,21 @@ function Menu(){
                        
                         {
                             items.map((item,index)=>{
+
+                                
+                                // const handleDrop = (dropIndex)=>{
+                                //         const newItems = [...items];
+
+                                //         [newItems[dragIndex],newItems[dropIndex]]=[newItems[dropIndex],newItems[dragIndex],];
+                                //         set_all_data(newItems);
+                                //         set_dragIndex(null);
+                                //     }
+
                                 if(index<a){
                                     if((item.status==z_main&&z_main!="") || (item.status==z_all&&z_all!="") || (item.extra_data.contact_email==z_search && z_search!="") || (item.title_name==z_search && z_search!="")){
                                 return(<div key={index} style={{width:"100%",position:"relative",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"10px"}} draggable
                                      onDragStart={(e)=>{
-                        set_dragIndex(index);
+                        set_drag({parentId,index});
                         // const dragImage=document.createElement("div");
                         // dragImage.style.backgroundColor="red";
                         // dragImage.style.color="black";
@@ -424,7 +457,7 @@ function Menu(){
                         // },0);
                     }} onDrop={(e)=>{
                         
-                        handleDrop(index);
+                        handleDrop(parentId,index);
                     }} onDragOver={(e)=>{
                                     e.preventDefault();
                                 }}>
