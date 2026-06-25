@@ -63,6 +63,8 @@ function Business({prop_set_q}){
 
     const [dragIndex,set_dragIndex] = useState(null);
 
+    const [ht,set_ht]=useState({first:40,second:60,add1:30,search1:"flex",filter1:"flex"});
+
     //entity_featured_url: "https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781768213528-w.jpg"
 
     useEffect(()=>{
@@ -283,11 +285,11 @@ function Business({prop_set_q}){
 
     return (
         <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
-             <div style={{width:"100%",height:"40%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
-            <div style={{width:"90%",height:"30%",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
+             <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
+            <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"orange",borderRadius:"10px"}} onClick={()=>{
                 set_ad(true);
             }}><FaPlus size={30}/><div style={{fontSize:"20px",paddingLeft:"3%"}}>Add Business</div></div>
-            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:"flex",flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
+            <div style={{width:"90%",height:"20%",boxShadow:"0px 0px 3px gray",overflow:"scroll",display:`${ht.search1}`,flexDirection:"row",alignItems:"center",borderRadius:"10px"}}>
                 <FaSearch size={20}style={{width:"10%",display:"flex",flexDirection:"row",alignItems:"center",alignItems:"center"}}/>
                 <input type="text" value={z_search} placeholder="Search Email, name" style={{backgroundColor:"transparent",height:"100%",border:"0px",width:"90%"}} onChange={(e)=>{
                     set_z_search(e.target.value);
@@ -300,7 +302,7 @@ function Business({prop_set_q}){
                     }
                 }}/>
             </div>
-            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
+            <div style={{width:"90%",height:"20%",color:"black",boxShadow:"0px 0px 3px gray",display:`${ht.filter1}`,flexDirection:"column",alignItems:"center",justifyContent:"center",borderRadius:"10px",position:"relative"}}>
                 <div style={{width:"90%",fontWeight:"bold",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between",borderRadius:"10px",cursor:"pointer"}} onClick={()=>{
                     set_q(!q);
                 }}>
@@ -337,7 +339,25 @@ function Business({prop_set_q}){
 
             </div>
             {/* ....... */}
-             <div style={{width:"100%",height:"60%",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
+             <div style={{width:"100%",height:`${ht.second}%`,transition:"all 0.3s linear",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}} onScroll={(e)=>{
+                if(e.target.scrollTop >= 300){
+                    set_ht({
+                        first:20,
+                        second: 80,
+                        add1: 80,
+                        search1: "none",
+                        filter1: "none"
+                    })
+                }else{
+                    set_ht({
+                        first:40,
+                        second: 60,
+                        add1: 30,
+                        search1: "flex",
+                        filter1: "flex"
+                    })
+                }
+             }}>
             {
                 all_data==null?
                 loading_get_now==true?
