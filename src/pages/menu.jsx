@@ -295,7 +295,7 @@ function Menu(){
 
 
     return (
-        <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
+        <div style={{width:"100%",height:"70%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
             <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
             <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",cursor:"pointer",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"#fd7e14",borderRadius:"10px"}} onClick={()=>{
                 if(!location.state){

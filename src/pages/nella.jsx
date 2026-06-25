@@ -279,7 +279,7 @@ function Nella(){
 
     return (
         <div style={{width:"100%",fontSize:"10px",height:"100%",display:"flex",flexDirection:"column",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",alignItems:"center",justifyContent:"space-between"}}>
-            <div style={{width:"100%",height:"10%",boxShadow:"0px 3px 3px gray",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+            <div style={{width:"100%",height:"15%",boxShadow:"0px 3px 3px rgb(230,230,230)",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
                 <div style={{width:"90%",height:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                     <div style={{width:"60%",height:"100%",fontWeight:"bold",display:"flex",flexDirection:"Column",alignItems:"start",justifyContent:"center",fontWeight:"bold",color:"black"}}>
                         <div style={{fontSize:"12px"}}>{q==1?"Dashboard":q==2?"Businesses":q==3?"QR Menu & Pricing":"Dashboard"}</div>
@@ -357,7 +357,7 @@ function Nella(){
             <Outlet/>
 
             {/* Bottom nav bar */}
-            <div style={{width:"100%",height:"10%",border:"0px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-around",boxShadow:"0px -1px 2px gray",fontSize:"10px"}}>
+            <div style={{width:"100%",height:"15%",border:"0px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-around",boxShadow:"0px -1px 2px gray",fontSize:"10px"}}>
                 <Link to={"/home"} style={{width:"20%",textDecoration:"none",cursor:"pointer",height:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>{
                     
                     set_q(1);

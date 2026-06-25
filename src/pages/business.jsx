@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsViewList } from "react-icons/bs";
-import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaPiedPiper, FaPlus, FaSearch, FaUpload } from "react-icons/fa";
+import { FaArrowDown, FaBook, FaCalendar, FaCaretLeft, FaIcicles, FaImage, FaInfoCircle, FaPiedPiper, FaPlus, FaSearch, FaUpload } from "react-icons/fa";
 import { FaCircleXmark, FaDownload, FaEarthAfrica, FaEllipsisVertical, FaLocationPin, FaMessage, FaPerson, FaPhotoFilm } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { data, Link, useSearchParams } from "react-router-dom";
@@ -284,7 +284,7 @@ function Business({prop_set_q}){
 
 
     return (
-        <div style={{width:"100%",height:"80%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
+        <div style={{width:"100%",height:"70%",overflow:"scroll",display:"flex",flexDirection:"column",alignItems:"center",position:"relative"}}>
              <div style={{width:"100%",height:`${ht.first}%`,transition:"all 0.3s linear",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-evenly"}}>
             <div style={{width:"90%",height:`${ht.add1}%`,transition:"all 0.3s linear",paddingLeft:"3%",color:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"start",backgroundColor:"#fd7e14",borderRadius:"10px"}} onClick={()=>{
                 set_ad(true);
@@ -366,10 +366,10 @@ function Business({prop_set_q}){
                 <div style={{color:"black"}}>Loading all data...</div>
                 </div>:
                 
-            <div style={{width:"90%",marginTop:"20px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
-                <FaIcicles size={30}/>
-                <div style={{color:"black"}}>No menu data available</div>
-                <div>Please add new items to see them listed here.</div>
+            <div style={{width:"90%",marginTop:"20px",fontSize:"14px",paddingTop:"20px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",boxShadow:"-3px 3px 3px gray",borderRadius:"10px"}}>
+                <FaInfoCircle size={30}/>
+                <div style={{width:"80%",color:"black",textAlign:"center"}}>No Business data available</div>
+                <div style={{width:"80%",color:"gray",textAlign:"center"}}>Please add a Business to see them listed here.</div>
             </div>:
             <div style={{width:"90%",marginTop:"0px",paddingBottom:"20px",display:"flex",flexDirection:"column",alignItems:"center",borderRadius:"10px"}}>
             <div style={{width:"100%",fontSize:"14px",overflow:"hidden",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",backgroundColor:"#fd7d143a"}}>
