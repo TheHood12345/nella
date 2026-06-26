@@ -1,13 +1,146 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 
-function Menu_edit({qr_nm}){
+function Menu_edit({qr_nm,edit_uuid,edit_owned_by}){
+    const url=`https://backend-sbs.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business_menu/${edit_uuid}`;
+    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
     const [im,set_im]=useState("");
     const [im1,set_im1]=useState("");
     const [p,set_p]=useState(false);
     const [f,set_f]=useState(false);
     const [b,set_b]=useState(false);
+
+    const [loading_save,set_loading_save]=useState(false);
+
+    const [title_name,set_title_name]=useState("");
+    const [desc,set_desc]=useState("");
+    const [color,set_color]=useState("");
+    const [status,set_status]=useState("");
+    const [support_title,set_support_title]=useState("");
+    const [support_button,set_support_button]=useState("");
+    const [support_desc,set_support_desc]=useState("");
+    const [con_email,set_con_email]=useState("");
+    const [con_address,set_con_address]=useState("");
+    const [con_num,set_con_num]=useState("");
+    const [p_title,set_p_title]=useState("");
+    const [p_desc,set_p_desc]=useState("");
+    const [p_fee,set_p_fee]=useState("");
+    const [f_title,set_f_title]=useState("");
+    const [f_desc,set_f_desc]=useState("");
+    const [f_fee,set_f_fee]=useState("");
+    const [b_title,set_b_title]=useState("");
+    const [b_desc,set_b_desc]=useState("");
+    const [wallet_currency,set_wallet_currency]=useState("Nigerian Naira (NGN)");
+    const [wallet_symbol,set_wallet_symbol]=useState("NGN");
+
+    useEffect(()=>{
+        switch(wallet_currency){
+                        case "Nigerian Naira (NGN)":
+                            set_wallet_symbol("NGN");
+                            break;
+                        case "US DOLLAR (USD)":
+                            set_wallet_symbol("USD");
+                            break;
+                        case "EURO (EUR)":
+                            set_wallet_symbol("EUR");
+                            break;
+                        case "Ghanaian Cedi (GHS)":
+                            set_wallet_symbol("GHS");
+                            break;
+                    }
+    },[wallet_currency]);
+
+    async function save_edit(){
+        set_loading_save(true);
+        await fetch(url,
+            {
+                method: 'put',
+                headers: {
+                    "content-type": "application/json",
+                    "x-api-key": api
+                },
+                body: JSON.stringify(
+                    {
+                    "uuid": edit_uuid,
+                    "request_id": Date.now().toString(),
+                    "meta_key": title_name,
+                    "meta_value": `${title_name}-${Date.now().toString()}`,
+                    "title_name": title_name,
+                    "description": desc,
+                    "entity_featured_url": null,
+                    "extra_data": {
+                        "status": status,
+                        "owned_by": null,
+                        "data_type": null,
+                        "support_tab": {
+                            "title": support_title,
+                            "content": support_desc,
+                            "nav_button_text": support_button,
+                            "show_ring_feature_on_support_page": true
+                        },
+                        "contact_info": {
+                            "address": con_address,
+                            "email_address": con_email,
+                            "mobile_number": con_num,
+                            "show_contact_info_on_support_page": true
+                        },
+                        "enable_dark_mode": true,
+                        "menu_primary_color": color,
+                        "parent_entity_type": "nellalink_business",
+                        "parent_entity_uuid": null,
+                        "menu_base_wallet_ticker": wallet_currency,
+                        "menu_featured_categories": [
+                            "delivery"
+                        ],
+                        "menu_base_wallet_ticker_symbol": wallet_symbol,
+                        "menu_checkout_payments_providers": {
+                            "paystack": {
+                                "fee": p_fee,
+                                "title": p_title,
+                                "description": p_desc,
+                                "fee_max_amount": 2000
+                            },
+                            "flutterwave": {
+                                "fee": f_fee,
+                                "title": f_title,
+                                "description": f_desc,
+                                "fee_max_amount": 2000
+                            },
+                            "bank_transfer": {
+                                "title": b_title,
+                                "description": b_desc
+                            }
+                        }
+                    },
+                    "parent_entity_type": "nellalink_business",
+                    "parent_entity": "30",
+                    "owned_by": edit_owned_by,
+                    "added_by": "1",
+                    "data_type": null,
+                    "status": "enabled",
+                    "created_at": Date.now().toString(),
+                    "updated_at": Date.now().toString(),
+                    "deleted_at": null,
+                    "created_by": null,
+                    "meta_data": []
+                }
+                )
+            }
+        )
+        //.then((res)=>res.json())
+        .then((data)=>{
+            set_loading_save(false);
+            if(data.ok==true){
+                console.log("Success:  ",data);
+            }else{
+                console.log("Made request but failed:  ",data);
+            }
+        }).catch((err)=>{
+            set_loading_save(false);
+            console.log("Could not make request:    ",err);
+        });
+    }
     
     return (
         <div style={{width:"100%",height:"100%",fontSize:"16px",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
@@ -18,12 +151,16 @@ function Menu_edit({qr_nm}){
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start"}}>
                 <div>Name</div>
-                <input type="text" placeholder="Enter menu name" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                <input type="text" value={title_name} placeholder="Enter menu name" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_title_name(e.target.value);
+                }}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Description</div>
-                <textarea type="text" placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}></textarea>
+                <textarea type="text" value={desc} placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_desc(e.target.value);
+                }}></textarea>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
@@ -33,12 +170,16 @@ function Menu_edit({qr_nm}){
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Primary Color</div>
-                <input type="color" placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%",border:"4px solid black",borderRadius:"10px"}}/>
+                <input type="color" value={color} placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%",border:"4px solid black",borderRadius:"10px",backgroundColor:color}}  onChange={(e)=>{
+                    set_color(e.target.value);
+                }}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Status</div>
-                <select type="color" placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}>
+                <select type="color" value={status} placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_status(e.target.value);
+                }}>
                     <option>Enable</option>
                     <option>Disable</option>
                 </select>
@@ -96,26 +237,42 @@ function Menu_edit({qr_nm}){
                 p&&
                 <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                     <div>Paystack</div>
-                    <input type="text" placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
-                    <input type="text" placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
-                    <input type="text" placeholder="Fee" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                    <input type="text" value={p_title} placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_p_title(e.target.value);
+                    }}/>
+                    <input type="text" value={p_desc} placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_p_desc(e.target.value);
+                    }}/>
+                    <input type="text" value={p_fee} placeholder="Fee" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_p_fee(e.target.value);
+                    }}/>
                 </div>
             }
             {
                 f&&
                 <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                     <div>Flutterwave</div>
-                    <input type="text" placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
-                    <input type="text" placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
-                    <input type="text" placeholder="Fee" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                    <input type="text" value={f_title} placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_f_title(e.target.value);
+                    }}/>
+                    <input type="text" value={f_desc} placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_f_desc(e.target.value);
+                    }}/>
+                    <input type="text" value={f_fee} placeholder="Fee" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_f_fee(e.target.value);
+                    }}/>
                 </div>
             }
             {
                 b&&
                 <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                     <div>Bank Transfer</div>
-                    <input type="text" placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
-                    <input type="text" placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                    <input type="text" value={b_title} placeholder="Title" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_b_title(e.target.value);
+                    }}/>
+                    <input type="text" value={b_desc} placeholder="Enter description" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                        set_b_desc(e.target.value);
+                    }}/>
                 </div>
             }
 
@@ -125,22 +282,32 @@ function Menu_edit({qr_nm}){
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Contact Email</div>
-                <input type="text" placeholder="example@gmail.com" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                <input type="text" value={con_email} placeholder="example@gmail.com" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_con_email(e.target.value);
+                }}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Contact Address</div>
-                <input type="text" placeholder="Add contact address here" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                <input type="text" value={con_address} placeholder="Add contact address here" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_con_address(e.target.value);
+                }}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Phone Number</div>
-                <input type="text" placeholder="080x xxx xxxx" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                <input type="text" value={con_num} placeholder="080x xxx xxxx" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_con_num(e.target.value);
+                }}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Wallet Currency</div>
-                <select type="color" placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}>
+                <select value={wallet_currency} placeholder="Add category" style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}} onChange={(e)=>{
+                    set_wallet_currency(e.target.value);
+                    console.log(e.target.value)
+                    
+                }}>
                     <option>Nigerian Naira (NGN)</option>
                     <option>US DOLLAR (USD)</option>
                     <option>EURO (EUR)</option>
@@ -150,7 +317,7 @@ function Menu_edit({qr_nm}){
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"start",marginTop:"10px"}}>
                 <div>Currency Symbol</div>
-                <input type="text" disabled placeholder="..." style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
+                <input type="text" value={wallet_symbol} disabled placeholder="..." style={{paddingTop:"13px",paddingBottom:"13px",width:"100%"}}/>
             </div>
 
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center",backgroundColor:"rgb(240,240,240)",paddingTop:"10px",paddingBottom:"10px",marginTop:"20px"}} onDragLeave={(e)=>{
@@ -183,8 +350,8 @@ function Menu_edit({qr_nm}){
                                 }}/>
                         </label>
 
-            <div style={{width:"90%",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:"20px",backgroundColor:"orange",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center"}}>
-                <FaUpload/> Save
+            <div style={{width:"90%",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",marginTop:"20px",backgroundColor:"orange",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center"}} onClick={save_edit}>
+                {!loading_save?<FaUpload/>:null} {loading_save?"Loading...":"Save"}
             </div>
 
             <div style={{width:"90%",display:"flex",fontFamily:"arial",flexDirection:"column",marginTop:"20px",boxShadow:"0px 0px 3px black",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",display:"flex",alignItems:"center",justifyContent:"center"}}>

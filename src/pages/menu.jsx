@@ -98,6 +98,9 @@ function Menu(){
 
     const [p_i,set_p_i]=useState("-1");
 
+    const [edit_uuid,set_edit_uuid]=useState("");
+    const [edit_owned_by,set_edit_owned_by]=useState("");
+
     const [dragIndex,set_dragIndex] = useState(null);
 
     const [drag,set_drag] = useState({parentId:null,index:null});
@@ -531,6 +534,8 @@ function Menu(){
                                     <div className="view" onClick={()=>{
                                         set_i(-1);
                                         set_qr_nm(item.title_name);
+                                        set_edit_uuid(item.uuid);
+                                        set_edit_owned_by(item.owned_by);
                                         set_show_menu_edit(true);
                                     }}><BiEdit/> Edit</div>
                                     <div className="view" onClick={()=>{
@@ -919,7 +924,7 @@ function Menu(){
             }
             {
                 show_menu_edit&&
-                <Menu_edit qr_nm={qr_nm}/>
+                <Menu_edit qr_nm={qr_nm} edit_uuid={edit_uuid} edit_owned_by={edit_owned_by}/>
             }
             <div style={{position:"absolute",fontFamily:"arial",backgroundColor:"rgba(0, 255, 255, 0.5)",color:"black",top:`${create_s_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 0.5s linear",textAlign:"center",fontSize:"16px"}}>
                         {/* Successful */} {create_s_text}
