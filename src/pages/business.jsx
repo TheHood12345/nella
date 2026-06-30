@@ -10,8 +10,9 @@ import Business_edit from "./business_edit";
 //import { s3 } from "./s3";
 import { S3Client,PutObjectCommand } from "@aws-sdk/client-s3";
 import {FetchHttpHandler} from "@aws-sdk/fetch-http-handler"
+import axios from "axios";
 
-
+//https://nellalink-middleware-dev.eu-4.evennode.com/docs/api/#/File%20Manager/post_api_v1_nellalink_file_manager_aws_upload_url
 
 function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
@@ -171,34 +172,71 @@ function Business({prop_set_q}){
         });
     }
 
-    const s3 = new S3Client({
-    region: "eu-west-1",
-    credentials: {
-        accessKeyId: "AKIASZPIVUO5LETSUJWI",
-        secretAccessKey: "code"
-    },
-    requestHandler: new FetchHttpHandler(),
-    })
+    // const s3 = new S3Client({
+    // region: "eu-west-1",
+    // credentials: {
+    //     accessKeyId: "AKIASZPIVUO5LETSUJWI",
+    //     secretAccessKey: "code"
+    // },
+    // requestHandler: new FetchHttpHandler(),
+    // })
+
+    const [file_url,set_file_url]=useState("");
+        let complete_upload = async(body,file)=>{
+            console.log(body);
+            await fetch(body.upload_url,{
+                method:"put",
+                body: file,
+                headers: {
+                    "Content-Length": file.size,
+                    "Content-type": file.type,
+                }
+            }
+           
+        ).then(async()=>{
+            set_file_url(body.file_url);
+            await create_business11(body.file_url);
+        })
+        }
+        
 
         async function file_upload(file){
         set_loading(true);
         set_nw(`${Date.now().toString()}`);
-        await fetch(`/api/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,{
-            method:"put",
+        console.log("------------",file.type);
+        //
+        //`https://middleware-dev.middey.com/api/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`
+        await fetch(`https://middleware-dev.middey.com/api/v1/nellalink/file-manager/aws/upload-url`,{
+            method:"post",
             headers:{
-                "Content-Type": file.type,
+                "Content-Type": "application/json",
                 "x-api-key": api,
-               // "authorization":`AWS4-HMAC-SHA256 Credential=AKIASZPIVUO5LETSUJWI/${new Date().getFullYear()}${String(new Date().getUTCMonth()+1).padStart(2,"0")}${String(new Date().getUTCDate()).padStart(2,"0")}/eu-west-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-user-agent, Signature=0c8c9efdca1dd5662d8ef25f07c781a9782b2d2f6f3b120284a19d5d30f1531`
+               "authorization":`Bearer ${localStorage.getItem("token")}`
             },
-            body: file
-        }).then(async(res)=>{
+            body: JSON.stringify({
+                files: [
+                    {
+                    "file_name": "logo.jpg",
+                    "file_type": file.type,
+                    "file_size": file.size,
+                    "visibility": "private",
+                    "directory": "business/logo"
+                    }
+                ],
+                
+                "user_uuid": `${localStorage.getItem("uuid")}`,
+                "expires_in": 3600
+                })
+        }).then((res)=>res.json()).then(async(data)=>{
             set_loading(false);
-            if(!res.ok){
-                console.log("Upload failed:    ",res);
-            }else{
-                await create_business(file,nw);
-                console.log("Upload Successful:    ",res);
-            }
+            // if(!res.ok){
+            //     console.log("Upload failed:    ",res);
+            // }else{
+                //await create_business(file,nw);
+                console.log("Upload Successful:    ",data);
+                complete_upload(data.data[0],file);
+                
+           // }
         }).catch((err)=>{
             set_loading(false);
             console.log("Could not make upload request:    ",err);
@@ -222,7 +260,7 @@ function Business({prop_set_q}){
     }
     
 
-    async function create_business11(){
+    async function create_business11(file){
         set_loading(true);
         await fetch(url,{
             method:"post",
@@ -233,8 +271,7 @@ function Business({prop_set_q}){
                 title_name: title_name,
                 description: description,
               //  entity_type: "nellalink_business",
-               // entity_featured_url: `https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,
-                entity_featured_url:"https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/6a622d6e-b707-4159-9742-1ad91d4cc620/info/logo/1781952232029-a2.jpg",
+                entity_featured_url: file,
                 extra_data: {
 
                     business_address:business_address,
@@ -610,8 +647,8 @@ function Business({prop_set_q}){
 
                             <div style={{width:"100%",paddingTop:"20px",paddingBottom:"20px",cursor:"pointer",backgroundColor:"orange",marginTop:"10px",textAlign:"center",borderRadius:"4px",marginBottom:"10px",color:"white",fontSize:"14px"}} onClick={async()=>{
                                 if(loading==false){
-                                    await create_business11();
-                                  //await file_upload(sc);
+                                   // await create_business11();
+                                  await file_upload(sc);
                                 }
                                 
                             }}>{loading?"Loading...":"Register"}</div>

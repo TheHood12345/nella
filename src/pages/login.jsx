@@ -2,9 +2,11 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash, FaGoogle, FaTwitter } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { data, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login(){
     const log_data = `${import.meta.env.VITE_CORE_BACKEND_BASE_API_URL}/public/api/v1/nellalink/user/login`
+    
     const [eye,set_eye] = useState(false);
     const [c_p,set_c_p]=useState(false);
 
@@ -41,19 +43,66 @@ function Login(){
 
     const navigate = useNavigate()
 
+    async function login1() {
+        set_loading(true);
+        await axios.post(
+            log_data,
+            {
+                email: email,
+                password: password
+            },
+            {
+                headers: {
+                    "Content-Type":"application/json",
+                    "x-api-key": import.meta.env.VITE_APP_API_KEY
+                }
+            }
+        ).then((data)=>{
+            if(data.data.status==true){
+                navigate("/")
+                console.log("login successful: ",data.data);
+                localStorage.setItem("token",data.data.data.access_token);
+                localStorage.setItem("name",data.data.data.name);
+                localStorage.setItem("username",data.data.data.username);
+                localStorage.setItem("email",data.data.data.email);
+                localStorage.setItem("email_verified_at",data.data.data.email_verified_at);
+                localStorage.setItem("uuid",data.data.data.uuid);
+            }else{
+                set_loading(false);
+                console.log("Could not login: ",data);
+                set_login_text(data.message);
+                set_login_error(true);
+                set_login_top(0);
+                setTimeout(()=>{
+                    set_login_error(false);
+                    set_login_top(-10);
+                },2000);
+            }
+        }).catch((err)=>{
+            set_loading(false);
+            console.log(`Could not perform fetch: ${err}`)
+            set_login_text("Check your internet connection.");
+            set_login_error(true);
+            set_login_top(0);
+            setTimeout(()=>{
+                set_login_error(false);
+                set_login_top(-10);
+            },2000);
+            // navigate("/nella");
+        })
+    }
+
     async function login(){
         set_loading(true);
-        console.log(email)
-        console.log(password)
         await fetch(log_data,{
-            method:"post",
+            method:"POST",
             headers:{
                 "Content-Type":"application/json",
                 "x-api-key": import.meta.env.VITE_APP_API_KEY
             },
             body: JSON.stringify({
-                email: email.toString(),
-                password: password.toString()
+                email: email,
+                password: password
             })
         }).then((res)=>res.json()).then((data)=>{
             if(data.status==true){
@@ -209,16 +258,19 @@ function Login(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{opacity:"1",width:"90%",backgroundColor:"#fd7e14",borderRadius:"10px",color:"white",paddingTop:"20px",paddingBottom:"20px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
+                <div style={{opacity:"1",width:"90%",backgroundColor:"#fd7e14",borderRadius:"10px",color:"white",paddingTop:"20px",paddingBottom:"20px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(loading==false){
+                    //login()
+                    await login1();
+                    }}}>{loading==false?"Login":"Loading.."}</div>
                 <div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={()=>{set_show_token_email(true)}}>Recover</Link></div>
                 {/* <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div> */}
                 <div style={{marginTop:"10px",marginBottom:"10px"}}>Or</div>
                 <div style={{width:"90%",marginTop:"20px",marginBottom:"20px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-between"}}>
-                    <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-evenly",borderRadius:"6px",backgroundColor:"rgb(230,230,230)"}}>
+                    <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"6px",backgroundColor:"rgb(230,230,230)"}}>
                         <FaGoogle/>
                         <div>Google</div>
                     </div>
-                    <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"start",justifyContent:"space-evenly",borderRadius:"6px",backgroundColor:"rgb(230,230,230)"}}>
+                    <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",borderRadius:"6px",backgroundColor:"rgb(230,230,230)"}}>
                         <FaTwitter/>
                         <div>Twitter</div>
                     </div>
