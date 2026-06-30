@@ -4,8 +4,7 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { data, Link, useNavigate } from "react-router-dom";
 
 function Login(){
-    const log_data = "https://backend-test.nellalink.com/public/api/v1/nellalink/user/login"
-    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94"
+    const log_data = `${import.meta.env.VITE_CORE_BACKEND_BASE_API_URL}/public/api/v1/nellalink/user/login`
     const [eye,set_eye] = useState(false);
     const [c_p,set_c_p]=useState(false);
 
@@ -50,7 +49,7 @@ function Login(){
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "x-api-key": api
+                "x-api-key": import.meta.env.VITE_APP_API_KEY
             },
             body: JSON.stringify({
                 email: email.toString(),
@@ -93,11 +92,11 @@ function Login(){
         async function send_token_email(){
         set_sending_token_email(true);
         set_token_error(false);
-        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/reset-password",{
+        await fetch(`${import.meta.env.VITE_CORE_BACKEND_BASE_API_URL}/public/api/v1/nellalink/user/reset-password`,{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "x-api-key": api
+                "x-api-key": import.meta.env.VITE_APP_API_KEY
             },
             body: JSON.stringify({
                 email_address: token_email
@@ -140,11 +139,11 @@ function Login(){
 
     async function change_password(){
         set_loading(true);
-        await fetch("https://backend-test.nellalink.com/public/api/v1/nellalink/user/reset-password/validate",{
+        await fetch(`${import.meta.env.VITE_CORE_BACKEND_BASE_API_URL}/public/api/v1/nellalink/user/reset-password/validate`,{
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "x-api-key": api
+                "x-api-key": import.meta.env.VITE_APP_API_KEY
             },
             body: JSON.stringify({
                 email_address: token_email,

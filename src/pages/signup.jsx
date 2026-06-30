@@ -3,8 +3,7 @@ import { FaEye, FaEyeSlash, FaGoogle, FaTwitter } from "react-icons/fa";
 import { data, Link, useNavigate } from "react-router-dom";
 
 function Signup(){
-    const log_data = "https://backend-test.nellalink.com/public/api/v1/nellalink/user/register"
-    const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94"
+    const log_data = `${import.meta.env.VITE_CORE_BACKEND_BASE_API_URL}/public/api/v1/nellalink/user/register`
     const [eye,set_eye] = useState(false);
     const [c_eye,set_c_eye] = useState(false);
 
@@ -56,7 +55,7 @@ function Signup(){
             method:"post",
             headers:{
                 "Content-Type":"application/json",
-                "x-api-key": api
+                "x-api-key": import.meta.env.VITE_APP_API_KEY
             },
             body: JSON.stringify({
                 email: email,
@@ -107,7 +106,7 @@ function Signup(){
         <div style={{width:"100%",height:"100%",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"90%",height:"90%",overflow:"scroll",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"start"}}>
                 <div style={{fontWeight:"bold",fontSize:"20px",color:"black",fontWeight:"bolder",marginTop:"20px"}}>REGISTER</div>
-                <div>Already have an account? <Link to={"/login"} style={{color:"orange"}}>Login</Link></div>
+                <div>Already have an account? <Link to={"/login"} style={{color:"#fd7e14"}}>Login</Link></div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>User Name</div>
                     <input type="text" required value={username} onChange={(e)=>{
@@ -152,7 +151,7 @@ function Signup(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(loading==false){await register()}}}>{loading==false?"Create Account":"loading.."}</div>
+                <div style={{width:"90%",backgroundColor:"#fd7e14",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={async()=>{if(loading==false){await register()}}}>{loading==false?"Create Account":"loading.."}</div>
                 
             </div>
             <div style={{position:"absolute",backgroundColor:"red",color:"honeydew",top:`${register_top}%`,width:"100%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",transition:"all 1s linear",textAlign:"center"}}>
