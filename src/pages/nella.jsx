@@ -407,15 +407,15 @@ function Nella(){
 
             {
                 logout&&
-                <div style={{width:"100%",height:"100%",fontSize:"14px",position:"absolute",top:"0%",left:"0%",backgroundColor:"rgba(0,0,0,0.8)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:"100%",height:"100%",fontSize:"16px",position:"absolute",top:"0%",left:"0%",backgroundColor:"rgba(0,0,0,0.6)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                     <div style={{width:"90%",paddingTop:"20px",paddingBottom:"20px",backgroundColor:"white",opacity:"1",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-                        <div style={{fontWeight:"bolder",color:"black"}}>Confirm Logout</div>
-                        <div>Are you sure you want to log out?</div>
-                        <div style={{width:"90%",marginTop:"10px",backgroundColor:"white",opacity:"1",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"end"}}>
-                            <div style={{width:"30%",paddingTop:"6px",paddingBottom:"6px",borderRadius:"4px",textAlign:"center",cursor:"pointer"}} onClick={()=>{
+                        <div style={{fontWeight:"bolder",color:"black",fontSize:"16px"}}>Confirm Logout</div>
+                        <div style={{fontSize:"14px",marginTop:"10px",color:"rgb(40,40,40)"}}>Are you sure you want to log out?</div>
+                        <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",opacity:"1",borderRadius:"10px",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"end"}}>
+                            <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",borderRadius:"4px",textAlign:"center",cursor:"pointer",color:"rgb(30,30,30)"}} onClick={()=>{
                                 set_logout(false);
                             }}>Cancel</div>
-                            <div style={{width:"30%",paddingTop:"6px",paddingBottom:"6px",borderRadius:"4px",backgroundColor:"red",color:"white",textAlign:"center",cursor:"pointer"}} onClick={()=>{
+                            <div style={{width:"40%",paddingTop:"10px",paddingBottom:"10px",borderRadius:"4px",backgroundColor:"red",color:"white",textAlign:"center",cursor:"pointer"}} onClick={()=>{
                                 navigate("/login",{replace: true});
                                 localStorage.removeItem("token");
                                 localStorage.removeItem("name");

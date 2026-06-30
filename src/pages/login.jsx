@@ -187,22 +187,22 @@ function Login(){
         });
     }
     return (
-        <div style={{width:"100%",height:"100%",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-            <div style={{width:"90%",height:"90%",overflow:"scroll",boxShadow:"0px 0px 6px rgb(200,200,200)",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-                <div style={{fontWeight:"bold"}}>Welcome back</div>
-                <div>Don't have an account? <Link to={"/signup"} style={{color:"orange"}}>Sign Up</Link></div>
+        <div style={{width:"100%",height:"100%",fontFamily:"l",position:"absolute",top:"0%",left:"0%",color:"rgb(50,50,50)",backgroundColor:"rgb(240,240,240)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+            <div style={{width:"90%",height:"90%",overflow:"scroll",boxShadow:"0px 0px 6px rgb(240,240,240)",backgroundColor:"white",borderRadius:"10px",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                <div style={{fontWeight:"bold",width:"90%",fontSize:"28px",marginTop:"30px"}}>Welcome back!</div>
+                <div style={{width:"90%",fontSize:"16px"}}>Don't have an account? <Link to={"/signup"} style={{color:"#fd7e14",textDecoration:"none"}}>Sign Up</Link></div>
                 <div style={{width:"90%",marginTop:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Email Address</div>
                     <input type="email" value={email} onChange={(e)=>{
                         set_email(e.target.value)
-                    }} placeholder="Enter Email" style={{width:"100%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                    }} placeholder="Enter Email" style={{width:"100%"}}/>
                 </div>
                 <div style={{width:"90%",marginTop:"20px",marginBottom:"20px",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"start"}}>
                     <div>Password</div>
                     <div style={{width:"100%",backgroundColor:"white",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                         <input type={eye?"text":"password"} value={password} onChange={(e)=>{
                             set_password(e.target.value)
-                        }} placeholder="Enter Password" style={{width:"90%",paddingTop:"10px",paddingBottom:"10px"}}/>
+                        }} placeholder="Enter Password" style={{width:"90%"}}/>
                         {eye==true?<FaEyeSlash size={23} style={{cursor:"pointer"}} onClick={()=>{
                             set_eye(!eye);
                         }}/>:<FaEye size={23} style={{cursor:"pointer"}} onClick={()=>{
@@ -210,7 +210,7 @@ function Login(){
                         }}/>}
                     </div>
                 </div>
-                <div style={{opacity:"1",width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
+                <div style={{opacity:"1",width:"90%",backgroundColor:"#fd7e14",borderRadius:"10px",color:"white",paddingTop:"20px",paddingBottom:"20px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){login()}}}>{loading==false?"Login":"Loading.."}</div>
                 <div style={{marginTop:"10px"}}>Forgot Password? <Link style={{color:"orange"}} onClick={()=>{set_show_token_email(true)}}>Recover</Link></div>
                 {/* <div style={{width:"90%",backgroundColor:"orange",borderRadius:"10px",color:"white",paddingTop:"10px",paddingBottom:"10px",textAlign:"center",cursor:"pointer"}} onClick={()=>{if(loading==false){set_c_p(true)}}}>{"Change password"}</div> */}
                 <div style={{marginTop:"10px",marginBottom:"10px"}}>Or</div>

@@ -7,6 +7,11 @@ import { MdManageAccounts } from "react-icons/md";
 import { data, Link, useSearchParams } from "react-router-dom";
 import Business_view from "./business_view";
 import Business_edit from "./business_edit";
+//import { s3 } from "./s3";
+import { S3Client,PutObjectCommand } from "@aws-sdk/client-s3";
+import {FetchHttpHandler} from "@aws-sdk/fetch-http-handler"
+
+
 
 function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
@@ -166,36 +171,54 @@ function Business({prop_set_q}){
         });
     }
 
+    const s3 = new S3Client({
+    region: "eu-west-1",
+    credentials: {
+        accessKeyId: "AKIASZPIVUO5LETSUJWI",
+        secretAccessKey: "code"
+    },
+    requestHandler: new FetchHttpHandler(),
+    })
+
         async function file_upload(file){
         set_loading(true);
         set_nw(`${Date.now().toString()}`);
-        await fetch(`https://nellalink.s3.eu-west-1.amazonaws.com/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,{
+        await fetch(`/api/entity/nellalink_business/${localStorage.getItem("uuid")}/info/logo/${nw}-${file.name}`,{
             method:"put",
             headers:{
                 "Content-Type": file.type,
-                "Authorization": "AWS4-HMAC-SHA256 Credential=AKIASZPIVUO5LETSUJWI/20260620/eu-west-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-user-agent, Signature=4e418ba57483f375bd0add943985ffd6aa42836ff830cef361bab60ab1de9b70",
-                "host": "nellalink.s3.eu-west-1.amazonaws.com",
-                "x-amz-content-sha256":"UNSIGNED-PAYLOAD",
-                "x-amz-date": "20260620T104352Z",
-                "x-amz-user-agent": "aws-sdk-js/2.1692.0 callback",
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "cross-site",
-                "origin": "http://localhost:5173/"
+                "x-api-key": api,
+               // "authorization":`AWS4-HMAC-SHA256 Credential=AKIASZPIVUO5LETSUJWI/${new Date().getFullYear()}${String(new Date().getUTCMonth()+1).padStart(2,"0")}${String(new Date().getUTCDate()).padStart(2,"0")}/eu-west-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-user-agent, Signature=0c8c9efdca1dd5662d8ef25f07c781a9782b2d2f6f3b120284a19d5d30f1531`
             },
             body: file
         }).then(async(res)=>{
             set_loading(false);
             if(!res.ok){
-                console.log("Upload failed:    ");
+                console.log("Upload failed:    ",res);
             }else{
                 await create_business(file,nw);
-                console.log("Upload Successful:    ");
+                console.log("Upload Successful:    ",res);
             }
         }).catch((err)=>{
             set_loading(false);
             console.log("Could not make upload request:    ",err);
         })
+  
+        // await s3.send(
+        //     new PutObjectCommand({
+        //         Bucket: "bucket-name",
+        //         Key: file.name,
+        //         Body: new Blob([file]),
+        //         ContentType: file.type,
+        //     })
+        // ).then((res)=>{
+        //     set_loading(false);
+        //     console.log("uplaoded:  ",res);
+        // }).catch((err)=>{
+        //     set_loading(false);
+        //     console.log("Nope:  ",err);
+        // })
+        
     }
     
 

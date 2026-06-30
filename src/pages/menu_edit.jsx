@@ -145,7 +145,7 @@ function Menu_edit({qr_nm,edit_uuid,edit_owned_by}){
     return (
         <div style={{width:"100%",height:"100%",fontSize:"16px",position:"absolute",top:"0%",left:"0%",backgroundColor:"white",display:"flex",flexDirection:"column",alignItems:"center",overflow:"scroll"}}>
             <div style={{width:"90%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",paddingTop:"5px",paddingBottom:"5px"}}>
-                <img src="" alt="..." style={{width:"90%",aspectRatio:"4/1",alignSelf:"center"}}/>
+                <img src="/35.png" alt="..." style={{width:"20%",aspectRatio:"1/1",alignSelf:"center"}}/>
                 <div>{qr_nm}</div>
             </div>
 
