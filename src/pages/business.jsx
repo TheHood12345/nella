@@ -17,7 +17,7 @@ import axios from "axios";
 function Business({prop_set_q}){
     const url="https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business";
     const api = "nll_95ea8f6437ee8358a029ac4da016b71e5a94";
-    const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=10&sort_by=uuid&sort_order=asc`;
+    const get_all_url = `https://backend-test.nellalink.com/public/api/v1/nellalink/smart-meta-manager/entity/nellalink_business?owned_by=${localStorage.getItem("uuid")}&page=1&parent_entity_type=&parent_entity_uuid=&per_page=${1000000}&sort_by=uuid&sort_order=asc`;
     const z = ["Filter Enabled, Disabled","Enabled","Disabled"];
     const [z_main,set_z_main]=useState("enabled");
     const [z_all,set_z_all]=useState("disabled");
@@ -181,7 +181,7 @@ function Business({prop_set_q}){
     // requestHandler: new FetchHttpHandler(),
     // })
 
-    const [file_url,set_file_url]=useState("");
+    // [file_url,set_file_url]=useState("");
         let complete_upload = async(body,file)=>{
             console.log(body);
             await fetch(body.upload_url,{
@@ -194,7 +194,7 @@ function Business({prop_set_q}){
             }
            
         ).then(async()=>{
-            set_file_url(body.file_url);
+          //  set_file_url(body.file_url);
             await create_business11(body.file_url);
         })
         }
@@ -216,11 +216,11 @@ function Business({prop_set_q}){
             body: JSON.stringify({
                 files: [
                     {
-                    "file_name": "logo.jpg",
+                    "file_name": file.name,//`logo.jpg`
                     "file_type": file.type,
                     "file_size": file.size,
-                    "visibility": "private",
-                    "directory": "business/logo"
+                    "visibility": "public",
+                    "directory": `business/logo/${localStorage.getItem("uuid")}`
                     }
                 ],
                 
@@ -476,7 +476,7 @@ function Business({prop_set_q}){
                             <div style={{width:"80%",display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                                 {/* <div style={{paddingRight:"10px",backgroundColor:"rgb(200,200,200)",borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"center",textAlign:"center"}}> */}
                                     {/* <FaImage size={30} color={"gray"} style={{paddingRight:"10px"}}/> */}
-                                    <img src={item.entity_featured_url} alt="..." style={{width:"30%",aspectRatio:"3/1"}}/>
+                                    <img src={item.entity_featured_url} alt="" style={{width:"30%",aspectRatio:"3/1"}}/>
                                 {/* </div> */}
                                 <div style={{width:"80%",display:"flex",flexDirection:"column",alignItems:"start"}}>
                                     <div style={{fontSize:"14px",colo:"black",fontWeight:"bolder"}}>{item.title_name}</div>
